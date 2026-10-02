@@ -1,0 +1,7204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kessler Syndrome Primer | Monolith Learning Systems</title>
+
+<style>
+:root{
+  --navy:#1B1E3E;
+  --blue:#1D3052;
+  --deep:#2B4D6B;
+  --steel:#37596E;
+  --gold:#E3C170;
+  --amber:#FAD493;
+  --ink:#212529;
+  --pale:#F3F5F7;
+  --line:#CCD4DC;
+  --review:#FFF5E3;
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+
+body{
+  margin:0;
+  background:#E8EDF1;
+  color:var(--ink);
+  font:16px/1.48 "Funnel Sans","Segoe UI",Arial,sans-serif;
+}
+
+button,input,select,summary{font:inherit}
+
+button{
+  min-height:44px;
+  padding:9px 14px;
+  border:1px solid var(--steel);
+  border-radius:5px;
+  background:white;
+  color:var(--blue);
+  font-weight:600;
+  cursor:pointer;
+}
+
+button:hover:not(:disabled),
+summary:hover{
+  background:var(--review);
+}
+
+button:disabled{
+  cursor:not-allowed;
+  color:#58616A;
+  border-color:var(--line);
+  background:var(--pale);
+}
+
+button.primary{
+  background:var(--gold);
+  color:var(--navy);
+  border-color:var(--navy);
+}
+
+button.primary:disabled{
+  background:var(--pale);
+  color:#58616A;
+  border-color:var(--line);
+}
+
+:focus-visible{
+  outline:3px solid var(--deep);
+  outline-offset:3px;
+}
+
+h1,h2,h3,h4,p,figure{
+  margin:0 0 12px;
+}
+
+h1{
+  color:var(--navy);
+  font-size:1.65rem;
+  line-height:1.2;
+}
+
+h2{
+  color:var(--blue);
+  font-size:1.15rem;
+}
+
+h3,h4{
+  color:var(--blue);
+  font-size:1rem;
+}
+
+p:last-child{margin-bottom:0}
+.small{font-size:.88rem}
+
+.sr-only,
+.skip:not(:focus){
+  position:absolute;
+  width:1px;
+  height:1px;
+  margin:-1px;
+  padding:0;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+.skip:focus{
+  position:fixed;
+  top:8px;
+  left:8px;
+  z-index:30;
+  padding:12px;
+  background:white;
+}
+
+.player{
+  width:min(
+    calc(100vw - 24px),
+    1440px,
+    calc((100dvh - 24px)*16/9)
+  );
+  aspect-ratio:16/9;
+  max-height:calc(100dvh - 24px);
+  margin:12px auto;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  background:white;
+  border:1px solid var(--navy);
+  border-radius:8px;
+  box-shadow:0 10px 35px #1B1E3E20;
+}
+
+.player.reading{
+  width:min(calc(100vw - 24px),1440px);
+  height:calc(100dvh - 24px);
+  aspect-ratio:auto;
+}
+
+.topbar{
+  flex:none;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:6px 14px;
+  color:white;
+  background:var(--navy);
+}
+
+.topbar button{
+  font-size:.85rem;
+  background:transparent;
+  color:white;
+  border-color:#AEB8C9;
+}
+
+.topbar button:hover:not(:disabled){
+  color:var(--navy);
+  background:var(--amber);
+}
+
+.topbar button:disabled{
+  color:#BFC7D3;
+  border-color:#65738A;
+}
+
+.topbar :focus-visible,
+.menu :focus-visible{
+  outline-color:var(--amber);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-right:auto;
+  min-width:0;
+}
+
+.brand small{
+  display:block;
+  font-size:.68rem;
+  letter-spacing:.04em;
+  color:var(--amber);
+}
+
+.brand strong{
+  display:block;
+  font-size:1rem;
+}
+
+.logo-wrap{
+  --mark:28px;
+  display:inline-flex;
+  flex:none;
+  padding:calc(var(--mark)/2);
+  background:white;
+  border-radius:3px;
+}
+
+.logo-wrap img{
+  height:var(--mark);
+  width:auto;
+  display:block;
+}
+
+.tools{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.workspace{
+  flex:1;
+  min-height:0;
+  display:flex;
+  overflow:hidden;
+}
+
+.menu{
+  flex:0 0 215px;
+  padding:14px 8px;
+  background:var(--blue);
+  color:white;
+  overflow:auto;
+}
+
+.menu h2{
+  color:white;
+  font-size:1rem;
+  margin:0 10px 14px;
+}
+
+.menu-group{
+  margin-bottom:5px;
+}
+
+.menu-heading{
+  width:100%;
+  text-align:left;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  border:0;
+  min-height:40px;
+  padding:10px;
+  font-size:.84rem;
+  color:var(--amber);
+  background:transparent;
+}
+
+.menu-heading:hover:not(:disabled){
+  background:var(--deep);
+}
+
+.menu ol{
+  list-style:none;
+  margin:0;
+  padding:0 0 5px;
+}
+
+.menu-item{
+  display:flex;
+  align-items:flex-start;
+  gap:7px;
+  width:100%;
+  text-align:left;
+  min-height:38px;
+  padding:8px 10px;
+  margin:2px 0;
+  border:1px solid transparent;
+  color:white;
+  background:transparent;
+  font-size:.81rem;
+  line-height:1.35;
+  font-weight:400;
+}
+
+.menu-item:disabled{
+  color:#BEC9D7;
+  background:transparent;
+  border-color:transparent;
+}
+
+.menu-item:hover:not(:disabled){
+  background:var(--deep);
+  color:white;
+}
+
+.menu-item[aria-current="page"]{
+  color:var(--navy);
+  background:var(--amber);
+  font-weight:700;
+}
+
+.menu .mark{
+  flex:0 0 13px;
+}
+
+.menu-collapsed .menu{
+  display:none;
+}
+
+.canvas{
+  flex:1;
+  min-width:0;
+  min-height:0;
+  overflow:auto;
+  padding:22px 25px;
+  scroll-padding:20px;
+}
+
+.canvas.welcome{
+  background:var(--amber);
+}
+
+.canvas [tabindex="-1"]:focus{
+  outline:none;
+}
+
+.screen-body{
+  margin-top:18px;
+}
+
+.two,
+.objectives{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.card{
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:17px 19px;
+  margin-bottom:16px;
+  background:white;
+}
+
+.objectives{
+  list-style:none;
+  margin:0;
+  padding:0;
+  gap:12px;
+}
+
+.objectives .card{
+  margin:0;
+}
+
+.objectives h3{
+  margin-bottom:5px;
+}
+
+.goal{
+  color:white;
+  background:var(--navy);
+}
+
+.goal h2{
+  color:var(--amber);
+}
+
+.guide{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:17px;
+}
+
+.guide p{
+  margin:0;
+}
+
+.guide-label{
+  color:var(--steel);
+  font-size:.76rem;
+  font-weight:700;
+  margin-bottom:3px;
+}
+
+.avatar{
+  position:relative;
+  width:47px;
+  height:47px;
+  flex:none;
+  overflow:hidden;
+  border-radius:50%;
+  border:2px solid var(--gold);
+  background:var(--blue);
+}
+
+.avatar::before{
+  content:"";
+  position:absolute;
+  top:5px;
+  left:13px;
+  width:17px;
+  height:20px;
+  border-radius:45%;
+  background:var(--amber);
+}
+
+.avatar::after{
+  content:"";
+  position:absolute;
+  left:4px;
+  top:27px;
+  width:35px;
+  height:25px;
+  border-radius:50% 50% 0 0;
+  background:var(--steel);
+  border:2px solid var(--amber);
+}
+
+.mission-feedback{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  margin:18px 0 6px;
+  padding:15px 17px;
+  border:1px solid #D8C47F;
+  border-left:5px solid var(--gold);
+  border-radius:6px;
+  background:var(--review);
+}
+
+.mission-feedback .guide-label{
+  color:var(--blue);
+  margin-bottom:3px;
+}
+
+.mission-feedback h3{
+  margin:0 0 5px;
+  color:var(--navy);
+  font-size:1.05rem;
+}
+
+.mission-feedback p{
+  margin:0;
+}
+
+.callout{
+  margin:15px 0;
+  padding:13px 16px;
+  border-left:4px solid var(--gold);
+  background:var(--pale);
+}
+
+/* Visible but secondary session-status notice. */
+.session-notice{
+  margin:15px 0;
+  padding:11px 14px;
+  border:1px solid var(--line);
+  border-left:4px solid var(--steel);
+  border-radius:5px;
+  background:var(--pale);
+  color:var(--ink);
+  font-size:.88rem;
+}
+
+.session-notice strong{
+  color:var(--blue);
+}
+
+.branches{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:15px;
+}
+
+.branch-card{
+  display:flex;
+  flex-direction:column;
+  padding:18px;
+  border:1px solid var(--line);
+  border-top:4px solid var(--deep);
+  border-radius:6px;
+}
+
+.branch-card h2{
+  margin-top:10px;
+}
+
+.branch-card button{
+  margin-top:auto;
+}
+
+.status{
+  font-size:.85rem;
+  color:var(--steel);
+  font-weight:600;
+}
+
+.hub-summary{
+  margin:17px 0 6px;
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:22px;
+  list-style:none;
+  padding:0;
+  margin:18px 0 12px;
+}
+
+.flow li{
+  position:relative;
+  background:var(--pale);
+  border-radius:6px;
+  padding:15px;
+}
+
+.flow li:not(:last-child)::after{
+  content:"→";
+  position:absolute;
+  right:-21px;
+  top:40%;
+  color:var(--deep);
+  font-size:1.35rem;
+}
+
+.flow h2{
+  margin-top:12px;
+}
+
+.art-frame{
+  aspect-ratio:16/9;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:4px;
+  overflow:hidden;
+  position:relative;
+}
+
+.art-frame img,
+.art-frame svg{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.art-placeholder{
+  height:100%;
+  position:relative;
+}
+
+.placeholder-label{
+  position:absolute;
+  top:5px;
+  left:7px;
+  padding:2px 6px;
+  background:white;
+  color:var(--steel);
+  font-size:.7rem;
+  border:1px solid var(--line);
+  border-radius:3px;
+}
+
+.diagram-note{
+  color:var(--steel);
+  font-size:.88rem;
+}
+
+.decision-layout{
+  display:grid;
+  grid-template-columns:minmax(250px,.85fr) minmax(0,1.4fr);
+  gap:22px;
+  align-items:start;
+}
+
+.report{
+  border:1px solid var(--line);
+  border-radius:7px;
+  overflow:hidden;
+  background:white;
+  min-width:0;
+}
+
+.report-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:13px 16px;
+  color:white;
+  background:var(--deep);
+}
+
+.report-label{
+  font-size:.8rem;
+  color:var(--amber);
+  margin:0 0 4px;
+  font-weight:600;
+}
+
+.report-title{
+  font-size:1.03rem;
+  color:white;
+  margin:0;
+}
+
+.report-meta{
+  font-size:.85rem;
+  margin:3px 0 0;
+}
+
+.report-clock{
+  flex:none;
+  border:1px solid #FFFFFF80;
+  border-radius:4px;
+  padding:6px 10px;
+  text-align:center;
+}
+
+.report-clock span{
+  display:block;
+  font-size:.75rem;
+}
+
+.report-clock strong{
+  display:block;
+  color:var(--amber);
+  font-variant-numeric:tabular-nums;
+}
+
+.report-fields{
+  margin:0;
+  padding:0;
+}
+
+.report-row{
+  padding:10px 16px;
+  border-bottom:1px solid var(--line);
+}
+
+.report-row:nth-child(even){
+  background:var(--pale);
+}
+
+.report-row:last-child{
+  border-bottom:0;
+}
+
+.report-row dt{
+  font-size:.86rem;
+  font-weight:700;
+  color:var(--steel);
+  margin-bottom:3px;
+}
+
+.report-row dd{
+  font-size:.94rem;
+  margin:0;
+}
+
+.report-row.cued{
+  border-left:4px solid var(--gold);
+  padding-left:12px;
+  background:var(--review);
+}
+
+.report-footer,
+.report-note{
+  padding:10px 16px;
+  border-top:1px solid var(--line);
+}
+
+.report-footer button{
+  min-height:38px;
+  padding:6px 10px;
+  font-size:.85rem;
+}
+
+.report-note p{
+  font-size:.92rem;
+}
+
+.report--expanded .report-row{
+  display:grid;
+  grid-template-columns:140px minmax(0,1fr);
+  gap:15px;
+  padding:12px 16px;
+  align-items:baseline;
+}
+
+.report--expanded .report-row dt{
+  margin:0;
+}
+
+.evidence-strip{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0;
+}
+
+.evidence-strip div{
+  flex:1 1 130px;
+  padding:10px 12px;
+  border-left:3px solid var(--gold);
+  background:var(--pale);
+}
+
+.evidence-strip strong{
+  display:block;
+  color:var(--blue);
+  font-variant-numeric:tabular-nums;
+}
+
+.evidence-strip span{
+  display:block;
+  font-size:.87rem;
+}
+
+fieldset{
+  border:0;
+  padding:0;
+  margin:0 0 15px;
+  min-width:0;
+}
+
+legend{
+  width:100%;
+  padding:0 0 9px;
+  font-weight:600;
+  color:var(--blue);
+}
+
+.choice{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  border:1px solid var(--line);
+  border-radius:5px;
+  padding:11px 13px;
+  margin:8px 0;
+  cursor:pointer;
+}
+
+.choice:hover{
+  border-color:var(--deep);
+}
+
+.choice:has(input:checked){
+  border-color:var(--deep);
+  box-shadow:inset 0 0 0 1px var(--deep);
+  background:var(--pale);
+}
+
+.choice input{
+  width:18px;
+  height:18px;
+  flex:none;
+  margin:3px 0 0;
+  accent-color:var(--blue);
+}
+
+.choice span{
+  font-size:.95rem;
+}
+
+.choice strong{
+  color:var(--blue);
+}
+
+.pair-steps{
+  display:flex;
+  gap:8px;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+}
+
+.pair-steps button{
+  font-size:.87rem;
+  padding:7px 11px;
+}
+
+.pair-steps button[aria-pressed="true"]{
+  background:var(--blue);
+  color:white;
+}
+
+.selected{
+  padding:12px 14px;
+  margin-bottom:14px;
+  border-radius:5px;
+  background:var(--pale);
+  font-size:.94rem;
+}
+
+.selected strong{
+  color:var(--blue);
+}
+
+.feedback{
+  border-left:4px solid var(--deep);
+  background:var(--pale);
+  padding:15px 17px;
+  margin:14px 0;
+}
+
+.feedback.needs{
+  border-color:var(--gold);
+}
+
+.response-card,
+.decision-result{
+  border-top:4px solid var(--deep);
+}
+
+.feedback-part + .feedback-part{
+  border-top:1px solid var(--line);
+  margin-top:13px;
+  padding-top:13px;
+}
+
+.feedback-part h3{
+  margin-bottom:6px;
+}
+
+.verdict{
+  display:inline-block;
+  font-size:.86rem;
+  font-weight:600;
+  padding:4px 9px;
+  margin:0 0 10px;
+  border:1px solid var(--steel);
+  border-radius:4px;
+  color:var(--blue);
+  background:var(--pale);
+}
+
+.verdict.review{
+  color:var(--ink);
+  border-color:var(--gold);
+  background:var(--review);
+}
+
+.match-row{
+  display:block;
+  margin-bottom:18px;
+}
+
+.match-row span{
+  display:block;
+  color:var(--blue);
+  font-weight:600;
+  margin-bottom:7px;
+}
+
+select{
+  width:100%;
+  min-height:44px;
+  border:1px solid var(--steel);
+  border-radius:4px;
+  padding:8px;
+  background:white;
+  color:var(--ink);
+}
+
+.assessment-label{
+  margin:0 0 15px;
+  padding:9px 12px;
+  color:var(--blue);
+  background:var(--pale);
+  border-left:4px solid var(--deep);
+  font-size:.91rem;
+}
+
+.score-map{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin:14px 0;
+}
+
+.score-map div{
+  padding:10px;
+  background:var(--pale);
+  border:1px solid var(--line);
+  border-radius:5px;
+  font-size:.85rem;
+}
+
+.score-map strong,
+.score-map span{
+  display:block;
+}
+
+.score-map .two-points{
+  border:2px solid var(--deep);
+}
+
+.results-summary{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+
+.score{
+  display:block;
+  color:var(--navy);
+  font-size:1.65rem;
+  font-weight:700;
+}
+
+.review-nav{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin:12px 0 18px;
+}
+
+.review-nav button{
+  text-align:left;
+  padding:10px 12px;
+  border-color:var(--line);
+}
+
+.review-nav button[aria-current="page"]{
+  border:2px solid var(--deep);
+  padding:9px 11px;
+  background:var(--pale);
+}
+
+.review-nav strong,
+.review-nav span{
+  display:block;
+}
+
+.review-nav span{
+  font-size:.82rem;
+  font-weight:400;
+  margin-top:3px;
+}
+
+.review-stage{
+  font-size:.85rem;
+  color:var(--steel);
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+.practice{
+  border:2px solid var(--deep);
+  padding:17px;
+  border-radius:6px;
+  margin:0 0 16px;
+  background:white;
+}
+
+.practice-launch{
+  border-left:4px solid var(--gold);
+  background:var(--review);
+  padding:15px 17px;
+  margin-top:16px;
+}
+
+.practice-launch h3{
+  margin-bottom:7px;
+}
+
+.practice .feedback{
+  margin-bottom:0;
+}
+
+.practice-top{
+  display:flex;
+  gap:12px;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.practice-top p{
+  margin:0;
+}
+
+.practice-note{
+  font-size:.88rem;
+  color:var(--steel);
+}
+
+.practice-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.optional-details{
+  margin:12px 0;
+  border-top:1px solid var(--line);
+}
+
+.optional-details summary{
+  cursor:pointer;
+  min-height:44px;
+  padding:10px 4px;
+  color:var(--blue);
+  font-weight:600;
+}
+
+.optional-details div{
+  padding:8px 4px;
+}
+
+.media-block{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(210px,1fr);
+  gap:8px 14px;
+  align-items:center;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:12px 14px;
+  margin-bottom:16px;
+  background:white;
+}
+
+.media-block h2{
+  font-size:1rem;
+  margin:0;
+}
+
+.media-block .optional-details,
+.media-block .audio-caption,
+.media-block .media-error{
+  grid-column:1/-1;
+}
+
+.media-block .optional-details{
+  margin:0;
+}
+
+.media-block audio{
+  display:block;
+  width:100%;
+  min-width:0;
+}
+
+.caption-toggle{
+  font-size:.85rem;
+  justify-self:start;
+}
+
+.caption-toggle[aria-pressed="true"]{
+  background:var(--blue);
+  color:white;
+}
+
+.audio-caption{
+  padding:16px 20px;
+  min-height:4.8em;
+  background:var(--navy);
+  color:white;
+  border-radius:4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:1.12rem;
+  line-height:1.55;
+  font-weight:500;
+}
+
+.audio-caption span{
+  max-width:70ch;
+}
+
+.media-error{
+  font-size:.9rem;
+  color:var(--steel);
+}
+
+.certificate{
+  border:3px double var(--deep);
+  padding:20px 28px;
+  text-align:center;
+  background:white;
+}
+
+.certificate .logo-wrap{
+  --mark:40px;
+}
+
+.certificate h2{
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  font-size:1.4rem;
+}
+
+.certificate h3{
+  font-size:1.55rem;
+  margin:16px 0;
+}
+
+.certificate .recipient{
+  font-size:1.3rem;
+  padding:10px 0;
+  overflow-wrap:anywhere;
+}
+
+.certificate .qualifier{
+  border-top:1px solid var(--line);
+  padding-top:14px;
+  margin-top:20px;
+  font-size:.9rem;
+}
+
+.name-field{
+  display:block;
+  margin:16px 0;
+}
+
+.name-field input{
+  display:block;
+  width:min(100%,440px);
+  padding:10px;
+  margin-top:6px;
+  border:1px solid var(--steel);
+  border-radius:4px;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:16px 0;
+}
+
+.playerbar{
+  flex:none;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;
+  gap:18px;
+  padding:11px 16px;
+  border-top:1px solid var(--line);
+  background:var(--pale);
+}
+
+.progress-line{
+  display:flex;
+  gap:12px;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  font-size:.8rem;
+  color:var(--steel);
+}
+
+progress{
+  display:block;
+  width:100%;
+  height:7px;
+  margin-top:6px;
+  accent-color:var(--deep);
+  border:0;
+}
+
+progress::-webkit-progress-bar{
+  background:var(--line);
+  border-radius:7px;
+}
+
+progress::-webkit-progress-value{
+  background:var(--deep);
+  border-radius:7px;
+}
+
+progress::-moz-progress-bar{
+  background:var(--deep);
+  border-radius:7px;
+}
+
+#actionHint{
+  font-size:.8rem;
+  color:var(--steel);
+  margin-top:5px;
+}
+
+dialog{
+  width:min(800px,calc(100% - 28px));
+  max-height:85dvh;
+  padding:0;
+  border:2px solid var(--navy);
+  border-radius:7px;
+  color:var(--ink);
+}
+
+dialog::backdrop{
+  background:#1B1E3EA8;
+}
+
+.dialog-head{
+  position:sticky;
+  top:0;
+  display:flex;
+  gap:16px;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 18px;
+  background:var(--navy);
+  z-index:1;
+}
+
+.dialog-head h2{
+  color:white;
+  margin:0;
+}
+
+.dialog-head :focus-visible{
+  outline-color:var(--amber);
+}
+
+.dialog-body{
+  padding:18px;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+
+.screen-text{
+  white-space:pre-line;
+}
+
+.print-only{
+  display:none;
+}
+
+@media(max-width:1100px){
+  .menu{flex-basis:190px}
+  .canvas{padding:18px}
+
+  .decision-layout{
+    gap:16px;
+    grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr);
+  }
+
+  .topbar{gap:8px}
+  .brand strong{font-size:.91rem}
+  .tools{gap:5px}
+  .tools button{padding:8px 10px}
+}
+
+@media(max-width:900px){
+  .topbar{flex-wrap:wrap}
+
+  .tools{
+    justify-content:flex-end;
+    width:100%;
+    padding-bottom:4px;
+  }
+
+  .brand{flex:1}
+  .workspace{flex-direction:column}
+
+  .menu{
+    flex:0 0 auto;
+    width:100%;
+    max-height:40%;
+  }
+
+  .two,
+  .objectives,
+  .decision-layout,
+  .branches,
+  .flow{
+    grid-template-columns:1fr;
+  }
+
+  .flow{gap:20px}
+
+  .flow li:not(:last-child)::after{
+    content:"↓";
+    right:50%;
+    top:auto;
+    bottom:-25px;
+  }
+
+  .playerbar{
+    gap:9px;
+    padding:10px;
+    grid-template-columns:auto 1fr;
+  }
+
+  .progress-group{
+    grid-column:1/-1;
+    grid-row:2;
+  }
+
+  #nextButton{justify-self:end}
+  h1{font-size:1.4rem}
+}
+
+@media(max-width:540px){
+  .player,
+  .player.reading{
+    margin:6px auto;
+    width:calc(100vw - 12px);
+    height:calc(100dvh - 12px);
+    max-height:calc(100dvh - 12px);
+    aspect-ratio:auto;
+  }
+
+  .canvas{padding:16px}
+
+  .review-nav,
+  .score-map{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .media-block{
+    grid-template-columns:1fr;
+  }
+
+  .report--expanded .report-row{
+    grid-template-columns:1fr;
+    gap:3px;
+  }
+
+  .dialog-body{padding:12px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto!important}
+}
+
+@media print{
+  @page{size:landscape;margin:18mm}
+  body{background:white}
+  body>*{display:none!important}
+  #printSheet{display:block!important}
+  .certificate{border-color:black}
+}
+</style>
+</head>
+
+<body>
+
+<a class="skip" href="#screenTitle">Skip to lesson</a>
+
+<section id="player" class="player" aria-label="Kessler Syndrome learning module">
+
+  <header class="topbar">
+
+    <button id="menuButton" aria-controls="menu" aria-expanded="true">
+      Menu
+    </button>
+
+    <div class="brand">
+
+      <span class="logo-wrap">
+        <img
+          id="brandLogo"
+          alt="Monolith logo"
+          width="64"
+          height="88"
+        >
+      </span>
+
+      <div>
+        <small>MONOLITH LEARNING SYSTEMS</small>
+        <strong>Kessler Syndrome Primer</strong>
+      </div>
+
+    </div>
+
+    <div class="tools">
+
+      <button id="hubButton" hidden>
+        Checkpoints
+      </button>
+
+      <button id="textButton" aria-haspopup="dialog">
+        Screen text
+      </button>
+
+      <button id="helpButton" aria-haspopup="dialog">
+        Help
+      </button>
+
+      <button id="readingButton" aria-pressed="false">
+        Reading view
+      </button>
+
+    </div>
+
+  </header>
+
+  <div class="workspace">
+
+    <nav id="menu" class="menu" aria-label="Lesson screens">
+      <h2>Contents</h2>
+      <div id="menuList"></div>
+    </nav>
+
+    <main
+      id="canvas"
+      class="canvas"
+      aria-labelledby="screenTitle"
+    ></main>
+
+  </div>
+
+  <footer class="playerbar">
+
+    <button id="backButton">
+      Back
+    </button>
+
+    <div class="progress-group">
+
+      <div class="progress-line">
+        <span id="position"></span>
+        <label id="progressLabel" for="progress"></label>
+      </div>
+
+      <progress id="progress" max="20" value="0">
+        0 of 20 steps
+      </progress>
+
+      <p
+        id="actionHint"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></p>
+
+    </div>
+
+    <button id="nextButton" class="primary">
+      Continue
+    </button>
+
+  </footer>
+
+</section>
+
+<dialog id="dialog" aria-labelledby="dialogTitle">
+
+  <div class="dialog-head">
+    <h2 id="dialogTitle"></h2>
+    <button id="closeDialog">Close</button>
+  </div>
+
+  <div id="dialogBody" class="dialog-body"></div>
+
+</dialog>
+
+<section id="printSheet" class="print-only" aria-hidden="true">
+  <p>Complete the lesson before printing a certificate.</p>
+</section>
+
+<div
+  id="announce"
+  class="sr-only"
+  role="status"
+  aria-live="polite"
+></div>
+
+<noscript>
+  This lesson requires JavaScript.
+  Enable it in your browser and reopen this page.
+</noscript>
+
+<script>
+"use strict";
+
+/* ================================================================
+   AUTHOR NOTES
+
+   - Human-recorded audio is loaded locally from Assets/Audio.
+   - Images are loaded locally from Assets/Images.
+   - No external libraries, APIs, or LMS reporting.
+   - Audio playback is optional and is not a completion gate.
+   - Transcripts remain available under each audio player.
+   - Captions are timed to the current MP3 recordings.
+   - Mission Lead feedback appears after every checkpoint outcome.
+   - Mission Lead feedback changes based on the learner's action/reason pair.
+   - Progress persists only while the current browser session remains open.
+   - Original assessment scoring and follow-up practice remain unchanged.
+   ================================================================ */
+
+const LOGO="data:image/webp;base64,"+[
+  "UklGRiQFAABXRUJQVlA4WAoAAAAQAAAAPwAAVwAAQUxQSFgCAAABoIRteynheb8kv23btq31X+tM",
+  "bWNl2zZW7dK23a1t2+3kS94ycyapVxExAfi325iyxAJWCrLArDmALcUY9D616U/vAzEliAOq10jy",
+  "jZ0AK9lZYO6dpI/05L0LAZeXEfQ7q0kNJBmUesFgiM1HLLDjW6TyD5X8YB+BlUwcsPBe0kemevKx",
+  "1YDLwQgGnq/UyBajklePBGy7xAK7v0sqawyRnx7iYE1bHLDkQdKzZiWfWQ84qc0CQy+L1Mjao5LX",
+  "jgdsPWJh9/uIUdnWEPjV4V1gTA0OWP0k6dl2JZ/dCDhpwQAjryY1MsPoyesmA5IksAd9yhiYaQj8",
+  "9rhukAQj054mlRkr+fw0MX/kcDR/jMw6/sg94FIODZ6Z+7BD2uHMj1XaEX89yu0K86yKaxRX/eU1",
+  "/vKq4rYrrvrXZ7u0w0uo0o4ooVFc9TdPuW1hnlVxjeKqv32N4qq0w4s7ooRG2uElbF9cVZhyu7TD",
+  "8vPcMe1wbebW1F3SDmHQvDy5TYpI75N/YAj5hMiP9+8sSJ9xM+ljHlHJK4ehRXHAps+SmoMnH1kJ",
+  "uBYAY9Dl8C8ZQrs08r09BFZQowXGXkNqbEdUhgsGQizqFQdseJr0tUVP3rcIcKjfWNj9PmLUepR8",
+  "ayfACtpqgaGXRGpsLSibZ/eDGLTdAUsfIH1Mi568ay5gkaNYYKc3SU1R8vUG4ASZGkHfM36iht8L",
+  "yh9P7Q1jkLEFZt9G+khGT946E7DIWxyw9cukKvnSVoATZG8MepzwHfnt8d1hDIq0wJSbbpoMWJQq",
+  "DgCcoGBjjMH/HAFWUDggpgIAANAOAJ0BKkAAWAA+nTyZSKWmoiIz9EnI0BOJZQDGJbjJi6YB+gHA",
+  "qX5y/PSAGZ14+tQP9WN9jUtV+IeOrh7zTjKEDrbxIwOHm/CA3kiPSqkMBOwiYq2Xvn/mqnApuszj",
+  "CWhsYp3nChSgHKJnicowHw7n7xqh6Un7m7Rf99X98kAA/vxc28wWF1QhybxzXWwd5FKOYTMwGgmV",
+  "vyTV5hduMAqvMlSas8gzeOmEuMT7kDCofbTKxpBUd2SWMRUm+iXywHB+uMSW7qFyLZfANn2JNN8r",
+  "V+Cr/3L/1L2lf/2/DVEw/JswiQ+wM6+iz4VeRDUhGwGwf1rLB59LKwe8tQ+7XiGf0bidj9xG///2",
+  "gqWQ+TfzfkGs2QoccGNS3IjLysgPPx1Z9aM7aD/CRI8jLfp7baUEGuHI8nSXqtLblH4+q4TJTqfy",
+  "hw7mYS3uQ3erFzALO9BukLMqEOimrpKMmqjAQPwgIde+llpOR/E6aHrw23ZH7BkZAl+y9bI9R6qB",
+  "MKPmQmvg+QyP1mh31xnh1eqEvDq1+BZNj0gKNGKv2my4V1Ey9c7FsgLuHxrF5M9ahpSQ6nnwZBDs",
+  "A+V1wHyDMXQSTsHRJg/uULLuJhddlkp13+p/t40thrwjCtjTh3aiy2NkZrIMUr9IDPxyWWGrjiWt",
+  "Fy7WUxQNvlcNUNrpk3VteGMNVEz2iZ1xutmDUzNNSA6tZqp0xa+H+QG/4UTSuahqF/c1cyTI7yEp",
+  "KgeH/r7URWjr5E9TPsPSBpVicCZ+E8gE1RlsKtBDVb/Dflm0DXGhBQ9QsS7XI3fIHnklbUW3Jt2E",
+  "Okv9biyi8AfN6gIHrvs1KJD0gGkLVciCzJH2sExR66E2LP0eQ8c56Ilaai0i5llfB8GJSGpt7Ffn",
+  "4qsJEJzx9vm3AAAAAA=="
+].join("");
+
+const MEDIA={
+  intro:{
+    title:"SME introduction",
+    src:"Assets/Audio/01-sme-introduction.mp3",
+    cues:[
+      {start:0.81,end:1.81,text:"Welcome."},
+      {start:2.17,end:3.76,text:"When two objects collide in orbit,"},
+      {start:3.76,end:5.87,text:"the problem doesn’t end with that impact."},
+      {start:6.21,end:9.16,text:"The debris left behind can threaten other spacecraft."},
+      {start:9.55,end:10.98,text:"That’s the risk we’ll explore"},
+      {start:10.98,end:12.93,text:"in this primer on Kessler Syndrome."},
+      {start:13.39,end:16.04,text:"You’ll be the Mission Control Officer for LYRA-1,"},
+      {start:16.22,end:18.03,text:"a fictional crewed research mission."},
+      {start:18.37,end:20.57,text:"Your job is to read each report,"},
+      {start:20.76,end:22.15,text:"recommend a response,"},
+      {start:22.27,end:24.05,text:"and choose the reason that supports it."},
+      {start:24.47,end:27.54,text:"The mission team decides whether to authorize any action."},
+      {start:28.36,end:31.17,text:"We’ll start with a quick explanation and an example."},
+      {start:31.47,end:33.20,text:"Then you’ll work through three checkpoints"},
+      {start:33.20,end:35.03,text:"in whatever order you choose."},
+      {start:35.40,end:38.25,text:"After the assessment, you’ll review your answers"},
+      {start:38.25,end:40.46,text:"and practice any ideas you missed."},
+      {start:40.90,end:41.90,text:"Take your time."},
+      {start:42.15,end:44.77,text:"You can pause the audio or open the transcript."}
+    ],
+    script:[
+      "Welcome. When two objects collide in orbit, the problem doesn’t end with that impact. The debris left behind can threaten other spacecraft. That’s the risk we’ll explore in this primer on Kessler Syndrome.",
+      "You’ll be the Mission Control Officer for LYRA-1, a fictional crewed research mission. Your job is to read each report, recommend a response, and choose the reason that supports it. The mission team decides whether to authorize any action.",
+      "We’ll start with a quick explanation and an example. Then you’ll work through three checkpoints in whatever order you choose. After the assessment, you’ll review your answers and practice any ideas you missed.",
+      "Take your time. You can pause the audio or open the transcript."
+    ]
+  },
+
+  concept:{
+    title:"How collisions create continuing risk",
+    src:"Assets/Audio/02-cascading-collisions.mp3",
+    cues:[
+      {start:0.59,end:1.88,text:"Look at the first image."},
+      {start:2.30,end:5.07,text:"Two objects collide and leave fragments behind."},
+      {start:5.43,end:7.56,text:"Now follow the gold fragment with the notch"},
+      {start:7.56,end:8.86,text:"into the second image."},
+      {start:9.07,end:10.41,text:"It’s still moving in orbit,"},
+      {start:10.41,end:12.20,text:"and it could hit another object."},
+      {start:12.94,end:15.43,text:"The third image shows one possible result:"},
+      {start:15.61,end:17.81,text:"another collision creates more fragments."},
+      {start:18.07,end:20.78,text:"Those fragments can lead to still more collisions."},
+      {start:21.15,end:24.15,text:"That’s the cascading process behind Kessler Syndrome."},
+      {start:24.86,end:27.45,text:"This isn’t an immediate chain of explosions,"},
+      {start:27.45,end:29.47,text:"and another collision isn’t certain."},
+      {start:29.83,end:31.93,text:"The point is that avoiding one encounter"},
+      {start:31.93,end:33.78,text:"doesn’t clear away the debris."},
+      {start:34.22,end:36.28,text:"Other spacecraft and later activities"},
+      {start:36.28,end:37.75,text:"can still be at risk."}
+    ],
+    script:[
+      "Look at the first image. Two objects collide and leave fragments behind. Now follow the gold fragment with the notch into the second image. It’s still moving in orbit, and it could hit another object.",
+      "The third image shows one possible result: another collision creates more fragments. Those fragments can lead to still more collisions. That’s the cascading process behind Kessler Syndrome.",
+      "This isn’t an immediate chain of explosions, and another collision isn’t certain. The point is that avoiding one encounter doesn’t clear away the debris. Other spacecraft and later activities can still be at risk."
+    ]
+  },
+
+  model:{
+    title:"How I read this mission report",
+    src:"Assets/Audio/03-mission-report-example.mp3",
+    cues:[
+      {start:0.29,end:2.20,text:"Let’s work through this report together."},
+      {start:2.69,end:5.38,text:"The research observation, OBS-A,"},
+      {start:5.52,end:7.14,text:"has moved to a later time."},
+      {start:7.44,end:8.94,text:"But the earlier debris assessment"},
+      {start:8.94,end:10.76,text:"covered only the original time."},
+      {start:11.02,end:13.24,text:"So it doesn’t tell us whether the observation"},
+      {start:13.24,end:15.24,text:"should go ahead on the new schedule."},
+      {start:15.89,end:18.65,text:"Now look at when we can get updated analysis."},
+      {start:18.87,end:21.34,text:"It’s available before the team has to decide."},
+      {start:22.02,end:24.00,text:"I’d ask for that analysis first."},
+      {start:24.56,end:27.99,text:"Moving the observation doesn’t automatically make it unsafe."},
+      {start:28.20,end:30.58,text:"It means we need to check the revised plan."},
+      {start:30.98,end:33.38,text:"As you work through the checkpoints, ask yourself:"},
+      {start:33.87,end:37.19,text:"which details in this report support my recommendation?"}
+    ],
+    script:[
+      "Let’s work through this report together. The research observation, OBS-A, has moved to a later time. But the earlier debris assessment covered only the original time. So it doesn’t tell us whether the observation should go ahead on the new schedule.",
+      "Now look at when we can get updated analysis. It’s available before the team has to decide. I’d ask for that analysis first.",
+      "Moving the observation doesn’t automatically make it unsafe. It means we need to check the revised plan. As you work through the checkpoints, ask yourself: which details in this report support my recommendation?"
+    ]
+  },
+
+  closing:{
+    title:"Recap and next steps",
+    src:"Assets/Audio/04-recap-next-steps.mp3",
+    cues:[
+      {start:0.70,end:2.07,text:"You’ve finished the primer."},
+      {start:2.51,end:5.19,text:"We asked you to choose a reason as well as an action"},
+      {start:5.19,end:6.97,text:"because that connection matters."},
+      {start:7.43,end:9.25,text:"A recommendation needs to follow"},
+      {start:9.25,end:10.98,text:"from the evidence in the report."},
+      {start:11.71,end:14.39,text:"Avoiding one encounter doesn’t remove the debris."},
+      {start:14.63,end:16.23,text:"And when a forecast changes,"},
+      {start:16.23,end:18.38,text:"an earlier assessment may no longer cover"},
+      {start:18.38,end:19.79,text:"the activity you’re planning."},
+      {start:20.39,end:22.74,text:"Your certificate shows that you completed the lesson"},
+      {start:22.74,end:24.77,text:"and any required practice."},
+      {start:25.02,end:26.54,text:"It doesn’t establish mastery"},
+      {start:26.54,end:29.89,text:"or qualify you to make operational decisions on your own."},
+      {start:30.79,end:32.98,text:"Before your next class or simulation,"},
+      {start:33.14,end:36.04,text:"pick one decision and explain it in your own words."},
+      {start:36.57,end:38.02,text:"Which details supported it?"},
+      {start:38.45,end:39.94,text:"What still needed checking?"},
+      {start:40.33,end:43.16,text:"Bring any question you still have to your instructor."}
+    ],
+    script:[
+      "You’ve finished the primer. We asked you to choose a reason as well as an action because that connection matters. A recommendation needs to follow from the evidence in the report.",
+      "Avoiding one encounter doesn’t remove the debris. And when a forecast changes, an earlier assessment may no longer cover the activity you’re planning.",
+      "Your certificate shows that you completed the lesson and any required practice. It doesn’t establish mastery or qualify you to make operational decisions on your own.",
+      "Before your next class or simulation, pick one decision and explain it in your own words. Which details supported it? What still needed checking? Bring any question you still have to your instructor."
+    ]
+  }
+};
+
+const ART=[
+  {
+    src:"Assets/Images/02-01-initial-collision.png.png",
+    title:"A collision creates debris",
+    alt:"A collision creates several fragments, including a notched fragment highlighted in gold.",
+    text:"The impact creates fragments. Follow the notched fragment into the next panel."
+  },
+
+  {
+    src:"Assets/Images/02-02-remaining-fragment.png",
+    title:"The fragments remain in orbit",
+    alt:"The same notched fragment remains in the region, separated from another object it could encounter.",
+    text:"That fragment can encounter another object using the affected region."
+  },
+
+  {
+    src:"Assets/Images/02-03-possible-later-collision.png.png",
+    title:"A later collision can create more debris",
+    alt:"A possible later collision between the tracked fragment and another object creates additional fragments.",
+    text:"If another impact occurs, it can add fragments and increase the risk of further collisions."
+  }
+];
+
+const CERTIFICATE_ISSUER="";
+
+/* ================================================================
+   MISSION REPORTS
+   ================================================================ */
+
+const REPORTS={
+  model:{
+    title:"LYRA-1 · Example · Update 00",
+    cues:[3,4],
+    rows:[
+      ["Mission","Crewed research mission in low Earth orbit. Spacecraft systems are normal."],
+      ["Observation","Research observation OBS-A has been moved to a later time."],
+      ["Earlier assessment","The debris assessment covered OBS-A at its original observation time."],
+      ["What changed","The later observation time has not been assessed for debris risk."],
+      ["Analysis available","Updated analysis is available before the team must decide whether to carry out OBS-A."]
+    ],
+    description:"The earlier debris assessment covered OBS-A at its original time. Because OBS-A has moved to a later time, that assessment does not cover the revised plan. Updated analysis is available before the team must decide whether to carry out the observation."
+  },
+
+  alert:{
+    title:"LYRA-1 · Update 01 · 09:00",
+    cues:[0,1,2],
+    rows:[
+      ["Possible encounter","Possible close approach during P-17 at 12:00."],
+      ["Uncertainty","The tracking information is incomplete. No protective response has been evaluated yet."],
+      ["Review times","Focused review can start at 09:20. The routine tracking update is at 10:30."],
+      ["Observation","Research observation OBS-A is scheduled for 11:40 and can be postponed."],
+      ["Current status","Crew status and spacecraft systems are normal."]
+    ],
+    description:"At 09:00, the report identifies a possible close approach during P-17 at 12:00. Tracking information is incomplete, and no protective response has been evaluated. A focused review can begin at 09:20; the routine tracking update is scheduled for 10:30."
+  },
+
+  protect:{
+    title:"LYRA-1 · Update 02 · 10:00",
+    cues:[1,2,4],
+    rows:[
+      ["Current flight plan","Collision risk during P-17 remains unresolved if the spacecraft stays on its current flight plan."],
+      ["Evaluated option","Analysis predicts that avoidance option AV-1 reduces collision risk during P-17 while staying within spacecraft constraints."],
+      ["Decision deadline","The team must decide on AV-1 by 10:15. The routine tracking update is at 10:30."],
+      ["Mission effects","Using AV-1 postpones OBS-A. Preparing the crew alone leaves the flight plan unchanged."],
+      ["Current status","Crew status and spacecraft systems are normal. Preparation alone does not reduce collision risk."]
+    ],
+    description:"AV-1 has been evaluated for P-17 and is predicted to reduce collision risk within spacecraft constraints. It would postpone OBS-A. The team must decide by 10:15, before the 10:30 routine update. Preparing the crew without changing the flight plan does not reduce that risk."
+  },
+
+  continue:{
+    title:"LYRA-1 · Update 03 · 13:10",
+    cues:[1,2,3],
+    rows:[
+      ["Immediate encounter","After the protective response, P-17 is no longer an immediate concern."],
+      ["Observation","OBS-B is approved to proceed at 13:40 based on the latest debris assessment."],
+      ["Later risk","Debris remains. Analysts are still reviewing the later pass, P-18."],
+      ["Follow-up","The next update is at 14:15. Reassess any activity affected by a changed forecast."],
+      ["Current status","Crew status and spacecraft systems are normal."]
+    ],
+    description:"The protective response has resolved the immediate concern about P-17. The latest assessment approves OBS-B at 13:40, but debris remains and P-18 is still under review. If a forecast changes, reassess the activity it affects."
+  },
+
+  changed:{
+    title:"LYRA-1 · Update 04 · 13:25",
+    cues:[0,1,2],
+    rows:[
+      ["Changed forecast","The forecast now identifies collision risk during OBS-B. Its earlier approval no longer applies."],
+      ["Analysis available","No response has been evaluated for this change. Focused reassessment is available now."],
+      ["Other activities","OBS-B can be postponed. Routine operations remain approved under their existing assessment."],
+      ["Current status","P-17 remains resolved. No new collision is recorded. Crew status and spacecraft systems are normal."]
+    ],
+    description:"The new forecast changes the assessment of OBS-B, so its earlier approval no longer applies. OBS-B can be postponed, and focused reassessment is available now. The change does not withdraw the existing approval for routine work. P-17 remains resolved."
+  },
+
+  s1:{
+    title:"Assessment report A · 07:20",
+    cues:[0,1],
+    rows:[
+      ["Tracking","Possible close approach P-24 is forecast during research observation OBS-C."],
+      ["Uncertainty","Tracking information about this encounter is still uncertain."],
+      ["Current status","Crew status and spacecraft systems are normal."],
+      ["Collision record","No new collision is recorded since the original debris-producing event."]
+    ],
+    description:"The report forecasts a possible close approach during OBS-C, with uncertainty remaining in the tracking information. Crew status and spacecraft systems are normal. No new collision has been recorded since the original event that produced the debris."
+  },
+
+  s2:{
+    title:"Assessment report B",
+    cues:[0,1,2],
+    rows:[
+      ["Earlier assessment","Analysis predicted lower collision risk with AV-2 for a 10:20 encounter. Earlier encounter times were not assessed."],
+      ["New tracking","The encounter is now forecast for 09:58. AV-2 has not been assessed for this earlier time."],
+      ["Decision timing","Focused analysis can finish by 09:47. The decision is due at 09:50. Routine tracking arrives at 10:10."],
+      ["Preparation in every option","Every option includes postponing OBS-C and preparing the crew."],
+      ["Effect of preparation","These preparations do not reduce collision risk during the encounter."]
+    ],
+    description:"AV-2 was evaluated for a 10:20 encounter, but the forecast now places the encounter at 09:58. That earlier time was not assessed. Focused analysis can finish by 09:47; the decision is due at 09:50, and routine tracking arrives at 10:10. Every option includes the same preparations, which do not reduce collision risk."
+  },
+
+  s3:{
+    title:"Assessment report C",
+    cues:[1,2],
+    rows:[
+      ["LYRA-1","The spacecraft avoided its immediate encounter."],
+      ["Remaining debris","Collision fragments remain in the affected region."],
+      ["Other missions","Other spacecraft use this region."],
+      ["Collision record","No further collision is confirmed in this report."]
+    ],
+    description:"LYRA-1 avoided its immediate encounter. Fragments from the original collision remain in a region used by other spacecraft. This report does not confirm that another collision has occurred."
+  },
+
+  s4:{
+    title:"Assessment report D · 16:10",
+    cues:[1,2,3],
+    rows:[
+      ["Immediate encounter","P-31 is no longer an immediate concern."],
+      ["Observation","OBS-D is approved to proceed at 16:30 based on the latest debris assessment."],
+      ["Later pass","Review P-32 before the next activity it could affect."],
+      ["Follow-up","Reassess activities when their forecasts change."],
+      ["Current status","Crew status and spacecraft systems are normal."]
+    ],
+    description:"P-31 is no longer an immediate concern, and the latest assessment approves OBS-D at 16:30. P-32 still requires review before the next activity it could affect. A changed forecast requires reassessment of the affected activity."
+  }
+};
+
+/* ================================================================
+   CHECKPOINTS
+   ================================================================ */
+
+const BRANCHES=[
+  {
+    id:"alert",
+    title:"The emerging alert",
+    pages:["b1","b1f","b1c"],
+    keyAction:"B",
+    keyReason:"R3",
+
+    summary:"A possible close approach has been flagged. Decide whether to wait, request focused review, or recommend a maneuver.",
+
+    context:"LYRA-1 has received an alert about a possible close approach during P-17. A focused review examines this specific alert; routine tracking is the scheduled update. Read the report before recommending a response.",
+
+    outcomes:[
+      [
+        "Focused review is delayed",
+        "The mission team continues routine monitoring until the 10:30 update, postponing focused review.",
+        "Focused review was available at 09:20. Waiting leaves less time to prepare and decide before the possible close approach at 12:00. It does not mean a collision will occur."
+      ],
+      [
+        "Review and crew notification begin",
+        "The crew is notified, and focused review starts at 09:20. No avoidance maneuver is carried out at this point.",
+        "The review helps the mission team decide whether to authorize operational actions under established procedures. The alert alone does not establish which maneuver would reduce collision risk."
+      ],
+      [
+        "The maneuver request is returned for evaluation",
+        "The mission team returns the request for evaluation rather than carrying out the unevaluated maneuver.",
+        "The maneuver’s effects need to be assessed before authorization. An unevaluated maneuver is not necessarily ineffective; its effect on collision risk has not yet been established."
+      ]
+    ],
+
+    reasons:[
+      "Normal systems describe how the spacecraft is operating now. They do not rule out collision risk during the possible close approach at 12:00.",
+      "A possible close approach is a reason to investigate. It does not, by itself, show that an immediate maneuver would reduce collision risk.",
+      "Tracking information is incomplete and no protective response has been evaluated. Focused review examines the encounter so the mission team can make an informed decision about protection."
+    ]
+  },
+
+  {
+    id:"protect",
+    title:"A protective response",
+    pages:["b2","b2f","b2c"],
+    keyAction:"A",
+    keyReason:"R2",
+
+    summary:"An avoidance option has been evaluated. Compare its effects, decision deadline, and impact on the observation.",
+
+    context:"In this checkpoint, focused review is already complete. AV-1 is the evaluated avoidance option. Compare it with preparing the crew or waiting for another tracking update.",
+
+    outcomes:[
+      [
+        "AV-1 is authorized; OBS-A is postponed",
+        "The mission team authorizes AV-1 and postpones OBS-A. The analysis predicts lower collision risk during P-17, not guaranteed safety.",
+        "AV-1 has been evaluated and stays within spacecraft constraints. The team can select it before the 10:15 deadline and postpone OBS-A."
+      ],
+      [
+        "The crew prepares; the flight plan stays unchanged",
+        "The crew prepares, but the spacecraft remains on its current flight plan. Collision risk during P-17 is still unresolved.",
+        "Preparation improves crew readiness. The report says preparation alone does not reduce collision risk on the unchanged flight plan."
+      ],
+      [
+        "The AV-1 decision window closes",
+        "The 10:15 deadline passes before the 10:30 routine update. AV-1 is no longer available within the stated decision window.",
+        "Waiting for the routine update means losing the evaluated option. Compare the update time with the decision deadline, not just the value of receiving more information."
+      ]
+    ],
+
+    reasons:[
+      "Preparing the crew improves readiness. The report says preparation alone does not reduce collision risk while the flight plan stays unchanged.",
+      "AV-1 is predicted to reduce collision risk within spacecraft constraints and is available before 10:15. Postponing OBS-A allows the team to use AV-1; postponement itself does not reduce the collision risk.",
+      "The routine update arrives at 10:30, after the AV-1 decision deadline at 10:15. Waiting does not keep that option available."
+    ]
+  },
+
+  {
+    id:"continue",
+    title:"Mission continuation",
+    pages:["b3","b3f","b3c"],
+    keyAction:"C",
+    keyReason:"R1",
+
+    summary:"The immediate encounter is resolved, but debris remains. Decide what can resume and what still needs review.",
+
+    context:"In this checkpoint, the team has already completed a protective response. Read the updated report to decide whether research observation OBS-B can resume.",
+
+    outcomes:[
+      [
+        "The observation resumes, but later review stops",
+        "OBS-B resumes. The mission team also ends its review of later passes.",
+        "OBS-B is approved under the latest assessment, but P-18 is still under review. Resolving P-17 does not remove the debris or settle the risk during that later pass."
+      ],
+      [
+        "The observation remains on hold",
+        "The team keeps observations paused. The opportunity to carry out OBS-B is lost even though the latest assessment approves it.",
+        "P-18 needs review, but that does not cancel the separate assessment of OBS-B. This report does not give a reason to keep the approved observation on hold."
+      ],
+      [
+        "The observation resumes with follow-up",
+        "OBS-B resumes while review of the later pass continues. If a forecast changes, the team reassesses the affected activity before it proceeds.",
+        "The latest assessment approves OBS-B. That approval does not end the review of later passes or the need to reassess activities when their forecasts change."
+      ]
+    ],
+
+    reasons:[
+      "OBS-B is approved for 13:40 under the latest assessment. P-18 still needs review. Resuming this observation does not mean ending monitoring of later risk.",
+      "Resolving P-17 does not remove the collision fragments. They can still threaten other spacecraft or later activities, so review of later passes must continue.",
+      "The uncertainty concerns later passes. It does not cancel the separate assessment approving OBS-B in this report."
+    ]
+  }
+];
+
+/* ================================================================
+   QUESTIONS
+   ================================================================ */
+
+const QUESTIONS={
+  b1:{
+    type:"pair",
+    report:"alert",
+    branch:"alert",
+    prompt:"What do you recommend now?",
+
+    actions:[
+      ["A","Keep routine monitoring in place until the scheduled tracking update."],
+      ["B","Request focused review of the alert and notify the crew."],
+      ["C","Request an immediate avoidance maneuver based on the current alert."]
+    ],
+
+    reasons:[
+      ["R1","Normal crew status and spacecraft systems show that the predicted encounter is not a threat, so routine monitoring is enough."],
+      ["R2","The possible encounter is enough reason to maneuver now, because changing the flight plan will reduce collision risk."],
+      ["R3","Tracking information is incomplete and no protective response has been evaluated. Focused review is needed before choosing a response."]
+    ]
+  },
+
+  b1c:{
+    type:"multi",
+    report:"alert",
+    branch:"alert",
+    prompt:"Which two details justify focused review?",
+    key:["A","C"],
+
+    intro:"Read the alert again. Identify the details that call for focused review, regardless of your earlier recommendation.",
+
+    choices:[
+      ["A","A possible close approach has been flagged for the upcoming pass."],
+      ["B","Crew status and spacecraft systems are currently normal."],
+      ["C","Tracking information is incomplete and no protective response has been evaluated."],
+      ["D","The research observation has not yet been postponed."]
+    ],
+
+    feedback:[
+      "Neither selection explains why this alert needs focused review. Choose the possible close approach and the incomplete information about tracking and protection: A and C.",
+      "One selection is relevant. The supported pair is A and C: a possible close approach, together with incomplete tracking information and no evaluated protective response.",
+      "The possible close approach and the incomplete information about tracking and protection call for focused review."
+    ],
+
+    explanation:"Normal systems describe the spacecraft now. The observation schedule describes planned work. Neither establishes that the spacecraft is protected during the predicted encounter."
+  },
+
+  b2:{
+    type:"pair",
+    report:"protect",
+    branch:"protect",
+    prompt:"Which protective response do you recommend?",
+
+    actions:[
+      ["A","Recommend AV-1 and postpone observation OBS-A."],
+      ["B","Prepare the crew and keep the current flight plan."],
+      ["C","Wait for routine tracking before changing the flight plan."]
+    ],
+
+    reasons:[
+      ["R1","Crew preparation resolves the predicted collision risk while preserving the flight plan and observation schedule."],
+      ["R2","AV-1 reduces predicted collision risk within the available decision window, and OBS-A can be postponed."],
+      ["R3","Waiting keeps AV-1 available because routine tracking arrives before the protective decision is due."]
+    ]
+  },
+
+  b2c:{
+    type:"match",
+    report:"protect",
+    branch:"protect",
+
+    intro:"Use the report to compare the effects of each response on collision risk, crew readiness, and the time available to act.",
+
+    prompt:"Match each response to its effect. You may use an effect more than once.",
+
+    rows:[
+      "The mission team authorizes AV-1 and postpones OBS-A.",
+      "The crew prepares, but the flight plan stays unchanged.",
+      "The mission team waits for routine tracking at 10:30."
+    ],
+
+    effects:[
+      ["X","Reduces predicted collision risk and postpones the observation."],
+      ["Y","Improves readiness but leaves collision risk unresolved."],
+      ["Z","Loses the evaluated avoidance option before the update arrives."]
+    ],
+
+    key:["X","Y","Z"],
+
+    rowWhy:[
+      "AV-1 is predicted to reduce collision risk, and using it postpones OBS-A.",
+      "Preparing the crew does not change the flight plan. The report says preparation alone does not reduce collision risk.",
+      "The AV-1 deadline is 10:15. Routine tracking arrives at 10:30, after the decision window closes."
+    ]
+  },
+
+  b3:{
+    type:"pair",
+    report:"continue",
+    branch:"continue",
+    prompt:"What do you recommend for mission continuation?",
+
+    actions:[
+      ["A","Resume OBS-B and end the additional debris review."],
+      ["B","Keep observations paused until another tracking update."],
+      ["C","Resume OBS-B, keep monitoring, and reassess any activity affected by a changed forecast."]
+    ],
+
+    reasons:[
+      ["R1","OBS-B is approved under the latest assessment. Later passes remain unresolved, so monitoring and reassessment are still needed."],
+      ["R2","P-17 is resolved, so the debris review can end because collision fragments no longer threaten the mission."],
+      ["R3","Uncertainty about later passes cancels the separate assessment of OBS-B, so observations must remain paused."]
+    ]
+  },
+
+  b3c:{
+    type:"single",
+    report:"changed",
+    branch:"continue",
+    key:"C",
+    partial:"B",
+
+    intro:"A new report changes the assessment of OBS-B. Use this update, rather than the earlier approval, to choose your recommendation.",
+
+    prompt:"Which recommendation fits the changed report?",
+
+    choices:[
+      ["A","Continue OBS-B with monitoring. P-17 is resolved and systems are normal, so the observation is still approved."],
+      ["B","Pause OBS-B and routine operations for reassessment. The changed forecast also removes the basis for continuing routine work."],
+      ["C","Postpone OBS-B for reassessment and continue routine work. P-17 is resolved, but the new forecast affects OBS-B; routine work remains approved."]
+    ],
+
+    feedback:[
+      "The earlier approval for OBS-B no longer applies. Resolving P-17 and having normal systems do not rule out the newly identified risk during OBS-B.",
+      "Pausing OBS-B fits the update. Pausing routine work goes further than the report supports; those activities remain approved under their existing assessment.",
+      "Reassess OBS-B because its forecast changed. Routine operations remain approved under their existing assessment."
+    ],
+
+    explanation:"C is the supported recommendation: postpone the affected observation for reassessment while approved routine work continues."
+  },
+
+  s1:{
+    type:"multi",
+    report:"s1",
+    exam:true,
+    slots:[0],
+    key:["A","C"],
+
+    intro:"Use this report to identify the evidence that calls for closer review.",
+
+    prompt:"Which two details justify focused review?",
+
+    choices:[
+      ["A","The possible close approach is forecast during the observation."],
+      ["B","Spacecraft systems are currently normal."],
+      ["C","Tracking information about the encounter is still uncertain."],
+      ["D","No new collision has been recorded since the original debris-producing event."]
+    ]
+  },
+
+  s2:{
+    type:"pair",
+    report:"s2",
+    exam:true,
+    slots:[1,2],
+    keyAction:"B",
+    keyReason:"R3",
+
+    intro:"Compare the earlier evaluation with the changed encounter time. Every option includes postponing OBS-C and preparing the crew.",
+
+    prompt:"What do you recommend now?",
+
+    actions:[
+      ["A","Recommend AV-2 based on its earlier evaluation."],
+      ["B","Request focused reassessment before choosing a protective response."],
+      ["C","Wait for routine tracking before choosing a protective response."]
+    ],
+
+    reasons:[
+      ["R1","AV-2’s earlier evaluation supports using it at the changed encounter time while updated analysis continues."],
+      ["R2","Postponing the observation reduces collision risk, so the team can wait for routine tracking before choosing protection."],
+      ["R3","Focused reassessment can check AV-2 for the changed time before the decision deadline; its earlier evaluation did not cover that time."]
+    ]
+  },
+
+  s3:{
+    type:"single",
+    report:"s3",
+    exam:true,
+    slots:[3],
+    key:"A",
+
+    intro:"Consider what this report establishes about LYRA-1 and the debris that remains.",
+
+    prompt:"Which explanation fits the continuing risk?",
+
+    choices:[
+      ["A","Remaining fragments can strike other objects and create more debris, increasing later risk to spacecraft and operations even though no further collision is confirmed."],
+      ["B","No further collision is confirmed, so later assessments can treat debris risk as stable and assume no added risk from cascading collisions."],
+      ["C","LYRA-1 avoided its encounter, so other spacecraft and activities on later passes are adequately protected from the remaining fragments."]
+    ]
+  },
+
+  s4:{
+    type:"single",
+    report:"s4",
+    exam:true,
+    slots:[4],
+    key:"A",
+
+    intro:"Use the latest assessment of OBS-D and the review requirement for P-32 to judge the recommendations.",
+
+    prompt:"Which recommendation fits the updated assessment?",
+
+    choices:[
+      ["A","Continue OBS-D and review P-32 before the next activity it could affect. OBS-D is approved, but the later pass still needs review."],
+      ["B","Hold OBS-D until P-32 is assessed. Uncertainty about the later pass overrides the separate assessment approving the current observation."],
+      ["C","Continue OBS-D and end targeted monitoring. Resolving the immediate encounter provides enough assurance for the rest of the mission."]
+    ]
+  }
+};
+
+/* ================================================================
+   ASSESSMENT REVIEW
+   ================================================================ */
+
+const REVIEW=[
+  {
+    question:"s1",
+    field:"selected",
+    label:"Question 1",
+    answer:"A and C",
+    title:"Identify risk evidence",
+
+    correct:"You identified both relevant details: the possible encounter during OBS-C and the uncertain tracking information. Together, they call for focused review.",
+
+    why:"A possible encounter is forecast during a planned observation, and the tracking information is still uncertain. The team needs closer analysis of that encounter.",
+
+    other:"Normal systems describe how the spacecraft is operating now. The collision record describes what has happened so far. Neither shows that the spacecraft is protected during the forecast encounter."
+  },
+
+  {
+    question:"s2",
+    field:"action",
+    label:"Question 2A · Recommendation",
+    answer:"B",
+    title:"Choose a protective response",
+
+    correct:"You requested reassessment that can finish before the decision deadline, rather than relying on an evaluation for a different encounter time.",
+
+    why:"Focused analysis can finish by 09:47, before the 09:50 decision deadline. Request that analysis before choosing protection for the changed encounter.",
+
+    byChoice:{
+      A:"The earlier AV-2 evaluation covered 10:20, not the new encounter time of 09:58. It does not establish that AV-2 is appropriate at the earlier time.",
+      C:"Routine tracking arrives at 10:10, after the 09:50 decision deadline. Waiting for that update leaves the team without the focused analysis available before the decision."
+    },
+
+    other:"The earlier AV-2 evaluation does not cover 09:58. Routine tracking at 10:10 arrives after the decision deadline."
+  },
+
+  {
+    question:"s2",
+    field:"reason",
+    label:"Question 2B · Reasoning",
+    answer:"R3",
+    title:"Explain why reassessment is needed",
+
+    correct:"You recognized that the changed encounter time needs reassessment and that the analysis can be completed before the decision deadline.",
+
+    why:"The earlier evaluation did not cover the 09:58 encounter. Reassessment may still support AV-2; the changed time does not prove it ineffective.",
+
+    byChoice:{
+      R1:"An evaluation for 10:20 does not establish AV-2’s suitability at 09:58. The changed time needs reassessment.",
+      R2:"The report states that postponing OBS-C and preparing the crew do not reduce collision risk during the encounter. Those preparations do not justify waiting for an update that arrives after the decision deadline."
+    },
+
+    other:"The earlier evaluation does not cover the new time. The preparations included in every option do not reduce collision risk during the encounter."
+  },
+
+  {
+    question:"s3",
+    field:"choice",
+    label:"Question 3",
+    answer:"A",
+    title:"Explain continuing debris risk",
+
+    correct:"You recognized that avoiding one encounter leaves fragments that can cause further collisions and create more debris.",
+
+    why:"Fragments remain in a region used by other spacecraft. They can strike objects and create additional debris, even though no further collision is confirmed in this report.",
+
+    byChoice:{
+      B:"No newly confirmed collision does not establish that future risk will stay unchanged. The remaining fragments can still cause later collisions.",
+      C:"LYRA-1 avoided one encounter. That outcome does not establish protection for other spacecraft or activities on later passes."
+    },
+
+    other:"Neither successful avoidance nor the absence of a newly confirmed collision removes the remaining debris."
+  },
+
+  {
+    question:"s4",
+    field:"choice",
+    label:"Question 4",
+    answer:"A",
+    title:"Decide what can continue",
+
+    correct:"You distinguished the approved observation from the later pass that still needs review.",
+
+    why:"OBS-D is approved for 16:30 under the latest assessment. P-32 still needs review before the next activity it could affect. Reassess activities if their forecasts change.",
+
+    byChoice:{
+      B:"P-32 still needs review, but that does not cancel the separate approval for OBS-D in this report.",
+      C:"Resolving P-31 does not settle the risk during P-32 or remove the remaining debris. Review of the later pass still needs to continue."
+    },
+
+    other:"An unresolved later pass does not cancel a separately approved activity. Resolving the immediate encounter does not justify ending review of later passes."
+  }
+];
+
+/* ================================================================
+   GUIDED FOLLOW-UP PRACTICE
+   ================================================================ */
+
+const FOLLOWUP=[
+  {
+    purpose:"Your original answer didn’t identify both risk details in Question 1. Use the feedback to take another look at what calls for closer review.",
+
+    prompt:"Which pair of facts explains why OBS-C needs focused review?",
+
+    key:"B",
+
+    choices:[
+      ["A","The crew is in normal condition, and no new collision has been recorded."],
+      ["B","A possible close approach is forecast during OBS-C, and tracking is still uncertain."],
+      ["C","An observation is planned, and the spacecraft systems are working normally."]
+    ],
+
+    feedback:{
+      A:"Those facts describe current condition and past events. Look for the forecast encounter and the information that is still uncertain.",
+      B:"Correct. The forecast encounter affects OBS-C, and uncertainty in the tracking information calls for closer analysis.",
+      C:"A planned observation and normal systems do not identify the debris concern. Look for the possible encounter and uncertain tracking."
+    }
+  },
+
+  {
+    purpose:"Your recommendation in Question 2 didn’t fit the report. Try choosing the next step again, using the changed encounter time and decision deadline.",
+
+    prompt:"Which next step uses the analysis available before the protective decision is due?",
+
+    key:"C",
+
+    choices:[
+      ["A","Select AV-2 using the evaluation for the original 10:20 encounter."],
+      ["B","Wait for the routine tracking update scheduled for 10:10."],
+      ["C","Request focused reassessment that can finish by 09:47."]
+    ],
+
+    feedback:{
+      A:"That evaluation did not cover 09:58. Compare the available reassessment time with the 09:50 decision deadline.",
+      B:"The 10:10 update arrives after the 09:50 decision. Use the analysis that can finish before the decision is due.",
+      C:"Correct. Reassessment can finish by 09:47, before the 09:50 decision, and address the changed encounter time."
+    }
+  },
+
+  {
+    purpose:"Your reason for Question 2 didn’t fit the report. Let’s check why the changed encounter time matters.",
+
+    prompt:"Why must AV-2 be evaluated again after the forecast changes from 10:20 to 09:58?",
+
+    key:"A",
+
+    choices:[
+      ["A","Its earlier evaluation did not cover the new encounter time."],
+      ["B","Any change in encounter time proves an avoidance option ineffective."],
+      ["C","Postponing OBS-C removes the need for protection from the encounter."]
+    ],
+
+    feedback:{
+      A:"Correct. The changed time falls outside the earlier evaluation. Reassessment may still support AV-2.",
+      B:"A changed time requires reassessment, not an automatic conclusion that AV-2 cannot work. Check which encounter time the earlier evaluation covered.",
+      C:"The report says postponement does not reduce collision risk during this encounter. The issue is whether AV-2 was evaluated for the new time."
+    }
+  },
+
+  {
+    purpose:"Your answer to Question 3 didn’t account for the debris that remains. Try applying the feedback to what could happen next.",
+
+    prompt:"What can happen after LYRA-1 avoids its immediate encounter?",
+
+    key:"A",
+
+    choices:[
+      ["A","Remaining fragments can strike other objects and create more debris."],
+      ["B","Debris risk ends because the threatened spacecraft avoided a collision."],
+      ["C","Risk must stay unchanged because no further collision is confirmed."]
+    ],
+
+    feedback:{
+      A:"Correct. Avoiding one encounter does not remove the fragments that can contribute to later collisions.",
+      B:"Avoidance addresses that encounter. Fragments still remain and can affect other spacecraft or later activities.",
+      C:"The collision record does not establish what will happen next. Remaining fragments can still cause future collisions."
+    }
+  },
+
+  {
+    purpose:"Your recommendation in Question 4 didn’t fit the report. Take another look at what’s approved and what still needs review.",
+
+    prompt:"What is still required while the approved OBS-D observation continues?",
+
+    key:"B",
+
+    choices:[
+      ["A","Keep OBS-D on hold until every later pass has been assessed."],
+      ["B","Review P-32 before the next activity it could affect and reassess changed forecasts."],
+      ["C","End targeted monitoring because P-31 is no longer an immediate concern."]
+    ],
+
+    feedback:{
+      A:"OBS-D already has a separate approval under the latest assessment. Focus on the review still required for the later pass.",
+      B:"Correct. Continue the approved observation while retaining review of the later pass and reassessing activities affected by changed forecasts.",
+      C:"Resolving P-31 does not settle the risk during P-32. The report still requires review of that later pass."
+    }
+  }
+];
+
+/* ================================================================
+   MENU AND STATE
+   ================================================================ */
+
+const GROUPS=[
+  ["brief","Mission briefing"],
+  ["hub","Checkpoint selection"],
+  ["alert","Checkpoint 1 · Alert"],
+  ["protect","Checkpoint 2 · Protection"],
+  ["continue","Checkpoint 3 · Continuation"],
+  ["debrief","Debrief"],
+  ["exam","Final assessment"],
+  ["close","Review and completion"]
+];
+
+const SCREENS=[
+  ["intro","Your mission starts here","brief","Your mission"],
+  ["concept","One collision, continuing consequences","brief","Cascading collisions"],
+  ["model","Example: use a mission report to decide","brief","Worked example"],
+  ["hub","Choose a checkpoint","hub","Choose your next checkpoint"],
+
+  ["b1","Checkpoint 1: the emerging alert","alert","Recommendation and reasoning"],
+  ["b1f","Checkpoint 1: what happens next","alert","Outcome and feedback"],
+  ["b1c","Check the evidence","alert","Quick check"],
+
+  ["b2","Checkpoint 2: a protective response","protect","Recommendation and reasoning"],
+  ["b2f","Checkpoint 2: what happens next","protect","Outcome and feedback"],
+  ["b2c","Connect responses to their effects","protect","Quick check"],
+
+  ["b3","Checkpoint 3: mission continuation","continue","Recommendation and reasoning"],
+  ["b3f","Checkpoint 3: what happens next","continue","Outcome and feedback"],
+  ["b3c","Reconsider a changed tracking report","continue","Quick check"],
+
+  ["debrief","Bring the decisions together","debrief","Prepare for the assessment"],
+
+  ["s1","Question 1: identify risk evidence","exam","Question 1 · 1 point"],
+  ["s2","Question 2: recommend and explain","exam","Question 2 · 2 points"],
+  ["s3","Question 3: explain continuing risk","exam","Question 3 · 1 point"],
+  ["s4","Question 4: reconsider continuation","exam","Question 4 · 1 point"],
+
+  ["results","Your results and review","close","Review all four questions"],
+  ["finish","Completion and next steps","close","Recap and certificate"]
+].map(([id,title,group,menuTitle],i)=>({
+  id,
+  title,
+  group,
+  menuTitle,
+  number:String(i+1).padStart(2,"0")
+}));
+
+const EXAM=["s1","s2","s3","s4"];
+
+const MAX_POINTS=EXAM.reduce(
+  (n,id)=>n+QUESTIONS[id].slots.length,
+  0
+);
+
+const state={
+  page:"intro",
+  done:new Set(),
+  history:[],
+  hubSeen:false,
+
+  examStarted:false,
+  examIndex:0,
+  scores:Array(MAX_POINTS).fill(null),
+
+  reviewPanel:0,
+  reviewSeen:new Set(),
+  reviewed:new Set(),
+
+  practiceCursor:Array(4).fill(null),
+  practiceVisible:Array(4).fill(false),
+
+  practice:FOLLOWUP.map(()=>({
+    choice:null,
+    last:null,
+    passed:false,
+    attempts:0
+  })),
+
+  answers:Object.fromEntries(
+    Object.keys(QUESTIONS).map(id=>[
+      id,
+      {
+        draft:{},
+        phase:0,
+        submitted:false,
+        original:null,
+        feedback:null
+      }
+    ])
+  ),
+
+  openGroup:"brief",
+
+  earned:false,
+  name:"",
+  date:"",
+
+  mediaTimes:{},
+  captions:true
+};
+
+const $=id=>document.getElementById(id);
+
+const esc=value=>String(value??"").replace(
+  /[&<>"']/g,
+  c=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[c])
+);
+
+const p=text=>`<p>${esc(text)}</p>`;
+
+const screen=id=>
+  SCREENS.find(s=>s.id===id);
+
+const branchFor=id=>
+  BRANCHES.find(b=>b.pages.includes(id));
+
+const branchDone=b=>
+  b.pages.every(id=>state.done.has(id));
+
+const allBranchesDone=()=>
+  BRANCHES.every(branchDone);
+
+const allAnswered=()=>
+  state.scores.every(v=>v===0||v===1);
+
+const totalScore=()=>
+  state.scores.reduce((n,v)=>n+(v??0),0);
+
+const questionPoints=i=>
+  QUESTIONS[EXAM[i]].slots.reduce(
+    (n,s)=>n+(state.scores[s]??0),
+    0
+  );
+
+const assignedSlots=()=>allAnswered()
+  ?state.scores.flatMap((v,i)=>v===0?[i]:[])
+  :[];
+
+const practiceDone=()=>
+  assignedSlots().every(
+    s=>state.practice[s].passed
+  );
+
+const reviewComplete=()=>
+  allAnswered()&&
+  state.reviewed.size===4&&
+  practiceDone();
+
+const examLocked=()=>
+  state.examStarted&&!state.done.has("results");
+
+const choiceText=(options,value)=>
+  options.find(([id])=>id===value)?.[1]||"";
+
+const assetPath=path=>(
+  typeof path==="string"&&
+  /^assets\/[A-Za-z0-9_./-]+$/i.test(path)&&
+  !path.includes("..")
+)
+  ?path
+  :"";
+
+let dialogFocus=null;
+
+/* ================================================================
+   SESSION NOTICE
+   ================================================================ */
+
+function sessionNotice(){
+  return `
+    <div
+      class="session-notice"
+      role="note"
+      aria-label="Session progress notice"
+    >
+      <strong>Session progress:</strong>
+      Your progress is retained while this tab stays open.
+      Refreshing or closing the page starts a new session.
+    </div>
+  `;
+}
+
+/* ================================================================
+   NAVIGATION
+   ================================================================ */
+
+function canVisit(id){
+
+  if(!screen(id))return false;
+
+  if(examLocked()){
+    return id===(EXAM[state.examIndex]||"results");
+  }
+
+  if(id==="intro")return true;
+  if(id==="concept")return state.done.has("intro");
+  if(id==="model")return state.done.has("concept");
+  if(id==="hub")return state.done.has("model");
+
+  const b=branchFor(id);
+
+  if(b){
+
+    if(!state.done.has("model")||!state.hubSeen){
+      return false;
+    }
+
+    const i=b.pages.indexOf(id);
+
+    return i===0||
+      state.done.has(b.pages[i-1]);
+  }
+
+  if(id==="debrief"){
+    return allBranchesDone();
+  }
+
+  if(EXAM.includes(id)){
+    return !state.examStarted&&
+      id==="s1"&&
+      state.done.has("debrief");
+  }
+
+  if(id==="results"){
+    return allAnswered()&&
+      state.examIndex===4;
+  }
+
+  if(id==="finish"){
+    return allBranchesDone()&&
+      reviewComplete()&&
+      state.done.has("results");
+  }
+
+  return false;
+}
+
+function go(id,push=true){
+
+  if(!canVisit(id)){
+    announce(
+      "Complete the current activity before opening that screen."
+    );
+    return;
+  }
+
+  captureDraft();
+
+  if(id==="s1"&&!state.examStarted){
+    state.examStarted=true;
+    state.examIndex=0;
+  }
+
+  if(id!==state.page&&push){
+    state.history.push(state.page);
+  }
+
+  if(id==="hub"){
+    state.hubSeen=true;
+  }
+
+  if(branchFor(id)){
+    state.done.add("hub");
+  }
+
+  state.page=id;
+  state.openGroup=screen(id).group;
+
+  if(innerWidth<=900){
+    setMenu(false);
+  }
+
+  render();
+}
+
+function previousPage(){
+
+  for(let i=state.history.length-1;i>=0;i--){
+
+    const id=state.history[i];
+
+    if(
+      id!==state.page&&
+      canVisit(id)
+    ){
+      return {id,index:i};
+    }
+  }
+
+  return null;
+}
+
+function back(){
+
+  const q=QUESTIONS[state.page];
+  const r=state.answers[state.page];
+
+  if(
+    q?.type==="pair"&&
+    !r.submitted&&
+    r.phase===1
+  ){
+    captureDraft();
+    r.phase=0;
+    render("questionTitle");
+    return;
+  }
+
+  if(state.page==="results"){
+
+    if(state.reviewPanel>0){
+      selectReview(state.reviewPanel-1);
+    }
+
+    return;
+  }
+
+  const prev=previousPage();
+
+  if(prev){
+    state.history.length=prev.index;
+    go(prev.id,false);
+  }
+}
+
+function startBranch(id){
+
+  const b=BRANCHES.find(
+    b=>b.id===id
+  );
+
+  if(
+    b&&
+    state.hubSeen&&
+    !examLocked()
+  ){
+    go(
+      b.pages.find(
+        id=>!state.done.has(id)
+      )||
+      b.pages[0]
+    );
+  }
+}
+
+function setMenu(open){
+
+  $("player").classList.toggle(
+    "menu-collapsed",
+    !open
+  );
+
+  $("menuButton").setAttribute(
+    "aria-expanded",
+    String(open)
+  );
+}
+
+function setReading(on){
+
+  $("player").classList.toggle(
+    "reading",
+    on
+  );
+
+  $("readingButton").setAttribute(
+    "aria-pressed",
+    String(on)
+  );
+}
+
+function announce(text){
+  $("announce").textContent=text;
+}
+
+function focusTo(id){
+
+  requestAnimationFrame(()=>{
+
+    const el=$(id);
+
+    if(!el)return;
+
+    el.focus({
+      preventScroll:true
+    });
+
+    const box=$("canvas");
+    const b=box.getBoundingClientRect();
+
+    const anchor=id==="practiceTitle"
+      ?el.closest(".practice")
+      :id==="reviewTitle"
+        ?el.closest(".response-card")
+        :el;
+
+    const a=anchor.getBoundingClientRect();
+
+    if(
+      id==="practiceTitle"||
+      id==="reviewTitle"||
+      a.top<b.top||
+      a.bottom>b.bottom
+    ){
+      box.scrollTop+=
+        a.top-b.top-18;
+    }
+  });
+}
+
+/* ================================================================
+   AUDIO AND CAPTIONS
+   ================================================================ */
+
+function mediaBlock(key){
+
+  const m=MEDIA[key];
+
+  return `
+    <section
+      class="media-block"
+      data-media-block="${key}"
+      aria-labelledby="media-title-${key}"
+    >
+
+      <h2 id="media-title-${key}">
+        ${esc(m.title)}
+      </h2>
+
+      <audio
+        data-media="${key}"
+        controls
+        preload="metadata"
+        aria-label="${esc(m.title)}"
+      ></audio>
+
+      <p
+        class="media-error"
+        data-media-error
+        hidden
+      >
+        The recording could not be opened.
+        You can read the transcript below.
+      </p>
+
+      <button
+        type="button"
+        class="caption-toggle"
+        aria-pressed="${state.captions}"
+        aria-controls="captions-${key}"
+      >
+        Captions
+      </button>
+
+      <div
+        id="captions-${key}"
+        class="audio-caption"
+        aria-label="Captions"
+        aria-live="off"
+        ${state.captions?"":"hidden"}
+      >
+        <span data-caption></span>
+      </div>
+
+      <details class="optional-details narration-text">
+        <summary>Transcript</summary>
+
+        <div>
+          ${m.script.map(p).join("")}
+        </div>
+      </details>
+
+    </section>
+  `;
+}
+
+function stopMedia(){
+
+  document
+    .querySelectorAll("[data-media]")
+    .forEach(el=>{
+
+      state.mediaTimes[
+        el.dataset.media
+      ]=
+        Number.isFinite(el.currentTime)
+          ?el.currentTime
+          :0;
+
+      el.pause();
+    });
+}
+
+function mountMedia(){
+
+  document
+    .querySelectorAll("[data-media]")
+    .forEach(el=>{
+
+      const key=el.dataset.media;
+      const m=MEDIA[key];
+
+      const block=el.closest(
+        "[data-media-block]"
+      );
+
+      const cues=m.cues.filter(c=>
+        Number.isFinite(c.start)&&
+        Number.isFinite(c.end)&&
+        c.start>=0&&
+        c.end>c.start&&
+        typeof c.text==="string"
+      );
+
+      const caption=
+        block.querySelector(
+          "[data-caption]"
+        );
+
+      const region=
+        caption.parentElement;
+
+      const toggle=
+        block.querySelector(
+          ".caption-toggle"
+        );
+
+      let frame=0;
+
+      const syncCaption=()=>{
+
+        region.hidden=
+          !state.captions;
+
+        const text=
+          cues.find(
+            c=>
+              el.currentTime>=c.start&&
+              el.currentTime<c.end
+          )?.text||"";
+
+        if(
+          caption.textContent!==text
+        ){
+          caption.textContent=text;
+        }
+      };
+
+      const tick=()=>{
+
+        syncCaption();
+
+        if(
+          !el.paused&&
+          !el.ended&&
+          el.isConnected
+        ){
+          frame=
+            requestAnimationFrame(
+              tick
+            );
+        }
+      };
+
+      el.addEventListener(
+        "loadedmetadata",
+        ()=>{
+
+          const saved=
+            state.mediaTimes[key];
+
+          if(
+            Number.isFinite(saved)&&
+            saved>0&&
+            saved<el.duration
+          ){
+            try{
+              el.currentTime=saved;
+            }catch(error){
+              /* Transcript remains available. */
+            }
+          }
+
+          syncCaption();
+        }
+      );
+
+      [
+        "timeupdate",
+        "seeked",
+        "ended"
+      ].forEach(event=>{
+
+        el.addEventListener(
+          event,
+          syncCaption
+        );
+      });
+
+      el.addEventListener(
+        "play",
+        ()=>{
+
+          document
+            .querySelectorAll(
+              "[data-media]"
+            )
+            .forEach(other=>{
+
+              if(other!==el){
+                other.pause();
+              }
+            });
+
+          cancelAnimationFrame(frame);
+          tick();
+        }
+      );
+
+      el.addEventListener(
+        "pause",
+        ()=>{
+
+          cancelAnimationFrame(frame);
+          syncCaption();
+        }
+      );
+
+      toggle.addEventListener(
+        "click",
+        ()=>{
+
+          state.captions=
+            !state.captions;
+
+          toggle.setAttribute(
+            "aria-pressed",
+            String(state.captions)
+          );
+
+          syncCaption();
+        }
+      );
+
+      el.addEventListener(
+        "error",
+        ()=>{
+
+          cancelAnimationFrame(frame);
+
+          block
+            .querySelector(
+              "[data-media-error]"
+            )
+            .hidden=false;
+
+          toggle.hidden=true;
+          region.hidden=true;
+        }
+      );
+
+      el.src=
+        assetPath(m.src);
+
+      syncCaption();
+    });
+
+  document
+    .querySelectorAll("img[data-art]")
+    .forEach(img=>{
+
+      img.addEventListener(
+        "load",
+        ()=>{
+
+          img.hidden=false;
+
+          img.parentElement
+            .querySelector(
+              ".art-placeholder"
+            )
+            .hidden=true;
+        }
+      );
+
+      img.addEventListener(
+        "error",
+        ()=>{
+
+          img.hidden=true;
+
+          img.parentElement
+            .querySelector(
+              ".art-placeholder"
+            )
+            .hidden=false;
+        }
+      );
+
+      img.src=
+        assetPath(
+          ART[
+            Number(img.dataset.art)
+          ].src
+        );
+    });
+}
+
+/* ================================================================
+   FALLBACK ART
+   ================================================================ */
+
+function sketch(i){
+
+  const fragment=`
+    <path
+      d="M0 0 H20 V7 H14 V19 H0 Z"
+      fill="#E3C170"
+      stroke="#1D3052"
+      stroke-width="2"
+    />
+  `;
+
+  const debris=`
+    <path
+      d="
+        M62 37 l7 3 -3 8 -7 -3 Z
+        M180 34 l8 4 -4 7 -8 -4 Z
+        M56 117 l9 3 -3 8 -9 -3 Z
+        M200 115 l8 4 -4 7 -8 -4 Z
+      "
+      fill="#37596E"
+    />
+  `;
+
+  const scene=[
+    `
+      <rect
+        x="69"
+        y="62"
+        width="45"
+        height="32"
+        rx="3"
+        fill="#1D3052"
+        transform="rotate(20 91 78)"
+      />
+
+      <rect
+        x="120"
+        y="56"
+        width="42"
+        height="35"
+        rx="3"
+        fill="#37596E"
+        transform="rotate(-18 141 74)"
+      />
+
+      <path
+        d="
+          M114 52
+          L122 66
+          L139 68
+          L126 79
+          L130 101
+          L114 90
+          L99 102
+          L103 83
+          L89 71
+          L107 67
+          Z
+        "
+        fill="#FAD493"
+        stroke="#1D3052"
+      />
+
+      ${debris}
+
+      <g transform="translate(207 78)">
+        ${fragment}
+      </g>
+    `,
+
+    `
+      <g transform="translate(58 74)">
+        ${fragment}
+      </g>
+
+      <rect
+        x="195"
+        y="61"
+        width="45"
+        height="39"
+        rx="3"
+        fill="#1D3052"
+      />
+    `,
+
+    `
+      <rect
+        x="129"
+        y="65"
+        width="45"
+        height="36"
+        rx="3"
+        fill="#1D3052"
+      />
+
+      <path
+        d="
+          M128 48
+          L138 66
+          L155 64
+          L146 80
+          L163 92
+          L142 95
+          L141 116
+          L126 101
+          L109 114
+          L115 92
+          L98 80
+          L118 75
+          Z
+        "
+        fill="#FAD493"
+        stroke="#1D3052"
+      />
+
+      <g transform="translate(100 77)">
+        ${fragment}
+      </g>
+
+      ${debris}
+
+      <path
+        d="
+          M226 65 l9 3 -3 9 -9 -3 Z
+          M92 132 l8 3 -3 8 -8 -3 Z
+          M182 135 l8 4 -4 7 -8 -4 Z
+        "
+        fill="#37596E"
+      />
+    `
+  ][i];
+
+  return `
+    <svg viewBox="0 0 300 169" aria-hidden="true">
+      ${scene}
+    </svg>
+  `;
+}
+
+function artwork(i){
+
+  const a=ART[i];
+
+  return `
+    <div class="art-frame">
+
+      ${
+        assetPath(a.src)
+          ?`
+            <img
+              data-art="${i}"
+              alt="${esc(a.alt)}"
+              hidden
+            >
+          `
+          :""
+      }
+
+      <div
+        class="art-placeholder"
+        role="img"
+        aria-label="${esc(a.alt)}"
+      >
+        ${sketch(i)}
+
+        <span
+          class="placeholder-label"
+          aria-hidden="true"
+        >
+          Illustration preview
+        </span>
+      </div>
+
+    </div>
+  `;
+}
+
+/* ================================================================
+   SHARED PRESENTATION
+   ================================================================ */
+
+function guide(text){
+
+  return `
+    <aside
+      class="guide"
+      aria-label="Mission lead"
+    >
+
+      <div
+        class="avatar"
+        role="img"
+        aria-label="Mission lead avatar"
+      ></div>
+
+      <div>
+
+        <div class="guide-label">
+          MISSION LEAD
+        </div>
+
+        ${p(text)}
+
+      </div>
+
+    </aside>
+  `;
+}
+
+function missionFeedback(actionOK,reasonOK){
+
+  let title="";
+  let text="";
+
+  if(actionOK&&reasonOK){
+
+    title="Your choices work together";
+
+    text=
+      "Your recommendation and reasoning both fit the report. Notice how the reason explains why that response fits the evidence.";
+
+  }else if(actionOK&&!reasonOK){
+
+    title="Check the reasoning";
+
+    text=
+      "Your recommendation fits the report, but your reason does not. Review the evidence check above and reconnect the recommendation to the information that supports it.";
+
+  }else if(!actionOK&&reasonOK){
+
+    title="Check the recommendation";
+
+    text=
+      "Your reason fits the report, but your recommendation does not follow from it. Review what happens next and reconsider which response that evidence supports.";
+
+  }else{
+
+    title="Revisit the evidence";
+
+    text=
+      "Neither part of your response fits the report. Review what happens next and the evidence check above before continuing.";
+  }
+
+  return `
+    <aside
+      class="mission-feedback"
+      aria-label="Mission lead feedback"
+    >
+
+      <div
+        class="avatar"
+        role="img"
+        aria-label="Mission lead avatar"
+      ></div>
+
+      <div>
+
+        <div class="guide-label">
+          MISSION LEAD · FEEDBACK
+        </div>
+
+        <h3>${esc(title)}</h3>
+
+        <p>${esc(text)}</p>
+
+      </div>
+
+    </aside>
+  `;
+}
+
+function report(key,expanded=false,cued=false){
+
+  const r=REPORTS[key];
+
+  const parts=
+    r.title.split(" · ");
+
+  const name=
+    parts.shift();
+
+  const time=
+    /^\d{2}:\d{2}$/.test(
+      parts[parts.length-1]||""
+    )
+      ?parts.pop()
+      :"";
+
+  const tag=
+    expanded
+      ?"section"
+      :"aside";
+
+  const heading=
+    expanded
+      ?"h3"
+      :"h2";
+
+  const titleId=
+    `report-${key}-${expanded?"expanded":"inline"}`;
+
+  return `
+    <${tag}
+      class="report ${expanded?"report--expanded":""}"
+      aria-labelledby="${titleId}"
+    >
+
+      <header class="report-head">
+
+        <div>
+
+          ${
+            expanded
+              ?""
+              :'<p class="report-label">Mission report</p>'
+          }
+
+          <${heading}
+            class="report-title"
+            id="${titleId}"
+          >
+            ${esc(name)}
+          </${heading}>
+
+          ${
+            parts.length
+              ?`
+                <p class="report-meta">
+                  ${esc(parts.join(" · "))}
+                </p>
+              `
+              :""
+          }
+
+        </div>
+
+        ${
+          time
+            ?`
+              <div class="report-clock">
+                <span>Mission time</span>
+                <strong>${time}</strong>
+              </div>
+            `
+            :""
+        }
+
+      </header>
+
+      <dl class="report-fields">
+
+        ${
+          r.rows
+            .map(
+              ([label,text],i)=>`
+                <div
+                  class="report-row ${
+                    cued&&
+                    r.cues.includes(i)
+                      ?"cued"
+                      :""
+                  }"
+                >
+                  <dt>${esc(label)}</dt>
+                  <dd>${esc(text)}</dd>
+                </div>
+              `
+            )
+            .join("")
+        }
+
+      </dl>
+
+      ${
+        expanded
+          ?`
+            <section class="report-note">
+              <h4>Report context</h4>
+              ${p(r.description)}
+            </section>
+          `
+          :`
+            <footer class="report-footer">
+
+              <button
+                type="button"
+                data-action="report"
+                data-report="${key}"
+                aria-haspopup="dialog"
+              >
+                Open mission report
+              </button>
+
+            </footer>
+          `
+      }
+
+    </${tag}>
+  `;
+}
+
+function evidenceStrip(key){
+
+  const rows={
+
+    alert:[
+      ["09:20","Focused review available"],
+      ["10:30","Routine tracking update"],
+      ["12:00","Possible close approach"]
+    ],
+
+    protect:[
+      ["10:15","AV-1 decision deadline"],
+      ["10:30","Routine tracking update"]
+    ],
+
+    s2:[
+      ["09:47","Focused analysis can finish"],
+      ["09:50","Decision deadline"],
+      ["09:58","New encounter time"],
+      ["10:10","Routine tracking update"]
+    ]
+
+  }[key];
+
+  return rows
+    ?`
+      <div
+        class="evidence-strip"
+        aria-label="Compare the report times"
+      >
+
+        ${
+          rows
+            .map(
+              ([time,label])=>`
+                <div>
+                  <strong>${time}</strong>
+                  <span>${esc(label)}</span>
+                </div>
+              `
+            )
+            .join("")
+        }
+
+      </div>
+    `
+    :"";
+}
+
+function choices(
+  name,
+  title,
+  options,
+  value,
+  multiple=false,
+  headingId="questionTitle"
+){
+
+  const selected=
+    Array.isArray(value)
+      ?value
+      :[value];
+
+  return `
+    <fieldset>
+
+      <legend
+        id="${headingId}"
+        tabindex="-1"
+      >
+        ${esc(title)}
+      </legend>
+
+      ${
+        options
+          .map(
+            ([id,text])=>`
+              <label class="choice">
+
+                <input
+                  type="${multiple?"checkbox":"radio"}"
+                  name="${name}"
+                  value="${id}"
+                  ${selected.includes(id)?"checked":""}
+                >
+
+                <span>
+                  <strong>${id}.</strong>
+                  ${esc(text)}
+                </span>
+
+              </label>
+            `
+          )
+          .join("")
+      }
+
+    </fieldset>
+  `;
+}
+
+function verdict(ok){
+
+  return `
+    <span class="verdict ${ok?"":"review"}">
+      ${ok?"Correct":"Needs review"}
+    </span>
+  `;
+}
+
+function selectedAnswer(q,d){
+
+  if(q.type==="pair"){
+
+    return `
+      <div class="selected">
+
+        <strong>
+          Your recommendation
+        </strong>
+
+        ${p(choiceText(q.actions,d.action))}
+
+      </div>
+
+      <div class="selected">
+
+        <strong>
+          Your reasoning
+        </strong>
+
+        ${p(choiceText(q.reasons,d.reason))}
+
+      </div>
+    `;
+  }
+
+  const ids=
+    q.type==="multi"
+      ?d.selected
+      :[d.choice];
+
+  return `
+    <div class="selected">
+
+      <strong>
+        Your ${
+          q.type==="multi"
+            ?"selections"
+            :"answer"
+        }
+      </strong>
+
+      ${
+        ids
+          .map(
+            id=>
+              p(
+                id+". "+
+                choiceText(q.choices,id)
+              )
+          )
+          .join("")
+      }
+
+    </div>
+  `;
+}
+
+function knowledgeFeedback(q,r){
+
+  const d=r.original;
+
+  if(q.type==="match"){
+
+    const count=
+      q.key.filter(
+        (k,i)=>
+          k===d["row"+i]
+      ).length;
+
+    return `
+      <section class="feedback ${count<3?"needs":""}">
+
+        <h2 id="answerTitle" tabindex="-1">
+          ${count} of 3 matches correct
+        </h2>
+
+        ${
+          q.rows
+            .map(
+              (row,i)=>`
+                <section class="feedback-part">
+
+                  <h3>
+                    ${i+1}. ${esc(row)}
+                  </h3>
+
+                  ${
+                    d["row"+i]===q.key[i]
+                      ?`
+                        <p>
+                          <strong>Correct.</strong>
+                          ${esc(q.rowWhy[i])}
+                        </p>
+                      `
+                      :`
+                        <p>
+                          <strong>Your match:</strong>
+                          ${esc(choiceText(q.effects,d["row"+i]))}
+                        </p>
+
+                        <p>
+                          <strong>Correct match:</strong>
+                          ${esc(choiceText(q.effects,q.key[i]))}
+                        </p>
+
+                        ${p(q.rowWhy[i])}
+                      `
+                  }
+
+                </section>
+              `
+            )
+            .join("")
+        }
+
+      </section>
+    `;
+  }
+
+  return `
+    <section class="feedback ${r.feedback<2?"needs":""}">
+
+      <h2 id="answerTitle" tabindex="-1">
+        ${
+          r.feedback===2
+            ?"Correct"
+            :r.feedback===1
+              ?"Partly correct"
+              :"Reconsider the evidence"
+        }
+      </h2>
+
+      ${p(q.feedback[r.feedback])}
+
+      ${
+        r.feedback===2
+          ?""
+          :p(q.explanation)
+      }
+
+    </section>
+  `;
+}
+
+function scoreMap(){
+
+  return `
+    <div
+      class="score-map"
+      aria-label="Four questions worth five points"
+    >
+
+      <div>
+        <strong>Question 1</strong>
+        <span>1 point</span>
+      </div>
+
+      <div class="two-points">
+        <strong>Question 2</strong>
+        <span>2A · Recommendation: 1 point</span>
+        <span>2B · Reasoning: 1 point</span>
+      </div>
+
+      <div>
+        <strong>Question 3</strong>
+        <span>1 point</span>
+      </div>
+
+      <div>
+        <strong>Question 4</strong>
+        <span>1 point</span>
+      </div>
+
+    </div>
+  `;
+}
+
+/* ================================================================
+   LEARNER SCREENS
+   ================================================================ */
+
+function welcome(){
+
+  return `
+    ${guide(
+      "You’re the Mission Control Officer for LYRA-1, a fictional crewed research mission."
+    )}
+
+    ${mediaBlock("intro")}
+
+    <div class="two">
+
+      <section class="card">
+
+        <h2>Your role</h2>
+
+        <p>
+          Read the evidence and recommend a response.
+          The mission team decides whether to authorize
+          operational actions under established procedures.
+        </p>
+
+      </section>
+
+      <section class="card goal">
+
+        <h2>Your mission</h2>
+
+        <p>
+          Evaluate immediate debris risks and recommend
+          basic protection for spacecraft and crew from
+          cascading debris collisions.
+        </p>
+
+      </section>
+
+    </div>
+
+    <h2>What you’ll learn to do</h2>
+
+    <ol class="objectives">
+
+      <li class="card">
+        <h3>Recognize cascading risk</h3>
+        <p>
+          Identify an accurate description of Kessler Syndrome
+          and its consequences for space operations.
+        </p>
+      </li>
+
+      <li class="card">
+        <h3>Read the mission report</h3>
+        <p>
+          Identify signs of debris risk in the information provided.
+        </p>
+      </li>
+
+      <li class="card">
+        <h3>Recommend a response</h3>
+        <p>
+          Select basic protection that fits the mission
+          information and constraints.
+        </p>
+      </li>
+
+      <li class="card">
+        <h3>Evaluate the reasoning</h3>
+        <p>
+          Select the reason that correctly connects a
+          protective response to the debris risk.
+        </p>
+      </li>
+
+    </ol>
+
+    ${sessionNotice()}
+  `;
+}
+
+function concept(){
+
+  return `
+    <h2>
+      Why can a small fragment remain hazardous after a collision?
+    </h2>
+
+    <p>
+      Fragments keep moving in orbit.
+      Even a small fragment can cause severe damage at orbital speeds.
+    </p>
+
+    ${mediaBlock("concept")}
+
+    <figure aria-labelledby="cascadeCaption">
+
+      <ol class="flow">
+
+        ${
+          ART
+            .map(
+              (a,i)=>`
+                <li>
+
+                  ${artwork(i)}
+
+                  <h2>
+                    ${i+1}. ${esc(a.title)}
+                  </h2>
+
+                  ${p(a.text)}
+
+                </li>
+              `
+            )
+            .join("")
+        }
+
+      </ol>
+
+      <figcaption
+        id="cascadeCaption"
+        class="diagram-note"
+      >
+        This is a possible sequence,
+        not an immediate or certain chain of events.
+        The drawings are conceptual and not to scale.
+      </figcaption>
+
+    </figure>
+
+    <div class="callout">
+
+      <strong>
+        Kessler Syndrome:
+      </strong>
+
+      debris from one collision can increase the risk of later collisions.
+      Avoiding one encounter does not remove the remaining debris.
+
+    </div>
+
+    <p>
+      <strong>What’s at stake:</strong>
+      spacecraft, crew safety, communications,
+      navigation, and access to orbit.
+    </p>
+  `;
+}
+
+function modeledExample(){
+
+  return `
+    ${guide(
+      "Here is an example of how to use a mission report. OBS-A is a scheduled research observation. Read the report, then follow my recommendation and reasoning. There is no answer to submit on this screen."
+    )}
+
+    <div class="decision-layout">
+
+      ${report("model",false,true)}
+
+      <div>
+
+        ${mediaBlock("model")}
+
+        <section class="card response-card">
+
+          <section class="feedback-part">
+
+            <h2>
+              What changed?
+            </h2>
+
+            <p>
+              OBS-A moved to a later time that the earlier
+              debris assessment did not cover.
+            </p>
+
+          </section>
+
+          <section class="feedback-part">
+
+            <h2>
+              My recommendation
+            </h2>
+
+            <p>
+              Request updated analysis before deciding
+              whether OBS-A should proceed.
+            </p>
+
+          </section>
+
+          <section class="feedback-part">
+
+            <h2>
+              Why this fits the report
+            </h2>
+
+            <p>
+              The revised observation time still needs assessment,
+              and updated analysis is available before the team must decide.
+            </p>
+
+          </section>
+
+        </section>
+
+        <p class="small">
+          At each checkpoint, choose a recommendation and a reason.
+          You can change either choice before submitting.
+          After submission, review what happens next and why
+          your choices do or do not fit the evidence.
+        </p>
+
+      </div>
+
+    </div>
+  `;
+}
+
+function hub(){
+
+  return `
+    ${guide(
+      "Choose any checkpoint. Each starts with its own mission report. Complete all three before taking the final assessment."
+    )}
+
+    <h2 class="hub-summary">
+      ${BRANCHES.filter(branchDone).length}
+      of 3 checkpoints complete
+    </h2>
+
+    ${sessionNotice()}
+
+    <div class="branches">
+
+      ${
+        BRANCHES
+          .map(
+            b=>{
+
+              const done=
+                branchDone(b);
+
+              const started=
+                b.pages.some(
+                  id=>state.done.has(id)
+                )||
+                Object.keys(
+                  state.answers[
+                    b.pages[0]
+                  ].draft
+                ).length>0;
+
+              const verb=
+                done
+                  ?"Review"
+                  :started
+                    ?"Continue"
+                    :"Start";
+
+              return `
+                <section class="branch-card">
+
+                  <span class="status">
+                    ${
+                      done
+                        ?"✓ Complete"
+                        :started
+                          ?"In progress"
+                          :"Not started"
+                    }
+                  </span>
+
+                  <h2>
+                    ${esc(b.title)}
+                  </h2>
+
+                  ${p(b.summary)}
+
+                  <button
+                    data-action="branch"
+                    data-branch="${b.id}"
+                    aria-label="${verb} ${esc(b.title)}"
+                  >
+                    ${verb} checkpoint
+                  </button>
+
+                </section>
+              `;
+            }
+          )
+          .join("")
+      }
+
+    </div>
+  `;
+}
+
+function questionPage(id){
+
+  const q=QUESTIONS[id];
+  const r=state.answers[id];
+  const d=r.draft;
+  const b=branchFor(id);
+
+  let body="";
+
+  const label=
+    q.exam
+      ?`
+        <p class="assessment-label">
+
+          <strong>
+            Question ${EXAM.indexOf(id)+1} of 4 ·
+            ${q.slots.length}
+            ${
+              q.slots.length===1
+                ?"point"
+                :"points"
+            }
+          </strong>
+
+          ${
+            id==="s2"
+              ?`
+                <br>
+                2A Recommendation: 1 point ·
+                2B Reasoning: 1 point
+              `
+              :id==="s1"
+                ?`
+                  <br>
+                  Select both correct details to earn the point.
+                `
+                :""
+          }
+
+        </p>
+      `
+      :"";
+
+  if(r.submitted){
+
+    body=
+      q.exam||
+      q.type==="pair"
+        ?`
+          <h2
+            id="answerTitle"
+            tabindex="-1"
+          >
+            Response submitted
+          </h2>
+
+          ${selectedAnswer(q,r.original)}
+        `
+        :`
+          ${
+            q.type==="match"
+              ?""
+              :selectedAnswer(
+                q,
+                r.original
+              )
+          }
+
+          ${knowledgeFeedback(q,r)}
+        `;
+
+  }else if(q.type==="pair"){
+
+    body=`
+      <div
+        class="pair-steps"
+        aria-label="Two parts of your response"
+      >
+
+        <button
+          type="button"
+          data-action="phase"
+          data-phase="0"
+          aria-pressed="${r.phase===0}"
+        >
+          ${q.exam?"2A":"1"}.
+          Recommendation
+          ${q.exam?" · 1 point":""}
+        </button>
+
+        <button
+          type="button"
+          data-action="phase"
+          data-phase="1"
+          aria-pressed="${r.phase===1}"
+          ${d.action?"":"disabled"}
+        >
+          ${q.exam?"2B":"2"}.
+          Reasoning
+          ${q.exam?" · 1 point":""}
+        </button>
+
+      </div>
+    `;
+
+    body+=
+      r.phase===0
+        ?choices(
+          "action",
+          q.prompt,
+          q.actions,
+          d.action
+        )
+        :`
+          <div class="selected">
+
+            <strong>
+              Your recommendation
+            </strong>
+
+            ${p(choiceText(q.actions,d.action))}
+
+          </div>
+
+          <p class="small">
+            Choose the reason supported by the report.
+            You can return to change your recommendation
+            before submitting both choices.
+          </p>
+
+          ${
+            choices(
+              "reason",
+              "Which reason is supported by the evidence?",
+              q.reasons,
+              d.reason
+            )
+          }
+        `;
+
+  }else if(q.type==="match"){
+
+    body=`
+      <h2
+        id="questionTitle"
+        tabindex="-1"
+      >
+        ${esc(q.prompt)}
+      </h2>
+
+      ${
+        q.rows
+          .map(
+            (row,i)=>`
+              <label class="match-row">
+
+                <span>
+                  ${i+1}. ${esc(row)}
+                </span>
+
+                <select name="row${i}">
+
+                  <option value="">
+                    Choose an effect
+                  </option>
+
+                  ${
+                    q.effects
+                      .map(
+                        ([value,text])=>`
+                          <option
+                            value="${value}"
+                            ${
+                              d["row"+i]===value
+                                ?"selected"
+                                :""
+                            }
+                          >
+                            ${esc(text)}
+                          </option>
+                        `
+                      )
+                      .join("")
+                  }
+
+                </select>
+
+              </label>
+            `
+          )
+          .join("")
+      }
+    `;
+
+  }else{
+
+    body=
+      choices(
+        "choice",
+        q.prompt,
+        q.choices,
+        q.type==="multi"
+          ?d.selected
+          :d.choice,
+        q.type==="multi"
+      );
+  }
+
+  return `
+    ${
+      guide(
+        q.type==="pair"&&b
+          ?b.context
+          :q.intro
+      )
+    }
+
+    ${label}
+
+    <div class="decision-layout">
+
+      ${
+        report(
+          q.report,
+          false,
+          !q.exam&&
+          r.submitted
+        )
+      }
+
+      <div>
+
+        <form id="responseForm">
+          ${body}
+        </form>
+
+      </div>
+
+    </div>
+  `;
+}
+
+function consequence(id){
+
+  const b=branchFor(id);
+
+  const q=
+    QUESTIONS[
+      b.pages[0]
+    ];
+
+  const r=
+    state.answers[
+      b.pages[0]
+    ];
+
+  if(!r.submitted){
+
+    return p(
+      "Submit your recommendation before viewing the outcome."
+    );
+  }
+
+  const d=r.original;
+
+  const a=
+    "ABC".indexOf(
+      d.action
+    );
+
+  const n=
+    Number(
+      d.reason.slice(1)
+    )-1;
+
+  const aOK=
+    d.action===b.keyAction;
+
+  const rOK=
+    d.reason===b.keyReason;
+
+  return `
+    <div class="two">
+
+      <section class="card decision-result">
+
+        <h2>
+          Your recommendation
+        </h2>
+
+        <div class="selected">
+          ${p(choiceText(q.actions,d.action))}
+        </div>
+
+        ${verdict(aOK)}
+
+        <section class="feedback-part">
+
+          <h3>
+            What happens next
+          </h3>
+
+          <p>
+            <strong>
+              ${esc(b.outcomes[a][0])}
+            </strong>
+          </p>
+
+          ${p(b.outcomes[a][1])}
+
+        </section>
+
+        <section class="feedback-part">
+
+          <h3>
+            Why this matters
+          </h3>
+
+          ${evidenceStrip(q.report)}
+
+          ${p(b.outcomes[a][2])}
+
+        </section>
+
+      </section>
+
+      <section class="card decision-result">
+
+        <h2>
+          Your reasoning
+        </h2>
+
+        <div class="selected">
+          ${p(choiceText(q.reasons,d.reason))}
+        </div>
+
+        ${verdict(rOK)}
+
+        <section class="feedback-part">
+
+          <h3>
+            Evidence check
+          </h3>
+
+          ${p(b.reasons[n])}
+
+        </section>
+
+      </section>
+
+    </div>
+
+    ${missionFeedback(aOK,rOK)}
+
+    <button
+      data-action="report"
+      data-report="${q.report}"
+      aria-haspopup="dialog"
+    >
+      Open mission report
+    </button>
+  `;
+}
+
+function debrief(){
+
+  return `
+    ${guide(
+      "The appropriate response changes when the evidence changes. Normal spacecraft systems do not tell you whether a future debris encounter needs attention."
+    )}
+
+    <section class="card">
+
+      <h2>
+        Carry these questions forward
+      </h2>
+
+      <p>
+        <strong>Identify the concern.</strong>
+        Which encounter or activity is affected?
+        What information is still uncertain?
+      </p>
+
+      <p>
+        <strong>Check the response.</strong>
+        Has it been evaluated for these conditions?
+        Is there still time to choose it?
+      </p>
+
+      <p>
+        <strong>Reconsider changed conditions.</strong>
+        Does the earlier assessment cover the new time or forecast?
+        Resolving one encounter does not settle the risk
+        during every later activity.
+      </p>
+
+    </section>
+
+    <section class="card response-card">
+
+      <h2>
+        4 questions · 5 points
+      </h2>
+
+      <p>
+        Question 2 has two separately scored parts:
+        a recommendation and a reason.
+        Each is worth one point.
+      </p>
+
+      ${scoreMap()}
+
+      <p>
+        Use the evidence in each question’s report
+        and the concepts you have learned.
+        Your submitted answers cannot be changed.
+      </p>
+
+      <p>
+        After the assessment, review all four questions.
+        If you miss a question or part,
+        you’ll see a separate practice question about that idea.
+        Use the feedback to try again.
+        Practice does not change your original answer or score.
+      </p>
+
+      <p class="small">
+        There is no minimum initial score.
+        Complete all checkpoints,
+        review all four questions,
+        and answer each assigned practice question correctly
+        to receive the certificate.
+      </p>
+
+    </section>
+  `;
+}
+
+/* ================================================================
+   REVIEW AND PRACTICE
+   ================================================================ */
+
+function requiredForPanel(i){
+
+  return QUESTIONS[
+    EXAM[i]
+  ].slots.filter(
+    s=>state.scores[s]===0
+  );
+}
+
+function pendingForPanel(i){
+
+  return requiredForPanel(i)
+    .filter(
+      s=>!state.practice[s].passed
+    );
+}
+
+function reviewReady(i){
+
+  return allAnswered()&&
+    state.reviewSeen.has(i)&&
+    pendingForPanel(i).length===0;
+}
+
+function reviewLabel(){
+
+  return state.reviewPanel===3
+    ?"Finish review"
+    :"Next review";
+}
+
+function recordCurrentReview(){
+
+  if(
+    state.page==="results"&&
+    reviewReady(
+      state.reviewPanel
+    )
+  ){
+    state.reviewed.add(
+      state.reviewPanel
+    );
+  }
+}
+
+function activePracticeSlot(){
+
+  const i=
+    state.reviewPanel;
+
+  const required=
+    requiredForPanel(i);
+
+  if(!required.length){
+    return null;
+  }
+
+  if(
+    !required.includes(
+      state.practiceCursor[i]
+    )
+  ){
+    state.practiceCursor[i]=
+      pendingForPanel(i)[0]??
+      required[
+        required.length-1
+      ];
+  }
+
+  return state.practiceCursor[i];
+}
+
+function selectedComponent(slot){
+
+  const item=
+    REVIEW[slot];
+
+  const q=
+    QUESTIONS[
+      item.question
+    ];
+
+  const selected=
+    state.answers[
+      item.question
+    ].original[
+      item.field
+    ];
+
+  const options=
+    item.field==="action"
+      ?q.actions
+      :item.field==="reason"
+        ?q.reasons
+        :q.choices;
+
+  return (
+    Array.isArray(selected)
+      ?selected
+      :[selected]
+  )
+    .map(
+      id=>
+        p(
+          id+". "+
+          choiceText(
+            options,
+            id
+          )
+        )
+    )
+    .join("");
+}
+
+function supportedComponent(slot){
+
+  const item=
+    REVIEW[slot];
+
+  const q=
+    QUESTIONS[
+      item.question
+    ];
+
+  const options=
+    item.field==="action"
+      ?q.actions
+      :item.field==="reason"
+        ?q.reasons
+        :q.choices;
+
+  return (
+    item.field==="selected"
+      ?q.key
+      :[item.answer]
+  )
+    .map(
+      id=>
+        p(
+          id+". "+
+          choiceText(
+            options,
+            id
+          )
+        )
+    )
+    .join("");
+}
+
+function reviewComponent(slot){
+
+  const item=
+    REVIEW[slot];
+
+  const correct=
+    state.scores[slot]===1;
+
+  const selected=
+    state.answers[
+      item.question
+    ].original[
+      item.field
+    ];
+
+  const specific=
+    item.byChoice?.[
+      selected
+    ]||
+    item.other;
+
+  return `
+    <section
+      class="feedback-part"
+      aria-label="${esc(item.label)}"
+    >
+
+      <h3>
+        ${esc(item.label)} ·
+        ${correct?"Correct":"Needs review"} ·
+        ${state.scores[slot]} of 1 point
+      </h3>
+
+      ${
+        item.field==="reason"
+          ?`
+            <p class="small">
+              Which reason is supported by the evidence?
+            </p>
+          `
+          :""
+      }
+
+      <div class="selected">
+
+        <strong>
+          Your original ${
+            item.field==="action"
+              ?"recommendation"
+              :item.field==="reason"
+                ?"reason"
+                :"answer"
+          }
+        </strong>
+
+        ${selectedComponent(slot)}
+
+      </div>
+
+      ${
+        correct
+          ?p(item.correct)
+          :`
+            <h4>
+              Supported answer
+            </h4>
+
+            ${supportedComponent(slot)}
+
+            <h4>
+              Why
+            </h4>
+
+            ${p(item.why)}
+
+            ${p(specific)}
+          `
+      }
+
+      ${
+        correct
+          ?`
+            <details class="optional-details">
+
+              <summary>
+                Why the other answers do not fit
+              </summary>
+
+              <div>
+                ${p(item.other)}
+              </div>
+
+            </details>
+          `
+          :""
+      }
+
+    </section>
+  `;
+}
+
+function practiceLaunch(){
+
+  const i=
+    state.reviewPanel;
+
+  const needed=
+    requiredForPanel(i);
+
+  const pending=
+    pendingForPanel(i);
+
+  if(!pending.length){
+
+    return `
+      <div class="callout">
+
+        <strong>
+          ${
+            needed.length
+              ?"Practice complete."
+              :"No practice needed for this question."
+          }
+        </strong>
+
+        ${
+          i===3
+            ?"Select Finish review after completing all four question reviews."
+            :"Select Next review when you’re ready."
+        }
+
+      </div>
+    `;
+  }
+
+  const topics=
+    pending
+      .map(
+        s=>REVIEW[s].label
+      )
+      .join(" and ");
+
+  return `
+    <section
+      class="practice-launch"
+      aria-labelledby="practiceLaunchTitle"
+    >
+
+      <h3 id="practiceLaunchTitle">
+        Practice before you continue
+      </h3>
+
+      <p>
+
+        <strong>
+          ${esc(topics)}
+        </strong>
+
+        ${
+          pending.length===1
+            ?"needs"
+            :"need"
+        }
+
+        another look.
+
+        You’ll answer
+
+        ${
+          pending.length===1
+            ?"one short practice question"
+            :"two short practice questions"
+        }
+
+        about
+
+        ${
+          pending.length===1
+            ?"that idea"
+            :"those ideas"
+        }.
+
+      </p>
+
+      <p>
+        Use the feedback and the report.
+        Answer correctly to continue;
+        you’ll get guidance if you need another try.
+        Your original answer and score will not change.
+      </p>
+
+      <button
+        type="button"
+        data-action="practice-start"
+      >
+        Start practice
+      </button>
+
+    </section>
+  `;
+}
+
+function practiceCard(){
+
+  const slot=
+    activePracticeSlot();
+
+  if(slot===null){
+    return "";
+  }
+
+  const r=
+    state.practice[slot];
+
+  const q=
+    FOLLOWUP[slot];
+
+  const needed=
+    requiredForPanel(
+      state.reviewPanel
+    );
+
+  return `
+    <section
+      class="practice"
+      aria-labelledby="practiceTitle"
+    >
+
+      <div class="practice-top">
+
+        <p class="review-stage">
+          Guided practice · Not scored
+        </p>
+
+        <button
+          type="button"
+          data-action="practice-feedback"
+        >
+          Review original feedback
+        </button>
+
+      </div>
+
+      <h2
+        id="practiceTitle"
+        tabindex="-1"
+      >
+        ${esc(REVIEW[slot].label)}:
+        practice
+      </h2>
+
+      ${p(q.purpose)}
+
+      <p
+        class="practice-note"
+        id="practiceInstructions"
+      >
+
+        Use the report and feedback
+        to answer this new question.
+
+        Your original answer and score
+        will not change.
+
+        ${
+          needed.length>1
+            ?`
+              Practice ${
+                needed.indexOf(slot)+1
+              } of ${
+                needed.length
+              } for Question 2.
+            `
+            :""
+        }
+
+      </p>
+
+      ${
+        r.passed
+          ?`
+            <div class="selected">
+
+              <strong>
+                Your practice answer
+              </strong>
+
+              ${p(choiceText(q.choices,r.last))}
+
+            </div>
+          `
+          :`
+            <form
+              id="practiceForm"
+              data-slot="${slot}"
+              aria-describedby="practiceInstructions"
+            >
+
+              ${
+                choices(
+                  "practice",
+                  q.prompt,
+                  q.choices,
+                  r.choice,
+                  false,
+                  "practicePrompt"
+                )
+              }
+
+              <div class="practice-actions">
+
+                <button
+                  id="checkPractice"
+                  type="submit"
+                  aria-describedby="practiceHint"
+                >
+                  Check answer
+                </button>
+
+              </div>
+
+              <p
+                class="practice-note"
+                id="practiceHint"
+                role="status"
+              ></p>
+
+            </form>
+          `
+      }
+
+      ${
+        r.last
+          ?`
+            <section
+              class="feedback ${
+                r.passed
+                  ?""
+                  :"needs"
+              }"
+            >
+
+              <h3
+                id="practiceFeedback"
+                tabindex="-1"
+              >
+                ${
+                  r.passed
+                    ?"Practice question complete"
+                    :"Not yet. Take another look."
+                }
+              </h3>
+
+              ${p(q.feedback[r.last])}
+
+              ${
+                r.passed
+                  ?""
+                  :`
+                    <p class="small">
+                      Choose another answer,
+                      then select Check answer.
+                    </p>
+                  `
+              }
+
+            </section>
+          `
+          :""
+      }
+
+      ${
+        r.passed
+          ?pendingForPanel(
+            state.reviewPanel
+          ).length
+            ?`
+              <div class="practice-actions">
+
+                <button
+                  type="button"
+                  data-action="practice-next"
+                >
+                  Next practice question
+                </button>
+
+              </div>
+            `
+            :`
+              <p class="callout">
+
+                <strong>
+                  All practice for this question is complete.
+                </strong>
+
+                ${
+                  state.reviewPanel===3
+                    ?"Select Finish review after completing all four question reviews."
+                    :"Select Next review below when you’re ready."
+                }
+
+              </p>
+            `
+          :""
+      }
+
+    </section>
+  `;
+}
+
+function resultsPage(){
+
+  if(!allAnswered()){
+    return p(
+      "Complete all four questions to see your results."
+    );
+  }
+
+  const i=
+    state.reviewPanel;
+
+  const id=
+    EXAM[i];
+
+  const q=
+    QUESTIONS[id];
+
+  const assigned=
+    assignedSlots();
+
+  if(
+    !state.practiceVisible[i]
+  ){
+    state.reviewSeen.add(i);
+  }
+
+  const cleared=
+    assigned.filter(
+      s=>state.practice[s].passed
+    ).length;
+
+  return `
+    <section
+      class="results-summary"
+      aria-label="Original assessment score"
+    >
+
+      <div>
+
+        <span class="small">
+          Original assessment score
+        </span>
+
+        <strong class="score">
+          ${totalScore()}
+          of
+          ${MAX_POINTS}
+          points
+        </strong>
+
+        <p class="small">
+          4 questions.
+          Question 2 has two one-point parts.
+        </p>
+
+      </div>
+
+      <div class="small">
+
+        <p>
+          Question reviews:
+          ${state.reviewed.size}
+          of 4 complete
+        </p>
+
+        <p>
+          ${
+            assigned.length
+              ?`
+                Practice questions:
+                ${cleared}
+                of
+                ${assigned.length}
+                complete
+              `
+              :"No practice questions assigned"
+          }
+        </p>
+
+      </div>
+
+    </section>
+
+    <p class="small">
+      Review your original answers and feedback.
+      Any required practice has its own
+      Start practice and Check answer buttons.
+      Use Next review below to move between questions.
+    </p>
+
+    <nav
+      class="review-nav"
+      aria-label="Assessment question reviews"
+    >
+
+      ${
+        EXAM
+          .map(
+            (qid,j)=>`
+              <button
+                data-action="review"
+                data-panel="${j}"
+                ${
+                  i===j
+                    ?'aria-current="page"'
+                    :""
+                }
+              >
+
+                <strong>
+                  Question ${j+1}
+                  ${
+                    j===1
+                      ?" · Two parts"
+                      :""
+                  }
+                </strong>
+
+                <span>
+                  Original:
+                  ${questionPoints(j)}
+                  of
+                  ${
+                    QUESTIONS[qid]
+                      .slots.length
+                  }
+                  ${
+                    j===1
+                      ?"points"
+                      :"point"
+                  }
+                </span>
+
+                ${
+                  j===1
+                    ?`
+                      <span>
+                        2A:
+                        ${state.scores[1]}/1
+                        ·
+                        2B:
+                        ${state.scores[2]}/1
+                      </span>
+                    `
+                    :""
+                }
+
+                <span>
+                  ${
+                    state.reviewed.has(j)
+                      ?"✓ Review complete"
+                      :pendingForPanel(j).length
+                        ?"Practice required"
+                        :i===j
+                          ?"Review in progress"
+                          :"Review required"
+                  }
+                </span>
+
+              </button>
+            `
+          )
+          .join("")
+      }
+
+    </nav>
+
+    <div class="decision-layout">
+
+      ${report(q.report,false,true)}
+
+      <div>
+
+        ${
+          state.practiceVisible[i]
+            ?practiceCard()
+            :`
+              <article class="card response-card">
+
+                <p class="review-stage">
+                  Original assessment ·
+                  Question ${i+1} of 4
+                </p>
+
+                <h2
+                  id="reviewTitle"
+                  tabindex="-1"
+                >
+                  ${esc(q.prompt)}
+                </h2>
+
+                ${
+                  id==="s2"
+                    ?evidenceStrip("s2")
+                    :""
+                }
+
+                ${
+                  q.slots
+                    .map(
+                      reviewComponent
+                    )
+                    .join("")
+                }
+
+              </article>
+
+              ${practiceLaunch()}
+            `
+        }
+
+      </div>
+
+    </div>
+  `;
+}
+
+function selectReview(i){
+
+  if(
+    state.page!=="results"||
+    !allAnswered()||
+    !Number.isInteger(i)||
+    i<0||
+    i>3
+  ){
+    return;
+  }
+
+  if(
+    i!==state.reviewPanel
+  ){
+    recordCurrentReview();
+  }
+
+  state.reviewPanel=i;
+  state.practiceVisible[i]=false;
+
+  render("reviewTitle");
+}
+
+function startPractice(){
+
+  if(
+    state.page!=="results"||
+    !allAnswered()||
+    !state.reviewSeen.has(
+      state.reviewPanel
+    )
+  ){
+    return;
+  }
+
+  const next=
+    pendingForPanel(
+      state.reviewPanel
+    )[0];
+
+  if(next===undefined){
+    return;
+  }
+
+  state.practiceCursor[
+    state.reviewPanel
+  ]=next;
+
+  state.practiceVisible[
+    state.reviewPanel
+  ]=true;
+
+  render("practiceTitle");
+}
+
+function practiceReady(){
+
+  if(
+    state.page!=="results"||
+    !state.practiceVisible[
+      state.reviewPanel
+    ]
+  ){
+    return false;
+  }
+
+  const slot=
+    activePracticeSlot();
+
+  if(slot===null){
+    return false;
+  }
+
+  const r=
+    state.practice[slot];
+
+  return !r.passed&&
+    r.choice!==r.last&&
+    FOLLOWUP[
+      slot
+    ].choices.some(
+      ([id])=>id===r.choice
+    );
+}
+
+function submitPractice(){
+
+  if(
+    !allAnswered()||
+    !practiceReady()
+  ){
+    return;
+  }
+
+  const slot=
+    activePracticeSlot();
+
+  const r=
+    state.practice[slot];
+
+  r.last=
+    r.choice;
+
+  r.attempts++;
+
+  r.passed=
+    r.choice===
+    FOLLOWUP[slot].key;
+
+  render(
+    "practiceFeedback"
+  );
+
+  announce(
+    r.passed
+      ?"Practice question complete. Your original assessment score has not changed."
+      :"Read the guidance, choose another answer, and select Check answer."
+  );
+}
+
+function nextPractice(){
+
+  if(
+    state.page!=="results"||
+    !state.practiceVisible[
+      state.reviewPanel
+    ]
+  ){
+    return;
+  }
+
+  const current=
+    activePracticeSlot();
+
+  if(
+    current===null||
+    !state.practice[
+      current
+    ].passed
+  ){
+    return;
+  }
+
+  const next=
+    pendingForPanel(
+      state.reviewPanel
+    )[0];
+
+  if(next!==undefined){
+
+    state.practiceCursor[
+      state.reviewPanel
+    ]=next;
+
+    render("practiceTitle");
+  }
+}
+
+function advanceReview(){
+
+  const i=
+    state.reviewPanel;
+
+  if(
+    state.page!=="results"||
+    !reviewReady(i)
+  ){
+    return;
+  }
+
+  if(i<3){
+
+    recordCurrentReview();
+
+    selectReview(
+      i+1
+    );
+
+    return;
+  }
+
+  if(
+    [0,1,2].some(
+      j=>!state.reviewed.has(j)
+    )
+  ){
+    return;
+  }
+
+  recordCurrentReview();
+
+  if(reviewComplete()){
+
+    state.done.add(
+      "results"
+    );
+
+    go(
+      "finish"
+    );
+  }
+}
+
+/* ================================================================
+   COMPLETION
+   ================================================================ */
+
+function certificate(){
+
+  return `
+    <div class="certificate">
+
+      <span class="logo-wrap">
+
+        <img
+          src="${LOGO}"
+          alt="Monolith logo"
+          width="64"
+          height="88"
+        >
+
+      </span>
+
+      <h2>
+        Certificate of completion
+      </h2>
+
+      <p>
+        Presented to
+      </p>
+
+      <p class="recipient">
+        ${esc(state.name.trim()||"The participant")}
+      </p>
+
+      <p>
+        for completing
+      </p>
+
+      <h3>
+        Kessler Syndrome Primer
+      </h3>
+
+      <p>
+        Including the introductory briefing,
+        three decision checkpoints,<br>
+        final assessment,
+        feedback review,
+        and any required follow-up practice.
+      </p>
+
+      ${
+        CERTIFICATE_ISSUER
+          ?`
+            <p>
+              ${esc(CERTIFICATE_ISSUER)}
+            </p>
+          `
+          :""
+      }
+
+      <p class="small">
+        Completed on
+        ${esc(state.date)}
+      </p>
+
+      <p class="small">
+        Module developed by
+        Monolith Learning Systems
+      </p>
+
+      <p class="qualifier">
+        This certificate records completion,
+        not mastery or operational qualification.
+      </p>
+
+    </div>
+  `;
+}
+
+function finishPage(){
+
+  return `
+    ${guide(
+      "You’ve completed the checkpoints, reviewed all four assessment questions, and completed any required practice."
+    )}
+
+    ${mediaBlock("closing")}
+
+    <div class="two">
+
+      <section class="card response-card">
+
+        <h2>
+          What to carry forward
+        </h2>
+
+        <p>
+          Base recommendations on the current report.
+          Reassess the affected activity when conditions change.
+        </p>
+
+        <p class="small">
+          Your certificate records completion,
+          not mastery or operational qualification.
+        </p>
+
+      </section>
+
+      <section class="card">
+
+        <h2>
+          Before your next class or simulation
+        </h2>
+
+        <p>
+          Choose one decision to explain in your own words.
+          Note any remaining question to discuss with your instructor.
+        </p>
+
+      </section>
+
+    </div>
+
+    ${
+      state.earned
+        ?`
+          ${certificate()}
+
+          <div class="actions">
+
+            <button data-action="print">
+              Print certificate
+            </button>
+
+            <button data-action="exit">
+              Exit lesson
+            </button>
+
+          </div>
+        `
+        :`
+          <section class="card">
+
+            <h2>
+              Your certificate
+            </h2>
+
+            <label class="name-field">
+
+              Name on certificate
+              (optional)
+
+              <input
+                id="certificateName"
+                type="text"
+                maxlength="70"
+                autocomplete="name"
+                value="${esc(state.name)}"
+              >
+
+            </label>
+
+            <p>
+              Select Finish lesson
+              to display your certificate.
+            </p>
+
+          </section>
+        `
+    }
+  `;
+}
+
+function content(id){
+
+  if(QUESTIONS[id]){
+    return questionPage(id);
+  }
+
+  const templates={
+    intro:welcome,
+    concept,
+    model:modeledExample,
+    hub,
+    debrief,
+    results:resultsPage,
+    finish:finishPage
+  };
+
+  return templates[id]
+    ?templates[id]()
+    :consequence(id);
+}
+
+/* ================================================================
+   RESPONSE CAPTURE AND SCORING
+   ================================================================ */
+
+function captureDraft(){
+
+  const q=
+    QUESTIONS[
+      state.page
+    ];
+
+  const r=
+    state.answers[
+      state.page
+    ];
+
+  const form=
+    $("responseForm");
+
+  if(
+    !q||
+    r.submitted||
+    !form
+  ){
+    return;
+  }
+
+  const data=
+    new FormData(form);
+
+  if(q.type==="pair"){
+
+    const field=
+      r.phase===0
+        ?"action"
+        :"reason";
+
+    r.draft[field]=
+      data.get(field);
+
+  }else if(q.type==="multi"){
+
+    r.draft.selected=
+      data.getAll("choice");
+
+  }else if(q.type==="match"){
+
+    q.rows.forEach(
+      (_,i)=>{
+
+        r.draft[
+          "row"+i
+        ]=
+          data.get(
+            "row"+i
+          );
+      }
+    );
+
+  }else{
+
+    r.draft.choice=
+      data.get("choice");
+  }
+}
+
+function valid(q,d){
+
+  const has=
+    (options,value)=>
+      options.some(
+        ([id])=>id===value
+      );
+
+  if(q.type==="pair"){
+
+    return has(
+      q.actions,
+      d.action
+    )&&
+    has(
+      q.reasons,
+      d.reason
+    );
+  }
+
+  if(q.type==="multi"){
+
+    return Array.isArray(
+      d.selected
+    )&&
+    d.selected.length===2&&
+    new Set(
+      d.selected
+    ).size===2&&
+    d.selected.every(
+      v=>
+        has(
+          q.choices,
+          v
+        )
+    );
+  }
+
+  if(q.type==="match"){
+
+    return q.rows.every(
+      (_,i)=>
+        has(
+          q.effects,
+          d["row"+i]
+        )
+    );
+  }
+
+  return has(
+    q.choices,
+    d.choice
+  );
+}
+
+function freezeResponse(d){
+
+  const response=
+    JSON.parse(
+      JSON.stringify(d)
+    );
+
+  if(
+    Array.isArray(
+      response.selected
+    )
+  ){
+    Object.freeze(
+      response.selected
+    );
+  }
+
+  return Object.freeze(
+    response
+  );
+}
+
+function submitAnswer(){
+
+  const id=
+    state.page;
+
+  const q=
+    QUESTIONS[id];
+
+  const r=
+    state.answers[id];
+
+  if(
+    !q||
+    r.submitted||
+    !canVisit(id)
+  ){
+    return;
+  }
+
+  if(
+    q.exam&&
+    id!==EXAM[
+      state.examIndex
+    ]
+  ){
+    return;
+  }
+
+  captureDraft();
+
+  if(
+    !valid(
+      q,
+      r.draft
+    )
+  ){
+    return;
+  }
+
+  const d=
+    r.original=
+      freezeResponse(
+        r.draft
+      );
+
+  r.submitted=true;
+
+  if(q.exam){
+
+    if(q.type==="pair"){
+
+      state.scores[
+        q.slots[0]
+      ]=
+        Number(
+          d.action===
+          q.keyAction
+        );
+
+      state.scores[
+        q.slots[1]
+      ]=
+        Number(
+          d.reason===
+          q.keyReason
+        );
+
+    }else{
+
+      state.scores[
+        q.slots[0]
+      ]=
+        Number(
+          q.type==="multi"
+            ?d.selected.every(
+              v=>
+                q.key.includes(v)
+            )
+            :d.choice===q.key
+        );
+    }
+
+    if(allAnswered()){
+      Object.freeze(
+        state.scores
+      );
+    }
+
+  }else if(
+    q.type==="multi"
+  ){
+
+    r.feedback=
+      d.selected.filter(
+        v=>q.key.includes(v)
+      ).length;
+
+  }else if(
+    q.type==="single"
+  ){
+
+    r.feedback=
+      d.choice===q.key
+        ?2
+        :d.choice===q.partial
+          ?1
+          :0;
+  }
+
+  render(
+    "answerTitle"
+  );
+
+  announce(
+    q.exam||
+    q.type==="pair"
+      ?"Response submitted."
+      :"Feedback is available."
+  );
+}
+
+function finishQuestion(){
+
+  const id=
+    state.page;
+
+  const q=
+    QUESTIONS[id];
+
+  const r=
+    state.answers[id];
+
+  if(
+    !q||
+    !r.submitted||
+    !canVisit(id)
+  ){
+    return;
+  }
+
+  if(
+    q.exam&&
+    id!==EXAM[
+      state.examIndex
+    ]
+  ){
+    return;
+  }
+
+  state.done.add(id);
+
+  if(q.exam){
+
+    state.examIndex++;
+
+    go(
+      EXAM[
+        state.examIndex
+      ]||
+      "results"
+    );
+
+  }else{
+
+    const b=
+      branchFor(id);
+
+    go(
+      b.pages.indexOf(id)===0
+        ?b.pages[1]
+        :"hub"
+    );
+  }
+}
+
+function completeStatic(next){
+
+  if(
+    canVisit(
+      state.page
+    )
+  ){
+    state.done.add(
+      state.page
+    );
+
+    go(next);
+  }
+}
+
+function earnCompletion(){
+
+  if(
+    state.page!=="finish"||
+    state.earned||
+    !allBranchesDone()||
+    !reviewComplete()||
+    !state.done.has("results")
+  ){
+    return;
+  }
+
+  state.name=
+    (
+      $("certificateName")
+        ?.value??
+      state.name
+    )
+    .slice(0,70);
+
+  state.date=
+    new Intl.DateTimeFormat(
+      undefined,
+      {
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+      }
+    )
+    .format(
+      new Date()
+    );
+
+  state.earned=true;
+
+  state.done.add(
+    "finish"
+  );
+
+  $("printSheet").innerHTML=
+    certificate();
+
+  render();
+
+  announce(
+    "Lesson complete. Your certificate is ready."
+  );
+}
+
+/* ================================================================
+   PLAYER CONTROLS
+   ================================================================ */
+
+function primaryAction(){
+
+  const id=
+    state.page;
+
+  const q=
+    QUESTIONS[id];
+
+  const r=
+    state.answers[id];
+
+  if(q){
+
+    if(r.submitted){
+
+      return {
+
+        label:
+          q.exam
+            ?id==="s4"
+              ?"Review answers"
+              :"Next question"
+            :q.type==="pair"
+              ?"See what happens next"
+              :"Return to checkpoints",
+
+        enabled:true,
+
+        run:
+          finishQuestion
+      };
+    }
+
+    if(
+      q.type==="pair"&&
+      r.phase===0
+    ){
+
+      return {
+
+        label:
+          q.exam
+            ?"Continue to 2B · Reasoning"
+            :"Choose a reason",
+
+        enabled:
+          Boolean(
+            r.draft.action
+          ),
+
+        hint:
+          r.draft.action
+            ?""
+            :"Choose one recommendation.",
+
+        run:()=>{
+
+          captureDraft();
+
+          if(
+            r.draft.action
+          ){
+            r.phase=1;
+            render(
+              "questionTitle"
+            );
+          }
+        }
+      };
+    }
+
+    const ready=
+      valid(
+        q,
+        r.draft
+      );
+
+    return {
+
+      label:
+        q.type==="pair"
+          ?"Submit both choices"
+          :"Submit response",
+
+      enabled:
+        ready,
+
+      run:
+        submitAnswer,
+
+      hint:
+        q.type==="multi"
+          ?`
+            Select exactly two.
+            ${
+              (
+                r.draft.selected||
+                []
+              ).length
+            }
+            selected.
+          `
+          :ready
+            ?""
+            :q.type==="match"
+              ?"Choose an effect for each response."
+              :"Choose one response."
+    };
+  }
+
+  if(id==="hub"){
+
+    return {
+
+      label:
+        "Continue to debrief",
+
+      enabled:
+        allBranchesDone(),
+
+      run:()=>
+        go("debrief"),
+
+      hint:
+        allBranchesDone()
+          ?""
+          :"Complete all three checkpoints to continue."
+    };
+  }
+
+  if(id==="results"){
+
+    const i=
+      state.reviewPanel;
+
+    const ready=
+      reviewReady(i);
+
+    const othersDone=
+      i<3||
+      [0,1,2].every(
+        j=>state.reviewed.has(j)
+      );
+
+    return {
+
+      label:
+        reviewLabel(),
+
+      enabled:
+        ready&&othersDone,
+
+      run:
+        advanceReview,
+
+      hint:
+        !ready
+          ?state.practiceVisible[i]
+            ?"Complete the practice above to continue."
+            :"Select Start practice in the question panel before continuing."
+          :!othersDone
+            ?"Complete the other question reviews using the numbered buttons above, then finish here."
+            :i===3
+              ?"Next: recap and certificate."
+              :`Next: review Question ${i+2}.`
+    };
+  }
+
+  if(id==="finish"){
+
+    return {
+
+      label:
+        state.earned
+          ?"Lesson complete"
+          :"Finish lesson",
+
+      enabled:
+        !state.earned,
+
+      run:
+        earnCompletion
+    };
+  }
+
+  const next={
+    intro:"concept",
+    concept:"model",
+    model:"hub",
+    debrief:
+      state.examStarted
+        ?"results"
+        :"s1"
+  }[id]||
+  branchFor(id)?.pages[2];
+
+  return {
+
+    label:
+      id==="model"
+        ?"Choose a checkpoint"
+        :id==="debrief"
+          ?state.examStarted
+            ?"Review answers"
+            :"Start assessment"
+          :"Continue",
+
+    enabled:true,
+
+    run:()=>
+      completeStatic(next)
+  };
+}
+
+function renderControls(){
+
+  const action=
+    primaryAction();
+
+  $("nextButton").textContent=
+    action.label;
+
+  $("nextButton").disabled=
+    !action.enabled;
+
+  $("actionHint").textContent=
+    action.hint||"";
+
+  $("actionHint").hidden=
+    !action.hint;
+
+  if(action.hint){
+
+    $("nextButton")
+      .setAttribute(
+        "aria-describedby",
+        "actionHint"
+      );
+
+  }else{
+
+    $("nextButton")
+      .removeAttribute(
+        "aria-describedby"
+      );
+  }
+
+  const q=
+    QUESTIONS[
+      state.page
+    ];
+
+  const r=
+    state.answers[
+      state.page
+    ];
+
+  const phaseBack=
+    q?.type==="pair"&&
+    !r.submitted&&
+    r.phase===1;
+
+  $("backButton").textContent=
+    state.page==="results"
+      ?"Previous review"
+      :phaseBack
+        ?"Back to recommendation"
+        :"Back";
+
+  $("backButton").disabled=
+    state.page==="results"
+      ?state.reviewPanel===0
+      :!phaseBack&&
+        !previousPage();
+
+  const reasonButton=
+    document.querySelector(
+      '[data-action="phase"][data-phase="1"]'
+    );
+
+  if(reasonButton){
+
+    reasonButton.disabled=
+      !r.draft.action;
+  }
+
+  if(
+    $("checkPractice")
+  ){
+
+    $("checkPractice").disabled=
+      !practiceReady();
+
+    const practice=
+      state.practice[
+        activePracticeSlot()
+      ];
+
+    $("practiceHint").textContent=
+      practiceReady()
+        ?"Select Check answer to see feedback."
+        :practice.last
+          ?"Use the feedback to choose another answer."
+          :"Choose an answer, then select Check answer.";
+  }
+
+  $("hubButton").hidden=
+    !state.done.has("model");
+
+  $("hubButton").disabled=
+    examLocked()||
+    state.page==="hub";
+
+  $("hubButton").title=
+    examLocked()
+      ?"Complete the assessment, reviews and required practice before returning to checkpoints."
+      :"Choose or review a checkpoint";
+
+  const b=
+    branchFor(
+      state.page
+    );
+
+  const bi=
+    [
+      "intro",
+      "concept",
+      "model"
+    ]
+    .indexOf(
+      state.page
+    );
+
+  $("position").textContent=
+    b
+      ?`
+        Checkpoint ${
+          BRANCHES.indexOf(b)+1
+        } ·
+        Step ${
+          b.pages.indexOf(
+            state.page
+          )+1
+        } of 3
+      `
+      :q?.exam
+        ?`
+          Question ${
+            EXAM.indexOf(
+              state.page
+            )+1
+          } of 4
+        `
+        :state.page==="results"
+          ?`
+            Question ${
+              state.reviewPanel+1
+            } of 4 ·
+            ${
+              state.practiceVisible[
+                state.reviewPanel
+              ]
+                ?"Practice"
+                :"Review"
+            }
+          `
+          :bi>=0
+            ?`
+              Briefing ${
+                bi+1
+              } of 3
+            `
+            :screen(
+              state.page
+            ).title;
+
+  $("progress").max=
+    SCREENS.length;
+
+  $("progress").value=
+    state.done.size;
+
+  $("progress").textContent=
+    `${state.done.size} of ${SCREENS.length} steps`;
+
+  $("progressLabel").textContent=
+    `Lesson progress: ${state.done.size} of ${SCREENS.length} steps`;
+}
+
+/* ================================================================
+   MENU AND RENDER
+   ================================================================ */
+
+function renderMenu(){
+
+  $("menuList").innerHTML=
+    GROUPS
+      .map(
+        ([id,title])=>{
+
+          const pages=
+            SCREENS.filter(
+              s=>s.group===id
+            );
+
+          const open=
+            state.openGroup===id;
+
+          const done=
+            pages.every(
+              s=>state.done.has(s.id)
+            );
+
+          return `
+            <section class="menu-group">
+
+              <button
+                class="menu-heading"
+                data-group="${id}"
+                aria-controls="group-${id}"
+                aria-expanded="${open}"
+              >
+
+                <span>
+                  ${esc(title)}
+                </span>
+
+                <span
+                  aria-hidden="true"
+                  style="flex:none"
+                >
+                  ${done?"✓ ":""}
+                  ${open?"−":"+"}
+                </span>
+
+              </button>
+
+              <ol
+                id="group-${id}"
+                ${open?"":"hidden"}
+              >
+
+                ${
+                  pages
+                    .map(
+                      s=>{
+
+                        const current=
+                          s.id===
+                          state.page;
+
+                        const available=
+                          canVisit(s.id);
+
+                        const complete=
+                          state.done.has(
+                            s.id
+                          );
+
+                        const status=
+                          current
+                            ?"current screen"
+                            :complete
+                              ?"completed"
+                              :available
+                                ?"available"
+                                :"not available yet";
+
+                        return `
+                          <li>
+
+                            <button
+                              class="menu-item"
+                              data-page="${s.id}"
+                              ${
+                                available
+                                  ?""
+                                  :"disabled"
+                              }
+                              ${
+                                current
+                                  ?'aria-current="page"'
+                                  :""
+                              }
+                              aria-label="${
+                                esc(
+                                  s.number+
+                                  ". "+
+                                  s.menuTitle+
+                                  ", "+
+                                  status
+                                )
+                              }"
+                            >
+
+                              <span
+                                class="mark"
+                                aria-hidden="true"
+                              >
+                                ${
+                                  complete
+                                    ?"✓"
+                                    :current
+                                      ?"›"
+                                      :"·"
+                                }
+                              </span>
+
+                              <span>
+                                ${s.number}
+                                ${esc(s.menuTitle)}
+                              </span>
+
+                            </button>
+
+                          </li>
+                        `;
+                      }
+                    )
+                    .join("")
+                }
+
+              </ol>
+
+            </section>
+          `;
+        }
+      )
+      .join("");
+}
+
+function render(
+  focus="screenTitle"
+){
+
+  stopMedia();
+
+  $("canvas")
+    .classList
+    .toggle(
+      "welcome",
+      state.page==="intro"
+    );
+
+  $("canvas").innerHTML=`
+    <h1
+      id="screenTitle"
+      tabindex="-1"
+    >
+      ${esc(
+        screen(
+          state.page
+        ).title
+      )}
+    </h1>
+
+    <div
+      id="lessonBody"
+      class="screen-body"
+    >
+      ${content(state.page)}
+    </div>
+  `;
+
+  renderMenu();
+  renderControls();
+  mountMedia();
+
+  $("canvas").scrollTop=0;
+
+  focusTo(focus);
+}
+
+function showDialog(
+  title,
+  html
+){
+
+  stopMedia();
+
+  dialogFocus=
+    document.activeElement;
+
+  $("dialogTitle").textContent=
+    title;
+
+  $("dialogBody").innerHTML=
+    html;
+
+  $("dialog").showModal();
+
+  $("dialog").scrollTop=0;
+
+  $("closeDialog").focus();
+}
+
+/* ================================================================
+   EVENTS
+   ================================================================ */
+
+$("nextButton")
+  .addEventListener(
+    "click",
+    event=>{
+
+      if(event.detail<=1){
+
+        const a=
+          primaryAction();
+
+        if(a.enabled){
+          a.run();
+        }
+      }
+    }
+  );
+
+$("backButton")
+  .addEventListener(
+    "click",
+    event=>{
+
+      if(event.detail<=1){
+        back();
+      }
+    }
+  );
+
+$("canvas")
+  .addEventListener(
+    "change",
+    event=>{
+
+      if(
+        event.target.closest(
+          "#responseForm"
+        )
+      ){
+        captureDraft();
+        renderControls();
+      }
+
+      const form=
+        event.target.closest(
+          "#practiceForm"
+        );
+
+      if(form){
+
+        const slot=
+          Number(
+            form.dataset.slot
+          );
+
+        if(
+          !state.practice[
+            slot
+          ].passed
+        ){
+
+          state.practice[
+            slot
+          ].choice=
+            event.target.value;
+
+          renderControls();
+        }
+      }
+    }
+  );
+
+$("canvas")
+  .addEventListener(
+    "input",
+    event=>{
+
+      if(
+        event.target.id===
+        "certificateName"
+      ){
+        state.name=
+          event.target.value;
+      }
+    }
+  );
+
+$("canvas")
+  .addEventListener(
+    "submit",
+    event=>{
+
+      event.preventDefault();
+
+      if(
+        event.target.id===
+        "practiceForm"
+      ){
+
+        submitPractice();
+
+      }else if(
+        event.target.id===
+        "responseForm"
+      ){
+
+        const a=
+          primaryAction();
+
+        if(a.enabled){
+          a.run();
+        }
+      }
+    }
+  );
+
+$("canvas")
+  .addEventListener(
+    "click",
+    event=>{
+
+      const button=
+        event.target.closest(
+          "button[data-action]"
+        );
+
+      if(
+        !button||
+        event.detail>1
+      ){
+        return;
+      }
+
+      switch(
+        button.dataset.action
+      ){
+
+        case "branch":
+
+          startBranch(
+            button.dataset.branch
+          );
+
+          break;
+
+        case "phase":{
+
+          const r=
+            state.answers[
+              state.page
+            ];
+
+          const phase=
+            Number(
+              button.dataset.phase
+            );
+
+          if(
+            !r||
+            r.submitted
+          ){
+            return;
+          }
+
+          captureDraft();
+
+          if(
+            phase===0||
+            (
+              phase===1&&
+              r.draft.action
+            )
+          ){
+            r.phase=phase;
+            render(
+              "questionTitle"
+            );
+          }
+
+          break;
+        }
+
+        case "report":
+
+          if(
+            REPORTS[
+              button.dataset.report
+            ]
+          ){
+
+            showDialog(
+              "Mission report",
+              report(
+                button.dataset.report,
+                true
+              )
+            );
+          }
+
+          break;
+
+        case "review":
+
+          selectReview(
+            Number(
+              button.dataset.panel
+            )
+          );
+
+          break;
+
+        case "practice-start":
+
+          startPractice();
+
+          break;
+
+        case "practice-feedback":
+
+          state.practiceVisible[
+            state.reviewPanel
+          ]=false;
+
+          render(
+            "reviewTitle"
+          );
+
+          break;
+
+        case "practice-next":
+
+          nextPractice();
+
+          break;
+
+        case "print":
+
+          if(state.earned){
+            window.print();
+          }
+
+          break;
+
+        case "exit":
+
+          if(state.earned){
+
+            showDialog(
+              "Lesson complete",
+              p(
+                "Print your certificate before closing this tab if you need a copy. You may now close the tab."
+              )
+            );
+          }
+
+          break;
+      }
+    }
+  );
+
+$("menuList")
+  .addEventListener(
+    "click",
+    event=>{
+
+      const group=
+        event.target.closest(
+          "button[data-group]"
+        );
+
+      if(group){
+
+        state.openGroup=
+          state.openGroup===
+          group.dataset.group
+            ?null
+            :group.dataset.group;
+
+        renderMenu();
+
+        document.querySelector(
+          `[data-group="${group.dataset.group}"]`
+        )?.focus();
+
+        return;
+      }
+
+      const page=
+        event.target.closest(
+          "button[data-page]"
+        );
+
+      if(
+        page&&
+        !page.disabled
+      ){
+        go(
+          page.dataset.page
+        );
+      }
+    }
+  );
+
+$("hubButton")
+  .addEventListener(
+    "click",
+    ()=>go("hub")
+  );
+
+$("menuButton")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      setMenu(
+        $("menuButton")
+          .getAttribute(
+            "aria-expanded"
+          )!=="true"
+      );
+    }
+  );
+
+$("readingButton")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      setReading(
+        $("readingButton")
+          .getAttribute(
+            "aria-pressed"
+          )!=="true"
+      );
+    }
+  );
+
+$("textButton")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      const clone=
+        $("lessonBody")
+          .cloneNode(true);
+
+      clone
+        .querySelectorAll(
+          "details"
+        )
+        .forEach(
+          el=>{
+            el.open=true;
+          }
+        );
+
+      clone
+        .querySelectorAll(
+          "audio,img,svg,button,.audio-caption"
+        )
+        .forEach(
+          el=>{
+            el.remove();
+          }
+        );
+
+      const holder=
+        document.createElement(
+          "div"
+        );
+
+      holder.className=
+        "sr-only";
+
+      holder.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      holder.append(clone);
+
+      document.body.append(
+        holder
+      );
+
+      const text=
+        clone.innerText;
+
+      holder.remove();
+
+      showDialog(
+        screen(
+          state.page
+        ).title,
+        `<div class="screen-text">${esc(text)}</div>`
+      );
+    }
+  );
+
+$("helpButton")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      showDialog(
+        "Using this lesson",
+        `
+          <h3>
+            Choose your route
+          </h3>
+
+          <p>
+            Complete the three checkpoints in any order.
+            Use Checkpoints to switch topics or continue unfinished work.
+            Each begins with its own mission report.
+          </p>
+
+          <h3>
+            Session progress
+          </h3>
+
+          <p>
+            Your progress is retained only while this tab remains open.
+            Refreshing the page or closing the tab starts a new session.
+          </p>
+
+          <h3>
+            Read the reports
+          </h3>
+
+          <p>
+            Mission time is the time within the scenario,
+            not a countdown.
+            OBS labels identify research observations,
+            AV labels identify avoidance options,
+            and P labels identify orbital passes in these reports.
+            A focused review examines a specific debris concern.
+            Reassessment checks the situation again when information changes.
+          </p>
+
+          <h3>
+            Audio, captions and transcripts
+          </h3>
+
+          <p>
+            Use each recording’s controls to play, pause or replay it.
+            Select Captions to show or hide timed text,
+            or open Transcript to read the full narration.
+            Opening a dialog or changing screens pauses playback.
+            Listening is not a completion requirement.
+          </p>
+
+          <h3>
+            Assessment and scoring
+          </h3>
+
+          <p>
+            There are four questions worth five points.
+            Question 2 has two parts:
+            2A Recommendation and 2B Reasoning,
+            each worth one point.
+            Question 1 requires both correct details to earn its one point.
+            Original answers cannot be changed.
+          </p>
+
+          <h3>
+            Review and practice
+          </h3>
+
+          <p>
+            Review every question after the assessment.
+            Next review moves to the next question;
+            Finish review ends the fourth review.
+            A missed question or part has separate practice.
+            Select Start practice,
+            use the feedback,
+            then select Check answer.
+            Answer the assigned practice questions correctly
+            to complete that review.
+            Practice does not change your assessment score.
+          </p>
+
+          <p>
+            The numbered review buttons let you revisit any question.
+            Unfinished practice remains required,
+            even if you switch reviews.
+            You must complete all four reviews before finishing.
+          </p>
+
+          <h3>
+            Keyboard and display
+          </h3>
+
+          <p>
+            Use Tab between controls,
+            arrow keys within radio groups,
+            and Space to select.
+            Reading view uses the available window height.
+            Scroll the lesson above the navigation controls.
+            Close dialogs with Escape or Close.
+          </p>
+        `
+      );
+    }
+  );
+
+$("closeDialog")
+  .addEventListener(
+    "click",
+    ()=>{
+      $("dialog").close();
+    }
+  );
+
+$("dialog")
+  .addEventListener(
+    "close",
+    ()=>{
+
+      if(
+        dialogFocus?.isConnected
+      ){
+        dialogFocus.focus();
+      }
+    }
+  );
+
+$("brandLogo").src=
+  LOGO;
+
+const narrow=
+  matchMedia(
+    "(max-width:900px)"
+  );
+
+setReading(
+  narrow.matches
+);
+
+setMenu(
+  !narrow.matches
+);
+
+$("readingButton").hidden=
+  narrow.matches;
+
+narrow.addEventListener(
+  "change",
+  event=>{
+
+    $("readingButton").hidden=
+      event.matches;
+
+    if(event.matches){
+
+      setReading(true);
+      setMenu(false);
+    }
+  }
+);
+
+render();
+
+</script>
+
+</body>
+</html>

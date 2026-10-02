@@ -42,11 +42,6 @@ button{
   cursor:pointer;
 }
 
-button:hover:not(:disabled),
-summary:hover{
-  background:var(--review);
-}
-
 button:disabled{
   cursor:not-allowed;
   color:#58616A;
@@ -64,6 +59,18 @@ button.primary:disabled{
   background:var(--pale);
   color:#58616A;
   border-color:var(--line);
+}
+
+@media(hover:hover){
+  button:hover:not(:disabled),
+  summary:hover{
+    background:var(--review);
+  }
+
+  button.primary:hover:not(:disabled){
+    background:var(--gold);
+    box-shadow:inset 0 0 0 2px var(--navy);
+  }
 }
 
 :focus-visible{
@@ -420,7 +427,7 @@ p:last-child{margin-bottom:0}
   display:flex;
   gap:14px;
   align-items:flex-start;
-  margin:18px 0 6px;
+  margin:0 0 18px;
   padding:15px 17px;
   border:1px solid #D8C47F;
   border-left:5px solid var(--gold);
@@ -443,6 +450,10 @@ p:last-child{margin-bottom:0}
   margin:0;
 }
 
+.mission-feedback .mission-evidence{
+  margin-top:7px;
+}
+
 .callout{
   margin:15px 0;
   padding:13px 16px;
@@ -450,7 +461,6 @@ p:last-child{margin-bottom:0}
   background:var(--pale);
 }
 
-/* Visible but secondary session-status notice. */
 .session-notice{
   margin:15px 0;
   padding:11px 14px;
@@ -464,6 +474,22 @@ p:last-child{margin-bottom:0}
 
 .session-notice strong{
   color:var(--blue);
+}
+
+.decision-checklist{
+  border-left:4px solid var(--gold);
+}
+
+.decision-checklist .check-item{
+  padding:8px 0;
+}
+
+.decision-checklist .check-item + .check-item{
+  border-top:1px solid var(--line);
+}
+
+.decision-checklist h3{
+  margin:0 0 3px;
 }
 
 .branches{
@@ -1036,7 +1062,8 @@ select{
 
 .media-block .optional-details,
 .media-block .audio-caption,
-.media-block .media-error{
+.media-block .media-error,
+.media-block .embedded-visual{
   grid-column:1/-1;
 }
 
@@ -1061,8 +1088,8 @@ select{
 }
 
 .audio-caption{
-  padding:16px 20px;
-  min-height:4.8em;
+  padding:14px 20px;
+  min-height:3.8em;
   background:var(--navy);
   color:white;
   border-radius:4px;
@@ -1071,12 +1098,24 @@ select{
   justify-content:center;
   text-align:center;
   font-size:1.12rem;
-  line-height:1.55;
+  line-height:1.5;
   font-weight:500;
 }
 
 .audio-caption span{
   max-width:70ch;
+}
+
+.concept-media .audio-caption{
+  margin-bottom:2px;
+}
+
+.concept-media .embedded-visual{
+  margin:0;
+}
+
+.concept-media .flow{
+  margin:4px 0 10px;
 }
 
 .media-error{
@@ -1301,6 +1340,13 @@ dialog::backdrop{
 
   #nextButton{justify-self:end}
   h1{font-size:1.4rem}
+
+  .concept-media .audio-caption{
+    position:sticky;
+    top:0;
+    z-index:2;
+    box-shadow:0 3px 10px #1B1E3E28;
+  }
 }
 
 @media(max-width:540px){
@@ -1330,6 +1376,105 @@ dialog::backdrop{
   }
 
   .dialog-body{padding:12px}
+}
+
+@media(max-height:500px) and (orientation:landscape){
+  .player,
+  .player.reading{
+    margin:4px auto;
+    width:calc(100vw - 8px);
+    height:calc(100dvh - 8px);
+    max-height:calc(100dvh - 8px);
+    aspect-ratio:auto;
+  }
+
+  .topbar{
+    flex-wrap:nowrap;
+    gap:6px;
+    padding:4px 8px;
+  }
+
+  .brand{
+    gap:7px;
+  }
+
+  .brand small{
+    display:none;
+  }
+
+  .brand strong{
+    font-size:.82rem;
+    white-space:nowrap;
+  }
+
+  .logo-wrap{
+    --mark:18px;
+    padding:6px;
+  }
+
+  .tools{
+    width:auto;
+    flex-wrap:nowrap;
+    gap:4px;
+    padding:0;
+  }
+
+  .tools button,
+  .topbar > button{
+    min-height:34px;
+    padding:4px 8px;
+    font-size:.72rem;
+  }
+
+  .canvas{
+    padding:10px 14px;
+  }
+
+  .screen-body{
+    margin-top:10px;
+  }
+
+  h1{
+    margin-bottom:8px;
+    font-size:1.25rem;
+  }
+
+  .playerbar{
+    grid-template-columns:auto minmax(0,1fr) auto;
+    gap:8px;
+    padding:5px 8px;
+  }
+
+  .progress-group{
+    grid-column:auto;
+    grid-row:auto;
+  }
+
+  .progress-line{
+    flex-wrap:nowrap;
+    font-size:.72rem;
+  }
+
+  #progressLabel{
+    display:none;
+  }
+
+  progress{
+    height:5px;
+    margin-top:3px;
+  }
+
+  #actionHint{
+    margin-top:1px;
+    font-size:.7rem;
+    line-height:1.2;
+  }
+
+  .playerbar button{
+    min-height:34px;
+    padding:4px 10px;
+    font-size:.78rem;
+  }
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -1383,7 +1528,7 @@ dialog::backdrop{
       </button>
 
       <button id="textButton" aria-haspopup="dialog">
-        Screen text
+        Text version
       </button>
 
       <button id="helpButton" aria-haspopup="dialog">
@@ -1391,7 +1536,7 @@ dialog::backdrop{
       </button>
 
       <button id="readingButton" aria-pressed="false">
-        Reading view
+        Expand view
       </button>
 
     </div>
@@ -1487,9 +1632,13 @@ dialog::backdrop{
    - Transcripts remain available under each audio player.
    - Captions are timed to the current MP3 recordings.
    - Mission Lead feedback appears after every checkpoint outcome.
-   - Mission Lead feedback changes based on the learner's action/reason pair.
-   - Progress persists only while the current browser session remains open.
-   - Original assessment scoring and follow-up practice remain unchanged.
+   - Mission Lead feedback includes checkpoint-specific synthesis.
+   - Assessment review and guided practice preserve the original score.
+   - Guided practice uses new analogous reports rather than repeating
+     the assessment answer.
+   - Revised practice-report logic was reviewed and approved by
+     Dr. Amina Patel before final implementation.
+   - Progress persists only while the current browser tab remains open.
    ================================================================ */
 
 const LOGO="data:image/webp;base64,"+[
@@ -1663,10 +1812,6 @@ const ART=[
 
 const CERTIFICATE_ISSUER="";
 
-/* ================================================================
-   MISSION REPORTS
-   ================================================================ */
-
 const REPORTS={
   model:{
     title:"LYRA-1 · Example · Update 00",
@@ -1685,39 +1830,39 @@ const REPORTS={
     title:"LYRA-1 · Update 01 · 09:00",
     cues:[0,1,2],
     rows:[
-      ["Possible encounter","Possible close approach during P-17 at 12:00."],
+      ["Possible encounter","Possible close approach during pass P-17 at 12:00."],
       ["Uncertainty","The tracking information is incomplete. No protective response has been evaluated yet."],
       ["Review times","Focused review can start at 09:20. The routine tracking update is at 10:30."],
       ["Observation","Research observation OBS-A is scheduled for 11:40 and can be postponed."],
       ["Current status","Crew status and spacecraft systems are normal."]
     ],
-    description:"At 09:00, the report identifies a possible close approach during P-17 at 12:00. Tracking information is incomplete, and no protective response has been evaluated. A focused review can begin at 09:20; the routine tracking update is scheduled for 10:30."
+    description:"At 09:00, the report identifies a possible close approach during pass P-17 at 12:00. Tracking information is incomplete, and no protective response has been evaluated. A focused review can begin at 09:20; the routine tracking update is scheduled for 10:30."
   },
 
   protect:{
     title:"LYRA-1 · Update 02 · 10:00",
     cues:[1,2,4],
     rows:[
-      ["Current flight plan","Collision risk during P-17 remains unresolved if the spacecraft stays on its current flight plan."],
-      ["Evaluated option","Analysis predicts that avoidance option AV-1 reduces collision risk during P-17 while staying within spacecraft constraints."],
+      ["Current flight plan","Collision risk during pass P-17 remains unresolved if the spacecraft stays on its current flight plan."],
+      ["Evaluated option","Analysis predicts that avoidance option AV-1 reduces collision risk during pass P-17 while staying within spacecraft constraints."],
       ["Decision deadline","The team must decide on AV-1 by 10:15. The routine tracking update is at 10:30."],
       ["Mission effects","Using AV-1 postpones OBS-A. Preparing the crew alone leaves the flight plan unchanged."],
       ["Current status","Crew status and spacecraft systems are normal. Preparation alone does not reduce collision risk."]
     ],
-    description:"AV-1 has been evaluated for P-17 and is predicted to reduce collision risk within spacecraft constraints. It would postpone OBS-A. The team must decide by 10:15, before the 10:30 routine update. Preparing the crew without changing the flight plan does not reduce that risk."
+    description:"AV-1 has been evaluated for pass P-17 and is predicted to reduce collision risk within spacecraft constraints. It would postpone OBS-A. The team must decide by 10:15, before the 10:30 routine update. Preparing the crew without changing the flight plan does not reduce that risk."
   },
 
   continue:{
     title:"LYRA-1 · Update 03 · 13:10",
     cues:[1,2,3],
     rows:[
-      ["Immediate encounter","After the protective response, P-17 is no longer an immediate concern."],
+      ["Immediate encounter","After the protective response, pass P-17 is no longer an immediate concern."],
       ["Observation","OBS-B is approved to proceed at 13:40 based on the latest debris assessment."],
-      ["Later risk","Debris remains. Analysts are still reviewing the later pass, P-18."],
+      ["Later risk","Debris remains. Analysts are still reviewing later pass P-18."],
       ["Follow-up","The next update is at 14:15. Reassess any activity affected by a changed forecast."],
       ["Current status","Crew status and spacecraft systems are normal."]
     ],
-    description:"The protective response has resolved the immediate concern about P-17. The latest assessment approves OBS-B at 13:40, but debris remains and P-18 is still under review. If a forecast changes, reassess the activity it affects."
+    description:"The protective response has resolved the immediate concern about pass P-17. The latest assessment approves OBS-B at 13:40, but debris remains and pass P-18 is still under review. If a forecast changes, reassess the activity it affects."
   },
 
   changed:{
@@ -1727,21 +1872,21 @@ const REPORTS={
       ["Changed forecast","The forecast now identifies collision risk during OBS-B. Its earlier approval no longer applies."],
       ["Analysis available","No response has been evaluated for this change. Focused reassessment is available now."],
       ["Other activities","OBS-B can be postponed. Routine operations remain approved under their existing assessment."],
-      ["Current status","P-17 remains resolved. No new collision is recorded. Crew status and spacecraft systems are normal."]
+      ["Current status","Pass P-17 remains resolved. No new collision is recorded. Crew status and spacecraft systems are normal."]
     ],
-    description:"The new forecast changes the assessment of OBS-B, so its earlier approval no longer applies. OBS-B can be postponed, and focused reassessment is available now. The change does not withdraw the existing approval for routine work. P-17 remains resolved."
+    description:"The new forecast changes the assessment of OBS-B, so its earlier approval no longer applies. OBS-B can be postponed, and focused reassessment is available now. The change does not withdraw the existing approval for routine work. Pass P-17 remains resolved."
   },
 
   s1:{
     title:"Assessment report A · 07:20",
     cues:[0,1],
     rows:[
-      ["Tracking","Possible close approach P-24 is forecast during research observation OBS-C."],
+      ["Tracking","A possible close approach is forecast during pass P-24 while research observation OBS-C is planned."],
       ["Uncertainty","Tracking information about this encounter is still uncertain."],
       ["Current status","Crew status and spacecraft systems are normal."],
       ["Collision record","No new collision is recorded since the original debris-producing event."]
     ],
-    description:"The report forecasts a possible close approach during OBS-C, with uncertainty remaining in the tracking information. Crew status and spacecraft systems are normal. No new collision has been recorded since the original event that produced the debris."
+    description:"The report forecasts a possible close approach during pass P-24 while OBS-C is planned, with uncertainty remaining in the tracking information. Crew status and spacecraft systems are normal. No new collision has been recorded since the original event that produced the debris."
   },
 
   s2:{
@@ -1773,19 +1918,65 @@ const REPORTS={
     title:"Assessment report D · 16:10",
     cues:[1,2,3],
     rows:[
-      ["Immediate encounter","P-31 is no longer an immediate concern."],
+      ["Immediate encounter","Pass P-31 is no longer an immediate concern."],
       ["Observation","OBS-D is approved to proceed at 16:30 based on the latest debris assessment."],
-      ["Later pass","Review P-32 before the next activity it could affect."],
+      ["Later pass","Review pass P-32 before the next activity it could affect."],
       ["Follow-up","Reassess activities when their forecasts change."],
       ["Current status","Crew status and spacecraft systems are normal."]
     ],
-    description:"P-31 is no longer an immediate concern, and the latest assessment approves OBS-D at 16:30. P-32 still requires review before the next activity it could affect. A changed forecast requires reassessment of the affected activity."
+    description:"Pass P-31 is no longer an immediate concern, and the latest assessment approves OBS-D at 16:30. Pass P-32 still requires review before the next activity it could affect. A changed forecast requires reassessment of the affected activity."
+  },
+
+  practiceRisk:{
+    title:"LYRA-1 · Practice A · 08:10",
+    cues:[0,1],
+    rows:[
+      ["Encounter","A possible close approach is forecast during pass P-35 while research observation OBS-E is scheduled."],
+      ["Uncertainty","Tracking information for the encounter is still uncertain."],
+      ["Current status","Crew status and spacecraft systems are normal."],
+      ["Collision record","No new collision is recorded."]
+    ],
+    description:"Use this short practice report to identify which details call for focused review."
+  },
+
+  practiceTiming:{
+    title:"LYRA-1 · Practice B · 13:40",
+    cues:[0,1,2],
+    rows:[
+      ["Earlier assessment","AV-3 was evaluated for a 14:20 encounter. Earlier encounter times were not assessed."],
+      ["New tracking","The encounter is now forecast for 14:02. AV-3 has not been assessed for this earlier time."],
+      ["Decision timing","Focused analysis can finish by 13:54. The decision is due at 13:57. Routine tracking arrives at 14:10."],
+      ["Preparation","Every option includes postponing OBS-E and preparing the crew."],
+      ["Effect of preparation","Those preparations do not reduce collision risk during the encounter."]
+    ],
+    description:"Use the changed encounter time and the decision deadline to apply the same reasoning to a new case."
+  },
+
+  practiceDebris:{
+    title:"LYRA-1 · Practice C",
+    cues:[1,2],
+    rows:[
+      ["Immediate encounter","Pass P-40 is no longer an immediate concern."],
+      ["Remaining debris","Collision fragments remain in the affected region."],
+      ["Other missions","Other spacecraft continue to use this region."],
+      ["Collision record","No further collision is confirmed in this report."]
+    ],
+    description:"Use the remaining debris and mission context to judge what risk can still continue."
+  },
+
+  practiceContinue:{
+    title:"LYRA-1 · Practice D · 17:00",
+    cues:[1,2,3],
+    rows:[
+      ["Immediate encounter","Pass P-41 is no longer an immediate concern."],
+      ["Observation","OBS-E is approved to proceed at 17:20 based on the latest debris assessment."],
+      ["Later pass","Review pass P-42 before the next activity it could affect."],
+      ["Follow-up","Reassess activities when their forecasts change."],
+      ["Current status","Crew status and spacecraft systems are normal."]
+    ],
+    description:"Use the separate approval for OBS-E and the later review requirement to decide what should continue."
   }
 };
-
-/* ================================================================
-   CHECKPOINTS
-   ================================================================ */
 
 const BRANCHES=[
   {
@@ -1797,7 +1988,7 @@ const BRANCHES=[
 
     summary:"A possible close approach has been flagged. Decide whether to wait, request focused review, or recommend a maneuver.",
 
-    context:"LYRA-1 has received an alert about a possible close approach during P-17. A focused review examines this specific alert; routine tracking is the scheduled update. Read the report before recommending a response.",
+    context:"LYRA-1 has received an alert about a possible close approach during pass P-17. A focused review examines this specific alert; routine tracking is the scheduled update. Read the report before recommending a response.",
 
     outcomes:[
       [
@@ -1838,12 +2029,12 @@ const BRANCHES=[
     outcomes:[
       [
         "AV-1 is authorized; OBS-A is postponed",
-        "The mission team authorizes AV-1 and postpones OBS-A. The analysis predicts lower collision risk during P-17, not guaranteed safety.",
+        "The mission team authorizes AV-1 and postpones OBS-A. The analysis predicts lower collision risk during pass P-17, not guaranteed safety.",
         "AV-1 has been evaluated and stays within spacecraft constraints. The team can select it before the 10:15 deadline and postpone OBS-A."
       ],
       [
         "The crew prepares; the flight plan stays unchanged",
-        "The crew prepares, but the spacecraft remains on its current flight plan. Collision risk during P-17 is still unresolved.",
+        "The crew prepares, but the spacecraft remains on its current flight plan. Collision risk during pass P-17 is still unresolved.",
         "Preparation improves crew readiness. The report says preparation alone does not reduce collision risk on the unchanged flight plan."
       ],
       [
@@ -1875,31 +2066,33 @@ const BRANCHES=[
       [
         "The observation resumes, but later review stops",
         "OBS-B resumes. The mission team also ends its review of later passes.",
-        "OBS-B is approved under the latest assessment, but P-18 is still under review. Resolving P-17 does not remove the debris or settle the risk during that later pass."
+        "OBS-B is approved under the latest assessment, but pass P-18 is still under review. Resolving pass P-17 does not remove the debris or settle the risk during that later pass."
       ],
       [
         "The observation remains on hold",
-        "The team keeps observations paused. The opportunity to carry out OBS-B is lost even though the latest assessment approves it.",
-        "P-18 needs review, but that does not cancel the separate assessment of OBS-B. This report does not give a reason to keep the approved observation on hold."
+        "The team keeps OBS-B paused. The opportunity to carry out the observation is lost even though the latest assessment approves it.",
+        "Pass P-18 needs review, but that does not cancel the separate assessment of OBS-B. This report does not give a reason to keep the approved observation on hold."
       ],
       [
         "The observation resumes with follow-up",
         "OBS-B resumes while review of the later pass continues. If a forecast changes, the team reassesses the affected activity before it proceeds.",
-        "The latest assessment approves OBS-B. That approval does not end the review of later passes or the need to reassess activities when their forecasts change."
+        "The latest assessment approves OBS-B. That approval does not end review of later passes or the need to reassess activities when their forecasts change."
       ]
     ],
 
     reasons:[
-      "OBS-B is approved for 13:40 under the latest assessment. P-18 still needs review. Resuming this observation does not mean ending monitoring of later risk.",
-      "Resolving P-17 does not remove the collision fragments. They can still threaten other spacecraft or later activities, so review of later passes must continue.",
+      "OBS-B is approved for 13:40 under the latest assessment. Pass P-18 still needs review. Resuming this observation does not mean ending monitoring of later risk.",
+      "Resolving pass P-17 does not remove the collision fragments. They can still threaten other spacecraft or later activities, so review of later passes must continue.",
       "The uncertainty concerns later passes. It does not cancel the separate assessment approving OBS-B in this report."
     ]
   }
 ];
 
-/* ================================================================
-   QUESTIONS
-   ================================================================ */
+const CHECKPOINT_SYNTHESIS={
+  alert:"Tracking is incomplete, no protective response has been evaluated, and focused review is available before the possible encounter.",
+  protect:"AV-1 has been evaluated, and its 10:15 decision deadline comes before the 10:30 routine tracking update.",
+  continue:"OBS-B is approved under the current assessment, while later pass P-18 still requires monitoring and reassessment."
+};
 
 const QUESTIONS={
   b1:{
@@ -2002,14 +2195,14 @@ const QUESTIONS={
     prompt:"What do you recommend for mission continuation?",
 
     actions:[
-      ["A","Resume OBS-B and end the additional debris review."],
-      ["B","Keep observations paused until another tracking update."],
-      ["C","Resume OBS-B, keep monitoring, and reassess any activity affected by a changed forecast."]
+      ["A","Resume OBS-B and end the later-pass review."],
+      ["B","Keep OBS-B paused until the next tracking update."],
+      ["C","Resume OBS-B, continue monitoring, and reassess if the forecast changes."]
     ],
 
     reasons:[
       ["R1","OBS-B is approved under the latest assessment. Later passes remain unresolved, so monitoring and reassessment are still needed."],
-      ["R2","P-17 is resolved, so the debris review can end because collision fragments no longer threaten the mission."],
+      ["R2","Pass P-17 is resolved, so the debris review can end because collision fragments no longer threaten the mission."],
       ["R3","Uncertainty about later passes cancels the separate assessment of OBS-B, so observations must remain paused."]
     ]
   },
@@ -2026,13 +2219,13 @@ const QUESTIONS={
     prompt:"Which recommendation fits the changed report?",
 
     choices:[
-      ["A","Continue OBS-B with monitoring. P-17 is resolved and systems are normal, so the observation is still approved."],
-      ["B","Pause OBS-B and routine operations for reassessment. The changed forecast also removes the basis for continuing routine work."],
-      ["C","Postpone OBS-B for reassessment and continue routine work. P-17 is resolved, but the new forecast affects OBS-B; routine work remains approved."]
+      ["A","Continue OBS-B with monitoring. Pass P-17 is resolved and systems are normal, so the earlier approval still applies."],
+      ["B","Pause OBS-B and routine operations for reassessment. The changed forecast removes the basis for continuing both."],
+      ["C","Postpone OBS-B for reassessment and continue approved routine work. The changed forecast affects OBS-B, not the routine work."]
     ],
 
     feedback:[
-      "The earlier approval for OBS-B no longer applies. Resolving P-17 and having normal systems do not rule out the newly identified risk during OBS-B.",
+      "The earlier approval for OBS-B no longer applies. Resolving pass P-17 and having normal systems do not rule out the newly identified risk during OBS-B.",
       "Pausing OBS-B fits the update. Pausing routine work goes further than the report supports; those activities remain approved under their existing assessment.",
       "Reassess OBS-B because its forecast changed. Routine operations remain approved under their existing assessment."
     ],
@@ -2045,17 +2238,17 @@ const QUESTIONS={
     report:"s1",
     exam:true,
     slots:[0],
-    key:["A","C"],
+    key:["B","D"],
 
     intro:"Use this report to identify the evidence that calls for closer review.",
 
-    prompt:"Which two details justify focused review?",
+    prompt:"Which two report details most clearly show that OBS-C needs focused review?",
 
     choices:[
-      ["A","The possible close approach is forecast during the observation."],
-      ["B","Spacecraft systems are currently normal."],
-      ["C","Tracking information about the encounter is still uncertain."],
-      ["D","No new collision has been recorded since the original debris-producing event."]
+      ["A","Crew status and spacecraft systems are currently normal."],
+      ["B","A possible close approach is forecast during pass P-24 while OBS-C is planned."],
+      ["C","No new collision has been recorded since the original debris-producing event."],
+      ["D","Tracking information about the encounter is still uncertain."]
     ]
   },
 
@@ -2065,7 +2258,7 @@ const QUESTIONS={
     exam:true,
     slots:[1,2],
     keyAction:"B",
-    keyReason:"R3",
+    keyReason:"R1",
 
     intro:"Compare the earlier evaluation with the changed encounter time. Every option includes postponing OBS-C and preparing the crew.",
 
@@ -2078,9 +2271,9 @@ const QUESTIONS={
     ],
 
     reasons:[
-      ["R1","AV-2’s earlier evaluation supports using it at the changed encounter time while updated analysis continues."],
-      ["R2","Postponing the observation reduces collision risk, so the team can wait for routine tracking before choosing protection."],
-      ["R3","Focused reassessment can check AV-2 for the changed time before the decision deadline; its earlier evaluation did not cover that time."]
+      ["R1","The earlier AV-2 evaluation did not cover 09:58, and focused reassessment can finish before the 09:50 decision deadline."],
+      ["R2","The timing change proves AV-2 ineffective, so reassessment is needed only to choose a different protective response."],
+      ["R3","Postponing OBS-C and preparing the crew reduce collision risk enough to wait for the 10:10 routine update."]
     ]
   },
 
@@ -2096,9 +2289,9 @@ const QUESTIONS={
     prompt:"Which explanation fits the continuing risk?",
 
     choices:[
-      ["A","Remaining fragments can strike other objects and create more debris, increasing later risk to spacecraft and operations even though no further collision is confirmed."],
-      ["B","No further collision is confirmed, so later assessments can treat debris risk as stable and assume no added risk from cascading collisions."],
-      ["C","LYRA-1 avoided its encounter, so other spacecraft and activities on later passes are adequately protected from the remaining fragments."]
+      ["A","Remaining fragments can strike other objects and create more debris, increasing later risk even though no further collision is confirmed."],
+      ["B","No further collision is confirmed, so later assessments can treat debris risk as stable and assume no additional collision risk."],
+      ["C","LYRA-1 avoided its encounter, so other spacecraft using the region are adequately protected from the remaining fragments."]
     ]
   },
 
@@ -2109,28 +2302,24 @@ const QUESTIONS={
     slots:[4],
     key:"A",
 
-    intro:"Use the latest assessment of OBS-D and the review requirement for P-32 to judge the recommendations.",
+    intro:"Use the latest assessment of OBS-D and the review requirement for pass P-32 to judge the recommendations.",
 
     prompt:"Which recommendation fits the updated assessment?",
 
     choices:[
-      ["A","Continue OBS-D and review P-32 before the next activity it could affect. OBS-D is approved, but the later pass still needs review."],
-      ["B","Hold OBS-D until P-32 is assessed. Uncertainty about the later pass overrides the separate assessment approving the current observation."],
-      ["C","Continue OBS-D and end targeted monitoring. Resolving the immediate encounter provides enough assurance for the rest of the mission."]
+      ["A","Continue OBS-D and review pass P-32 before the next activity it could affect. OBS-D remains approved under the latest assessment."],
+      ["B","Hold OBS-D until pass P-32 is assessed. Uncertainty about a later pass overrides the separate approval for the current observation."],
+      ["C","Continue OBS-D and end targeted monitoring. Resolving pass P-31 is enough to treat the rest of the mission as covered."]
     ]
   }
 };
-
-/* ================================================================
-   ASSESSMENT REVIEW
-   ================================================================ */
 
 const REVIEW=[
   {
     question:"s1",
     field:"selected",
     label:"Question 1",
-    answer:"A and C",
+    answer:"B and D",
     title:"Identify risk evidence",
 
     correct:"You identified both relevant details: the possible encounter during OBS-C and the uncertain tracking information. Together, they call for focused review.",
@@ -2163,19 +2352,19 @@ const REVIEW=[
     question:"s2",
     field:"reason",
     label:"Question 2B · Reasoning",
-    answer:"R3",
+    answer:"R1",
     title:"Explain why reassessment is needed",
 
-    correct:"You recognized that the changed encounter time needs reassessment and that the analysis can be completed before the decision deadline.",
+    correct:"You recognized that the changed encounter time falls outside the earlier evaluation and that focused analysis can be completed before the decision deadline.",
 
     why:"The earlier evaluation did not cover the 09:58 encounter. Reassessment may still support AV-2; the changed time does not prove it ineffective.",
 
     byChoice:{
-      R1:"An evaluation for 10:20 does not establish AV-2’s suitability at 09:58. The changed time needs reassessment.",
-      R2:"The report states that postponing OBS-C and preparing the crew do not reduce collision risk during the encounter. Those preparations do not justify waiting for an update that arrives after the decision deadline."
+      R2:"A changed encounter time requires reassessment. It does not prove that AV-2 is ineffective or predetermine which protective response should be chosen.",
+      R3:"The report states that postponing OBS-C and preparing the crew do not reduce collision risk during the encounter. Those preparations do not justify waiting for the later routine update."
     },
 
-    other:"The earlier evaluation does not cover the new time. The preparations included in every option do not reduce collision risk during the encounter."
+    other:"The reason must explain both why the earlier evaluation no longer covers the situation and why focused analysis can still inform the decision in time."
   },
 
   {
@@ -2191,7 +2380,7 @@ const REVIEW=[
 
     byChoice:{
       B:"No newly confirmed collision does not establish that future risk will stay unchanged. The remaining fragments can still cause later collisions.",
-      C:"LYRA-1 avoided one encounter. That outcome does not establish protection for other spacecraft or activities on later passes."
+      C:"LYRA-1 avoided one encounter. That outcome does not establish protection for other spacecraft or activities in the region."
     },
 
     other:"Neither successful avoidance nor the absence of a newly confirmed collision removes the remaining debris."
@@ -2206,126 +2395,128 @@ const REVIEW=[
 
     correct:"You distinguished the approved observation from the later pass that still needs review.",
 
-    why:"OBS-D is approved for 16:30 under the latest assessment. P-32 still needs review before the next activity it could affect. Reassess activities if their forecasts change.",
+    why:"OBS-D is approved for 16:30 under the latest assessment. Pass P-32 still needs review before the next activity it could affect. Reassess activities if their forecasts change.",
 
     byChoice:{
-      B:"P-32 still needs review, but that does not cancel the separate approval for OBS-D in this report.",
-      C:"Resolving P-31 does not settle the risk during P-32 or remove the remaining debris. Review of the later pass still needs to continue."
+      B:"Pass P-32 still needs review, but that does not cancel the separate approval for OBS-D in this report.",
+      C:"Resolving pass P-31 does not settle the risk during pass P-32 or remove the remaining debris. Review of the later pass still needs to continue."
     },
 
     other:"An unresolved later pass does not cancel a separately approved activity. Resolving the immediate encounter does not justify ending review of later passes."
   }
 ];
 
-/* ================================================================
-   GUIDED FOLLOW-UP PRACTICE
-   ================================================================ */
-
 const FOLLOWUP=[
   {
-    purpose:"Your original answer didn’t identify both risk details in Question 1. Use the feedback to take another look at what calls for closer review.",
+    report:"practiceRisk",
 
-    prompt:"Which pair of facts explains why OBS-C needs focused review?",
+    purpose:"Your original answer missed part of the risk evidence. Apply the feedback to a new practice report.",
+
+    prompt:"Which pair of facts most clearly calls for focused review?",
 
     key:"B",
 
     choices:[
       ["A","The crew is in normal condition, and no new collision has been recorded."],
-      ["B","A possible close approach is forecast during OBS-C, and tracking is still uncertain."],
-      ["C","An observation is planned, and the spacecraft systems are working normally."]
+      ["B","A possible close approach is forecast during OBS-E, and tracking is still uncertain."],
+      ["C","OBS-E is scheduled, and the spacecraft systems are currently normal."]
     ],
 
     feedback:{
       A:"Those facts describe current condition and past events. Look for the forecast encounter and the information that is still uncertain.",
-      B:"Correct. The forecast encounter affects OBS-C, and uncertainty in the tracking information calls for closer analysis.",
+      B:"Correct. The forecast encounter affects the planned observation, and uncertain tracking information calls for closer analysis.",
       C:"A planned observation and normal systems do not identify the debris concern. Look for the possible encounter and uncertain tracking."
     }
   },
 
   {
-    purpose:"Your recommendation in Question 2 didn’t fit the report. Try choosing the next step again, using the changed encounter time and decision deadline.",
+    report:"practiceTiming",
 
-    prompt:"Which next step uses the analysis available before the protective decision is due?",
+    purpose:"Your original recommendation did not fit the report. Apply the same decision rule to a new encounter time.",
+
+    prompt:"What should the team do before choosing a protective response?",
 
     key:"C",
 
     choices:[
-      ["A","Select AV-2 using the evaluation for the original 10:20 encounter."],
-      ["B","Wait for the routine tracking update scheduled for 10:10."],
-      ["C","Request focused reassessment that can finish by 09:47."]
+      ["A","Use AV-3 based on its evaluation for the original 14:20 encounter."],
+      ["B","Wait for the routine tracking update scheduled for 14:10."],
+      ["C","Request focused reassessment that can finish by 13:54."]
     ],
 
     feedback:{
-      A:"That evaluation did not cover 09:58. Compare the available reassessment time with the 09:50 decision deadline.",
-      B:"The 10:10 update arrives after the 09:50 decision. Use the analysis that can finish before the decision is due.",
-      C:"Correct. Reassessment can finish by 09:47, before the 09:50 decision, and address the changed encounter time."
+      A:"AV-3 was evaluated for 14:20, not the new encounter time of 14:02. Use the analysis available before the decision deadline.",
+      B:"The 14:10 update arrives after the 13:57 decision. Use the analysis that can finish before the decision is due.",
+      C:"Correct. Focused analysis can finish by 13:54, before the 13:57 decision, and evaluate the changed encounter time."
     }
   },
 
   {
-    purpose:"Your reason for Question 2 didn’t fit the report. Let’s check why the changed encounter time matters.",
+    report:"practiceTiming",
 
-    prompt:"Why must AV-2 be evaluated again after the forecast changes from 10:20 to 09:58?",
+    purpose:"Your original reasoning did not fit the report. Apply the reasoning rule to the new practice report.",
 
-    key:"A",
-
-    choices:[
-      ["A","Its earlier evaluation did not cover the new encounter time."],
-      ["B","Any change in encounter time proves an avoidance option ineffective."],
-      ["C","Postponing OBS-C removes the need for protection from the encounter."]
-    ],
-
-    feedback:{
-      A:"Correct. The changed time falls outside the earlier evaluation. Reassessment may still support AV-2.",
-      B:"A changed time requires reassessment, not an automatic conclusion that AV-2 cannot work. Check which encounter time the earlier evaluation covered.",
-      C:"The report says postponement does not reduce collision risk during this encounter. The issue is whether AV-2 was evaluated for the new time."
-    }
-  },
-
-  {
-    purpose:"Your answer to Question 3 didn’t account for the debris that remains. Try applying the feedback to what could happen next.",
-
-    prompt:"What can happen after LYRA-1 avoids its immediate encounter?",
-
-    key:"A",
-
-    choices:[
-      ["A","Remaining fragments can strike other objects and create more debris."],
-      ["B","Debris risk ends because the threatened spacecraft avoided a collision."],
-      ["C","Risk must stay unchanged because no further collision is confirmed."]
-    ],
-
-    feedback:{
-      A:"Correct. Avoiding one encounter does not remove the fragments that can contribute to later collisions.",
-      B:"Avoidance addresses that encounter. Fragments still remain and can affect other spacecraft or later activities.",
-      C:"The collision record does not establish what will happen next. Remaining fragments can still cause future collisions."
-    }
-  },
-
-  {
-    purpose:"Your recommendation in Question 4 didn’t fit the report. Take another look at what’s approved and what still needs review.",
-
-    prompt:"What is still required while the approved OBS-D observation continues?",
+    prompt:"Why is focused reassessment supported in this practice report?",
 
     key:"B",
 
     choices:[
-      ["A","Keep OBS-D on hold until every later pass has been assessed."],
-      ["B","Review P-32 before the next activity it could affect and reassess changed forecasts."],
-      ["C","End targeted monitoring because P-31 is no longer an immediate concern."]
+      ["A","Moving the encounter earlier proves that AV-3 is ineffective at the new time."],
+      ["B","AV-3 was not evaluated for 14:02, and focused analysis can finish before the decision is due."],
+      ["C","Postponing OBS-E and preparing the crew reduce collision risk enough to wait for routine tracking."]
     ],
 
     feedback:{
-      A:"OBS-D already has a separate approval under the latest assessment. Focus on the review still required for the later pass.",
-      B:"Correct. Continue the approved observation while retaining review of the later pass and reassessing activities affected by changed forecasts.",
-      C:"Resolving P-31 does not settle the risk during P-32. The report still requires review of that later pass."
+      A:"A changed encounter time requires reassessment, but it does not prove that AV-3 is ineffective.",
+      B:"Correct. The earlier evaluation does not cover 14:02, and focused analysis can still finish before the decision deadline.",
+      C:"The report says those preparations do not reduce collision risk during the encounter. They do not replace the need to evaluate protection."
+    }
+  },
+
+  {
+    report:"practiceDebris",
+
+    purpose:"Your original answer did not account for the debris that remains. Apply the feedback to a new mission update.",
+
+    prompt:"Which explanation best describes the continuing risk?",
+
+    key:"B",
+
+    choices:[
+      ["A","No further collision is confirmed, so debris risk can be treated as unchanged."],
+      ["B","Remaining fragments can still strike another object and create additional debris."],
+      ["C","Because pass P-40 is resolved, later spacecraft in the region are adequately protected."]
+    ],
+
+    feedback:{
+      A:"The absence of a newly confirmed collision does not establish what will happen next. Fragments remain in the region.",
+      B:"Correct. Resolving one encounter does not remove fragments that can contribute to later collisions.",
+      C:"Resolving pass P-40 addresses that encounter. It does not establish protection for other spacecraft using the region."
+    }
+  },
+
+  {
+    report:"practiceContinue",
+
+    purpose:"Your original recommendation did not fit the report. Apply the continuation rule to a new approved activity and later pass.",
+
+    prompt:"Which recommendation fits this practice report?",
+
+    key:"C",
+
+    choices:[
+      ["A","Hold OBS-E until pass P-42 is assessed because later uncertainty cancels the current approval."],
+      ["B","Continue OBS-E and stop targeted review because pass P-41 is no longer an immediate concern."],
+      ["C","Continue approved OBS-E and review pass P-42 before the next activity it could affect."]
+    ],
+
+    feedback:{
+      A:"Pass P-42 still needs review, but that does not cancel the separate approval for OBS-E.",
+      B:"Resolving pass P-41 does not settle the later pass or justify ending targeted review.",
+      C:"Correct. Continue the currently approved observation while retaining review of the later pass and reassessing changed forecasts."
     }
   }
 ];
-
-/* ================================================================
-   MENU AND STATE
-   ================================================================ */
 
 const GROUPS=[
   ["brief","Mission briefing"],
@@ -2496,10 +2687,6 @@ const assetPath=path=>(
 
 let dialogFocus=null;
 
-/* ================================================================
-   SESSION NOTICE
-   ================================================================ */
-
 function sessionNotice(){
   return `
     <div
@@ -2514,9 +2701,38 @@ function sessionNotice(){
   `;
 }
 
-/* ================================================================
-   NAVIGATION
-   ================================================================ */
+function decisionChecklist(title){
+  return `
+    <section class="card decision-checklist">
+
+      <h2>${esc(title)}</h2>
+
+      <div class="check-item">
+        <h3>Identify the concern</h3>
+        <p>
+          Which encounter or activity is affected?
+          What information is still uncertain?
+        </p>
+      </div>
+
+      <div class="check-item">
+        <h3>Check the response</h3>
+        <p>
+          Has it been evaluated for these conditions?
+          Is there still time to choose it?
+        </p>
+      </div>
+
+      <div class="check-item">
+        <h3>Reconsider changed conditions</h3>
+        <p>
+          Does the earlier assessment cover the new time or forecast?
+        </p>
+      </div>
+
+    </section>
+  `;
+}
 
 function canVisit(id){
 
@@ -2701,6 +2917,11 @@ function setReading(on){
     "aria-pressed",
     String(on)
   );
+
+  $("readingButton").textContent=
+    on
+      ?"Standard view"
+      :"Expand view";
 }
 
 function announce(text){
@@ -2742,17 +2963,16 @@ function focusTo(id){
   });
 }
 
-/* ================================================================
-   AUDIO AND CAPTIONS
-   ================================================================ */
-
-function mediaBlock(key){
+function mediaBlock(
+  key,
+  visualHtml=""
+){
 
   const m=MEDIA[key];
 
   return `
     <section
-      class="media-block"
+      class="media-block ${key==="concept"?"concept-media":""}"
       data-media-block="${key}"
       aria-labelledby="media-title-${key}"
     >
@@ -2783,7 +3003,7 @@ function mediaBlock(key){
         aria-pressed="${state.captions}"
         aria-controls="captions-${key}"
       >
-        Captions
+        Captions: ${state.captions?"On":"Off"}
       </button>
 
       <div
@@ -2793,8 +3013,10 @@ function mediaBlock(key){
         aria-live="off"
         ${state.captions?"":"hidden"}
       >
-        <span data-caption></span>
+        <span data-caption>Captions appear here during playback.</span>
       </div>
+
+      ${visualHtml}
 
       <details class="optional-details narration-text">
         <summary>Transcript</summary>
@@ -2866,18 +3088,43 @@ function mountMedia(){
         region.hidden=
           !state.captions;
 
-        const text=
+        const cue=
           cues.find(
             c=>
               el.currentTime>=c.start&&
               el.currentTime<c.end
-          )?.text||"";
+          );
+
+        let text=
+          cue?.text||"";
+
+        if(
+          !text&&
+          (
+            el.currentTime<0.15||
+            el.ended
+          )
+        ){
+          text=
+            "Captions appear here during playback.";
+        }
 
         if(
           caption.textContent!==text
         ){
           caption.textContent=text;
         }
+      };
+
+      const updateToggle=()=>{
+
+        toggle.setAttribute(
+          "aria-pressed",
+          String(state.captions)
+        );
+
+        toggle.textContent=
+          `Captions: ${state.captions?"On":"Off"}`;
       };
 
       const tick=()=>{
@@ -2967,11 +3214,7 @@ function mountMedia(){
           state.captions=
             !state.captions;
 
-          toggle.setAttribute(
-            "aria-pressed",
-            String(state.captions)
-          );
-
+          updateToggle();
           syncCaption();
         }
       );
@@ -2996,6 +3239,7 @@ function mountMedia(){
       el.src=
         assetPath(m.src);
 
+      updateToggle();
       syncCaption();
     });
 
@@ -3039,10 +3283,6 @@ function mountMedia(){
         );
     });
 }
-
-/* ================================================================
-   FALLBACK ART
-   ================================================================ */
 
 function sketch(i){
 
@@ -3221,9 +3461,50 @@ function artwork(i){
   `;
 }
 
-/* ================================================================
-   SHARED PRESENTATION
-   ================================================================ */
+function conceptFigure(){
+
+  return `
+    <figure
+      class="embedded-visual"
+      aria-labelledby="cascadeCaption"
+    >
+
+      <ol class="flow">
+
+        ${
+          ART
+            .map(
+              (a,i)=>`
+                <li>
+
+                  ${artwork(i)}
+
+                  <h2>
+                    ${i+1}. ${esc(a.title)}
+                  </h2>
+
+                  ${p(a.text)}
+
+                </li>
+              `
+            )
+            .join("")
+        }
+
+      </ol>
+
+      <figcaption
+        id="cascadeCaption"
+        class="diagram-note"
+      >
+        This is a possible sequence,
+        not an immediate or certain chain of events.
+        The drawings are conceptual and not to scale.
+      </figcaption>
+
+    </figure>
+  `;
+}
 
 function guide(text){
 
@@ -3253,38 +3534,46 @@ function guide(text){
   `;
 }
 
-function missionFeedback(actionOK,reasonOK){
+function missionFeedback(
+  branch,
+  actionOK,
+  reasonOK
+){
 
   let title="";
   let text="";
 
   if(actionOK&&reasonOK){
 
-    title="Your choices work together";
+    title=
+      "Your choices work together";
 
     text=
-      "Your recommendation and reasoning both fit the report. Notice how the reason explains why that response fits the evidence.";
+      "Your recommendation and reasoning both fit the report.";
 
   }else if(actionOK&&!reasonOK){
 
-    title="Check the reasoning";
+    title=
+      "Check the reasoning";
 
     text=
-      "Your recommendation fits the report, but your reason does not. Review the evidence check above and reconnect the recommendation to the information that supports it.";
+      "Your recommendation fits the report, but your reason does not. Use the evidence below to reconnect the recommendation to the information that supports it.";
 
   }else if(!actionOK&&reasonOK){
 
-    title="Check the recommendation";
+    title=
+      "Check the recommendation";
 
     text=
-      "Your reason fits the report, but your recommendation does not follow from it. Review what happens next and reconsider which response that evidence supports.";
+      "Your reason fits the report, but your recommendation does not follow from it. Compare the consequence below with the evidence that supports the response.";
 
   }else{
 
-    title="Revisit the evidence";
+    title=
+      "Revisit the evidence";
 
     text=
-      "Neither part of your response fits the report. Review what happens next and the evidence check above before continuing.";
+      "Neither part of your response fits the report. Use the consequence and evidence check below before continuing.";
   }
 
   return `
@@ -3295,8 +3584,7 @@ function missionFeedback(actionOK,reasonOK){
 
       <div
         class="avatar"
-        role="img"
-        aria-label="Mission lead avatar"
+        aria-hidden="true"
       ></div>
 
       <div>
@@ -3309,15 +3597,32 @@ function missionFeedback(actionOK,reasonOK){
 
         <p>${esc(text)}</p>
 
+        <p class="mission-evidence">
+          <strong>Key evidence:</strong>
+          ${esc(CHECKPOINT_SYNTHESIS[branch.id])}
+        </p>
+
       </div>
 
     </aside>
   `;
 }
 
-function report(key,expanded=false,cued=false){
+function report(
+  key,
+  expanded=false,
+  cued=false
+){
 
   const r=REPORTS[key];
+
+  const isPractice=
+    key.startsWith("practice");
+
+  const reportLabel=
+    isPractice
+      ?"Practice report"
+      :"Mission report";
 
   const parts=
     r.title.split(" · ");
@@ -3358,7 +3663,11 @@ function report(key,expanded=false,cued=false){
           ${
             expanded
               ?""
-              :'<p class="report-label">Mission report</p>'
+              :`
+                <p class="report-label">
+                  ${reportLabel}
+                </p>
+              `
           }
 
           <${heading}
@@ -3434,7 +3743,7 @@ function report(key,expanded=false,cued=false){
                 data-report="${key}"
                 aria-haspopup="dialog"
               >
-                Open mission report
+                Open ${isPractice?"practice":"mission"} report
               </button>
 
             </footer>
@@ -3734,16 +4043,14 @@ function scoreMap(){
   `;
 }
 
-/* ================================================================
-   LEARNER SCREENS
-   ================================================================ */
-
 function welcome(){
 
   return `
     ${guide(
       "You’re the Mission Control Officer for LYRA-1, a fictional crewed research mission."
     )}
+
+    ${sessionNotice()}
 
     ${mediaBlock("intro")}
 
@@ -3811,8 +4118,6 @@ function welcome(){
       </li>
 
     </ol>
-
-    ${sessionNotice()}
   `;
 }
 
@@ -3828,44 +4133,12 @@ function concept(){
       Even a small fragment can cause severe damage at orbital speeds.
     </p>
 
-    ${mediaBlock("concept")}
-
-    <figure aria-labelledby="cascadeCaption">
-
-      <ol class="flow">
-
-        ${
-          ART
-            .map(
-              (a,i)=>`
-                <li>
-
-                  ${artwork(i)}
-
-                  <h2>
-                    ${i+1}. ${esc(a.title)}
-                  </h2>
-
-                  ${p(a.text)}
-
-                </li>
-              `
-            )
-            .join("")
-        }
-
-      </ol>
-
-      <figcaption
-        id="cascadeCaption"
-        class="diagram-note"
-      >
-        This is a possible sequence,
-        not an immediate or certain chain of events.
-        The drawings are conceptual and not to scale.
-      </figcaption>
-
-    </figure>
+    ${
+      mediaBlock(
+        "concept",
+        conceptFigure()
+      )
+    }
 
     <div class="callout">
 
@@ -3943,6 +4216,12 @@ function modeledExample(){
           </section>
 
         </section>
+
+        ${
+          decisionChecklist(
+            "Use this checklist at each checkpoint"
+          )
+        }
 
         <p class="small">
           At each checkpoint, choose a recommendation and a reason.
@@ -4318,6 +4597,8 @@ function consequence(id){
     d.reason===b.keyReason;
 
   return `
+    ${missionFeedback(b,aOK,rOK)}
+
     <div class="two">
 
       <section class="card decision-result">
@@ -4388,8 +4669,6 @@ function consequence(id){
 
     </div>
 
-    ${missionFeedback(aOK,rOK)}
-
     <button
       data-action="report"
       data-report="${q.report}"
@@ -4407,32 +4686,11 @@ function debrief(){
       "The appropriate response changes when the evidence changes. Normal spacecraft systems do not tell you whether a future debris encounter needs attention."
     )}
 
-    <section class="card">
-
-      <h2>
-        Carry these questions forward
-      </h2>
-
-      <p>
-        <strong>Identify the concern.</strong>
-        Which encounter or activity is affected?
-        What information is still uncertain?
-      </p>
-
-      <p>
-        <strong>Check the response.</strong>
-        Has it been evaluated for these conditions?
-        Is there still time to choose it?
-      </p>
-
-      <p>
-        <strong>Reconsider changed conditions.</strong>
-        Does the earlier assessment cover the new time or forecast?
-        Resolving one encounter does not settle the risk
-        during every later activity.
-      </p>
-
-    </section>
+    ${
+      decisionChecklist(
+        "Carry these questions forward"
+      )
+    }
 
     <section class="card response-card">
 
@@ -4454,6 +4712,12 @@ function debrief(){
         Your submitted answers cannot be changed.
       </p>
 
+      <div class="callout">
+        <strong>Assessment navigation:</strong>
+        Once you start the assessment, complete all four questions
+        before returning to earlier screens.
+      </div>
+
       <p>
         After the assessment, review all four questions.
         If you miss a question or part,
@@ -4473,10 +4737,6 @@ function debrief(){
     </section>
   `;
 }
-
-/* ================================================================
-   REVIEW AND PRACTICE
-   ================================================================ */
 
 function requiredForPanel(i){
 
@@ -4691,7 +4951,7 @@ function reviewComponent(slot){
           ?p(item.correct)
           :`
             <h4>
-              Supported answer
+              What the report supported
             </h4>
 
             ${supportedComponent(slot)}
@@ -4793,26 +5053,18 @@ function practiceLaunch(){
 
         another look.
 
-        You’ll answer
+        You’ll apply the same idea to
 
         ${
           pending.length===1
-            ?"one short practice question"
+            ?"one short new practice report"
             :"two short practice questions"
-        }
-
-        about
-
-        ${
-          pending.length===1
-            ?"that idea"
-            :"those ideas"
         }.
 
       </p>
 
       <p>
-        Use the feedback and the report.
+        Use the feedback, then work from the new practice report.
         Answer correctly to continue;
         you’ll get guidance if you need another try.
         Your original answer and score will not change.
@@ -4885,7 +5137,7 @@ function practiceCard(){
         id="practiceInstructions"
       >
 
-        Use the report and feedback
+        Use the practice report and the feedback
         to answer this new question.
 
         Your original answer and score
@@ -5068,6 +5320,16 @@ function resultsPage(){
       s=>state.practice[s].passed
     ).length;
 
+  const practiceSlot=
+    state.practiceVisible[i]
+      ?activePracticeSlot()
+      :null;
+
+  const visibleReport=
+    practiceSlot===null
+      ?q.report
+      :FOLLOWUP[practiceSlot].report;
+
   return `
     <section
       class="results-summary"
@@ -5206,7 +5468,7 @@ function resultsPage(){
 
     <div class="decision-layout">
 
-      ${report(q.report,false,true)}
+      ${report(visibleReport,false,true)}
 
       <div>
 
@@ -5458,10 +5720,6 @@ function advanceReview(){
   }
 }
 
-/* ================================================================
-   COMPLETION
-   ================================================================ */
-
 function certificate(){
 
   return `
@@ -5649,10 +5907,6 @@ function content(id){
     ?templates[id]()
     :consequence(id);
 }
-
-/* ================================================================
-   RESPONSE CAPTURE AND SCORING
-   ================================================================ */
 
 function captureDraft(){
 
@@ -6032,10 +6286,6 @@ function earnCompletion(){
   );
 }
 
-/* ================================================================
-   PLAYER CONTROLS
-   ================================================================ */
-
 function primaryAction(){
 
   const id=
@@ -6329,10 +6579,11 @@ function renderControls(){
     $("checkPractice").disabled=
       !practiceReady();
 
+    const slot=
+      activePracticeSlot();
+
     const practice=
-      state.practice[
-        activePracticeSlot()
-      ];
+      state.practice[slot];
 
     $("practiceHint").textContent=
       practiceReady()
@@ -6424,10 +6675,6 @@ function renderControls(){
   $("progressLabel").textContent=
     `Lesson progress: ${state.done.size} of ${SCREENS.length} steps`;
 }
-
-/* ================================================================
-   MENU AND RENDER
-   ================================================================ */
 
 function renderMenu(){
 
@@ -6632,10 +6879,6 @@ function showDialog(
   $("closeDialog").focus();
 }
 
-/* ================================================================
-   EVENTS
-   ================================================================ */
-
 $("nextButton")
   .addEventListener(
     "click",
@@ -6817,24 +7060,30 @@ $("canvas")
           break;
         }
 
-        case "report":
+        case "report":{
+
+          const reportKey=
+            button.dataset.report;
 
           if(
             REPORTS[
-              button.dataset.report
+              reportKey
             ]
           ){
 
             showDialog(
-              "Mission report",
+              reportKey.startsWith("practice")
+                ?"Practice report"
+                :"Mission report",
               report(
-                button.dataset.report,
+                reportKey,
                 true
               )
             );
           }
 
           break;
+        }
 
         case "review":
 
@@ -7081,10 +7330,21 @@ $("helpButton")
 
           <p>
             Use each recording’s controls to play, pause or replay it.
-            Select Captions to show or hide timed text,
-            or open Transcript to read the full narration.
+            The Captions control shows whether timed captions are on or off.
+            Open Transcript to read the full narration.
             Opening a dialog or changing screens pauses playback.
             Listening is not a completion requirement.
+          </p>
+
+          <h3>
+            Text and display controls
+          </h3>
+
+          <p>
+            Text version opens the readable text from the current screen,
+            including available transcript text.
+            Expand view uses more of the browser window for the lesson;
+            select Standard view to return to the normal player size.
           </p>
 
           <h3>
@@ -7100,6 +7360,11 @@ $("helpButton")
             Original answers cannot be changed.
           </p>
 
+          <p>
+            Once the assessment begins,
+            complete all four questions before returning to earlier screens.
+          </p>
+
           <h3>
             Review and practice
           </h3>
@@ -7109,6 +7374,11 @@ $("helpButton")
             Next review moves to the next question;
             Finish review ends the fourth review.
             A missed question or part has separate practice.
+            Practice uses a new short report so you can apply the same idea
+            rather than simply repeat the original answer.
+          </p>
+
+          <p>
             Select Start practice,
             use the feedback,
             then select Check answer.
@@ -7132,7 +7402,6 @@ $("helpButton")
             Use Tab between controls,
             arrow keys within radio groups,
             and Space to select.
-            Reading view uses the available window height.
             Scroll the lesson above the navigation controls.
             Close dialogs with Escape or Close.
           </p>
